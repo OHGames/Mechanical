@@ -27,6 +27,16 @@ namespace Mechanical
         /// </summary>
         public Entity Attached { get; set; }
 
+        /// <summary>
+        /// If the compinent has an override for the <see cref="DebugDraw"/> function
+        /// </summary>
+        public bool HasDebugDraw { get; set; }
+
+        public Component(Entity entity)
+        {
+            Attached = entity;
+        }
+
         public virtual void Initialize()
         {
 
@@ -49,7 +59,7 @@ namespace Mechanical
 
         public virtual void DebugDraw()
         {
-
+            if (!HasDebugDraw) Draw();
         }
 
         public virtual void Awake()

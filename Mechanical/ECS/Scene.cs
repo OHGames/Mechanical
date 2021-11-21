@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -29,10 +31,62 @@ namespace Mechanical
         /// </summary>
         public int SceneIndex { get; set; }
 
+        /// <summary>
+        /// If the scene will update.
+        /// </summary>
+        public bool Paused { get; set; }
+
+        /// <summary>
+        /// If the scene is active. It is active it updates and draws.
+        /// </summary>
+        public bool IsActiveScene { get; set; }
+
+        /// <summary>
+        /// The color to clear the render target to.
+        /// </summary>
+        public Color ClearColor { get; set; } = Color.CornflowerBlue;
+
         public Scene(string name)
         {
             Name = name;
         }
+
+        public virtual void Initialize()
+        {
+            Entities.Initialize();
+        }
+
+        public virtual void LoadContent(ContentManager content)
+        {
+            Entities.LoadContent(content);
+        }
+
+        public virtual void Update(float deltaTime)
+        {
+            Entities.Update(deltaTime);
+        }
+
+        public virtual void Draw()
+        {
+            Entities.Draw();
+        }
+
+        public virtual void DebugDraw()
+        {
+            Entities.DebugDraw();
+        }
+
+        /// <summary>
+        /// Shorthand to add entities.
+        /// </summary>
+        /// <param name="e"></param>
+        public void Add(Entity e) => Entities.Add(e);
+
+        /// <summary>
+        /// Shorthand to remove entities.
+        /// </summary>
+        /// <param name="e"></param>
+        public void Remove(Entity e) => Entities.Remove(e);
 
     }
 }

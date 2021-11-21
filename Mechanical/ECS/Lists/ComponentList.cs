@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Mechanical
@@ -11,6 +13,16 @@ namespace Mechanical
         private List<Component> justAdded = new List<Component>();
 
         private readonly Entity attached;
+
+        /// <summary>
+        /// Get component from list.
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <returns></returns>
+        public Component this[int index]
+        {
+            get => items[index];
+        }
 
         public ComponentList(Entity entity)
         {
@@ -51,7 +63,10 @@ namespace Mechanical
         /// <exception cref="NotImplementedException"></exception>
         public override void Draw()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].Draw();
+            }
         }
 
         /// <summary>
@@ -60,7 +75,10 @@ namespace Mechanical
         /// <exception cref="NotImplementedException"></exception>
         public override void Initialize()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].Initialize();
+            }
         }
 
         /// <summary>
@@ -70,7 +88,10 @@ namespace Mechanical
         /// <exception cref="NotImplementedException"></exception>
         public override void LoadContent(ContentManager content)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].LoadContent(content);
+            }
         }
 
         /// <summary>
@@ -93,12 +114,35 @@ namespace Mechanical
         /// <param name="deltaTime">The time since last frame.</param>
         public override void Update(float deltaTime)
         {
-            for (int i = 0; i < toAdd.Count; i++)
+            int count = toAdd.Count;
+            for (int i = 0; i < count; i++)
             {
                 Component c = toAdd.Dequeue();
-                items.Add(c);
-                c.OnAdded();
-                justAdded.Add(c);
+                bool shouldAdd = true;
+                if (c.GetType().GetCustomAttribute<NeedsComponentAttribute>() != null)
+                {
+                    Type[] types = c.GetType().GetCustomAttribute<NeedsComponentAttribute>().TypesNeeded;
+
+                    // the components required is not in the list/.
+                    if (!items.ContainsAllOfType(types))
+                    {
+                        // check the waiting components
+                        if (!toAdd.ToList().ContainsAllOfType(types))
+                        {
+                            // should not be added
+                            shouldAdd = false;
+                            // add again later
+                            toAdd.Enqueue(c);
+                        }
+                    }
+                }
+
+                if (shouldAdd)
+                {
+                    items.Add(c);
+                    c.OnAdded();
+                    justAdded.Add(c);
+                }
             }
             for (int i = 0; i < toRemove.Count; i++)
             {
@@ -114,7 +158,8 @@ namespace Mechanical
 
             for (int i = 0; i < items.Count; i++)
             {
-                items[i].Update(deltaTime);
+                if (items[i].Active)
+                    items[i].Update(deltaTime);
             }
 
         }

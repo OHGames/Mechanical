@@ -8,7 +8,7 @@ namespace Mechanical
     /// A class used to implement parent-child relationships.
     /// </summary>
     /// <typeparam name="T">The type of child and parent.</typeparam>
-    public interface IParentChildHierarchy<T>
+    public interface IParentChildHierarchy<T> where T : IParentChildHierarchy<T>
     {
 
         /// <summary>
@@ -20,6 +20,16 @@ namespace Mechanical
         /// The list of children.
         /// </summary>
         List<T> Children { get; set; }
+
+        /// <summary>
+        /// A path of the hirearchy.
+        /// </summary>
+        string HierarchyPath { get; }
+
+        /// <summary>
+        /// If the child has a parent.
+        /// </summary>
+        bool HasParent { get; }
 
         /// <summary>
         /// Add a child.
@@ -34,10 +44,23 @@ namespace Mechanical
         void RemoveChild(T child);
 
         /// <summary>
-        /// Set the parent.
+        /// Set the parent. Set to null to remove parent.
         /// </summary>
         /// <param name="parent">The parent to set.</param>
-        void SetParent(T parent);
+        //void SetParent(T parent);
+
+        /// <summary>
+        /// If the object is the parent of the child.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <returns>True if the parent's list of children contains the child.</returns>
+        bool IsParentOf(T child);
+
+        /// <summary>
+        /// Get the top-most parent.
+        /// </summary>
+        /// <returns>The top-most parent of the hierarchy.</returns>
+        T GetAncestor();
 
     }
 }
