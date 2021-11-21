@@ -10,33 +10,33 @@ namespace Mechanical
     /// <summary>
     /// The EntityList is a convenient method to store and update entities. This should only be used for scenes.
     /// </summary>
-    public class EntityList : IEnumerable<Entity>
+    public class EntityList : GameLikeList<Entity>
     {
 
-        /// <summary>
-        /// The entities in the list
-        /// </summary>
-        private List<Entity> entities = new List<Entity>();
+        ///// <summary>
+        ///// The items in the list
+        ///// </summary>
+        //private List<Entity> entities;
+
+        ///// <summary>
+        ///// A queue of items to add next update.
+        ///// </summary>
+        //private Queue<Entity> toAdd;
+
+        ///// <summary>
+        ///// A queue of items to remove next update.
+        ///// </summary>
+        //private Queue<Entity> toRemove;
 
         /// <summary>
-        /// A queue of entities to add next update.
-        /// </summary>
-        private Queue<Entity> toAdd = new Queue<Entity>();
-
-        /// <summary>
-        /// A queue of entities to remove next update.
-        /// </summary>
-        private Queue<Entity> toRemove = new Queue<Entity>();
-
-        /// <summary>
-        /// Just added entities.
+        /// Just added items.
         /// </summary>
         List<Entity> justAdded = new List<Entity>();
 
         /// <summary>
-        /// The amount of entities in the list.
+        /// The amount of items in the list.
         /// </summary>
-        public int Count { get => entities.Count; }
+        //public int Count { get => items.Count; }
 
         #region Indexors
         /// <summary>
@@ -50,25 +50,25 @@ namespace Mechanical
             get
             {
                 // Get the id. Because there is only 1 entity that has the specified id, get the first one.
-                return id ? ((Entity[])entities.Where(e => e.ID == index))[0] : entities[index];
+                return id ? ((Entity[])items.Where(e => e.ID == index))[0] : items[index];
             }
         }
 
         /// <summary>
-        /// Gets entities based on name.
+        /// Gets items based on name.
         /// </summary>
         /// <param name="name">The name of the entity.</param>
-        /// <returns>A list of entities with the name.</returns>
+        /// <returns>A list of items with the name.</returns>
         public Entity[] this[string name]
         {
             get
             {
-                return (Entity[])entities.Where(e => e.Name == name);
+                return (Entity[])items.Where(e => e.Name == name);
             }
         }
 
         /// <summary>
-        /// Gets entities based on tags.
+        /// Gets items based on tags.
         /// </summary>
         /// <param name="tags"></param>
         /// <returns></returns>
@@ -76,7 +76,7 @@ namespace Mechanical
         {
             get
             {
-                return (Entity[])entities.Where(e => e.Tags.ContainsAny(tags));
+                return (Entity[])items.Where(e => e.Tags.ContainsAny(tags));
             }
         }
         #endregion
@@ -86,9 +86,9 @@ namespace Mechanical
         /// </summary>
         /// <param name="entity">The entity to add.</param>
         /// <exception cref="Exception">Throws exception when there is an entity already added.</exception>
-        public void Add(Entity entity)
+        public override void Add(Entity entity)
         {
-            if (!entities.Contains(entity))
+            if (!items.Contains(entity))
             {
                 toAdd.Enqueue(entity);
             }
@@ -99,13 +99,13 @@ namespace Mechanical
         }
 
         /// <summary>
-        /// Removes entities from the list. The entity will be removed next frame.
+        /// Removes items from the list. The entity will be removed next frame.
         /// </summary>
         /// <param name="entity"></param>
         /// <exception cref="Exception">Throws exception when the is entity is not in the list.</exception>
-        public void Remove(Entity entity)
+        public override void Remove(Entity entity)
         {
-            if (entities.Contains(entity))
+            if (items.Contains(entity))
             {
                 toRemove.Enqueue(entity);
             }
@@ -119,20 +119,20 @@ namespace Mechanical
         /// This function checks to make sure the entity is contained in the list.
         /// </summary>
         /// <param name="entity"></param>
-        public void Contains(Entity entity) => entities.Contains(entity);
+        public override bool Contains(Entity entity) => items.Contains(entity);
 
         /// <summary>
-        /// Update all the entities. This function also adds and removes entities that need to be so.
+        /// Update all the items. This function also adds and removes items that need to be so.
         /// </summary>
         /// <param name="deltaTime">The time since last frame.</param>
-        public void Update(float deltaTime)
+        public override void Update(float deltaTime)
         {
             for (int i = 0; i < toAdd.Count; i++)
             {
-                // add entities.
+                // add items.
                 Entity e = toAdd.Dequeue();
                 // add to scene
-                entities.Add(e);
+                items.Add(e);
                 // call function.
                 e.OnAdded();
                 // add to just added
@@ -140,69 +140,76 @@ namespace Mechanical
             }
             for (int j = 0; j < toRemove.Count; j++)
             {
-                // remove entities.
+                // remove items.
                 Entity e = toRemove.Dequeue();
-                entities.Remove(e);
+                items.Remove(e);
                 e.OnRemoved();
             }
 
-            // awake all entities that have been added
+            // awake all items that have been added
             justAdded.ForEach(e => e.Awake());
 
             justAdded.Clear();
 
-            // update entities
-            for (int k = 0; k < entities.Count; k++)
+            // update items
+            for (int k = 0; k < items.Count; k++)
             {
-                entities[k].Update(deltaTime);
+                items[k].Update(deltaTime);
             }
         }
 
         /// <summary>
-        /// Draw all the entities.
+        /// Draw all the items.
         /// </summary>
-        public void Draw()
+        public override void Draw()
         {
-            for (int i = 0; i < entities.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
-                entities[i].Draw();
+                items[i].Draw();
             }
         }
 
         /// <summary>
-        /// Load the content on all entities.
+        /// Load the content on all items.
         /// </summary>
         /// <param name="content"></param>
-        public void LoadContent(ContentManager content)
+        public override void LoadContent(ContentManager content)
         {
-            for (int i = 0; i < entities.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
-                entities[i].LoadContent(content);
+                items[i].LoadContent(content);
             }
         }
 
         /// <summary>
-        /// Initalize all entities.
+        /// Initalize all items.
         /// </summary>
-        public void Initalize()
+        public override void Initialize()
         {
-            for (int i = 0; i < entities.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
-                entities[i].Initalize();
+                items[i].Initalize();
             }
         }
 
-        #region Enumerator
-
-        public IEnumerator<Entity> GetEnumerator()
+        /// <summary>
+        /// Get all the entities.
+        /// </summary>
+        /// <returns>A list of entities.</returns>
+        public override List<Entity> GetAll()
         {
-            return entities.GetEnumerator();
+            return items;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        /// <summary>
+        /// Debug draw all entities.
+        /// </summary>
+        public override void DebugDraw()
         {
-            return entities.GetEnumerator();
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].DebugDraw();
+            }
         }
-        #endregion
     }
 }

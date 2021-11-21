@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +29,26 @@ namespace Mechanical
         /// A list of strings used to group entities.
         /// </summary>
         public List<string> Tags = new List<string>();
+        
+        /// <summary>
+        /// The list of components attached to this entity.
+        /// </summary>
+        public ComponentList Components { get; private set; }
+
+        public Entity(string name)
+        {
+            Components = new ComponentList(this);
+        }
+
+        public Entity(string name, Vector2 position) : this(name)
+        {
+
+        }
+
+        public Entity(string name, string[] tags, Vector2 position) : this(name, position)
+        {
+
+        }
 
         public virtual void Initalize()
         {
@@ -45,6 +66,11 @@ namespace Mechanical
         }
 
         public virtual void Draw()
+        {
+
+        }
+
+        public virtual void DebugDraw()
         {
 
         }

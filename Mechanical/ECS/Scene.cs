@@ -19,5 +19,20 @@ namespace Mechanical
         /// </summary>
         public EntityList Entities { get; set; } = new EntityList();
 
+        /// <summary>
+        /// The name of the scene.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The index of the scene.
+        /// </summary>
+        public int SceneIndex { get; set; }
+
+        public Scene(string name)
+        {
+            Name = name;
+        }
+
     }
 }
