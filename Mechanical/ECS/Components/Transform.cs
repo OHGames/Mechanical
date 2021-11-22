@@ -31,7 +31,7 @@ namespace Mechanical
         /// <summary>
         /// The position, but private.
         /// </summary>
-        private Vector2 position;
+        private Vector2 position = Vector2.Zero;
 
         /// <summary>
         /// The scale of the entity.
@@ -77,22 +77,22 @@ namespace Mechanical
         /// <summary>
         /// The scale relative to the parent.
         /// </summary>
-        public Vector2 LocalScale { get; set; }
+        public Vector2 LocalScale { get; set; } = Vector2.One;
 
         /// <summary>
         /// The rotation relative to the parent.
         /// </summary>
-        public float LocalRotation { get; set; }
+        public float LocalRotation { get; set; } = 0;
 
         /// <summary>
         /// The point to render the entity at.
         /// </summary>
-        public Vector2 Origin { get; set; }
+        public Vector2 Origin { get; set; } = Vector2.Zero;
 
         /// <summary>
         /// The bounds of the transform.
         /// </summary>
-        public Rectangle Bounds { get; set; }
+        public Rectangle Bounds { get; set; } = Rectangle.Empty;
 
         /// <summary>
         /// The private version of the parent.

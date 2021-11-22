@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,7 +14,7 @@ namespace Mechanical
     /// The scene is responsible for updating and drawing the entities.
     /// </para>
     /// </summary>
-    public class Scene
+    public class Scene : IEnumerable<Entity>
     {
 
         /// <summary>
@@ -88,5 +89,14 @@ namespace Mechanical
         /// <param name="e"></param>
         public void Remove(Entity e) => Entities.Remove(e);
 
+        public IEnumerator<Entity> GetEnumerator()
+        {
+            return Entities.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Entities.GetEnumerator();
+        }
     }
 }

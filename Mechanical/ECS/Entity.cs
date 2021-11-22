@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Mechanical
     /// <summary>
     /// The entity class is anything that can be draw or updated in a <see cref="Scene"/>
     /// </summary>
-    public class Entity
+    public class Entity : IEnumerable<Component>
     {
         /// <summary>
         /// The name of the entity.
@@ -65,19 +66,25 @@ namespace Mechanical
         /// </summary>
         public bool HasDebugDraw { get; set; }
 
-        public Entity(string name)
+        /// <summary>
+        /// The scene that the entity is in.
+        /// </summary>
+        public Scene Scene { get; set; }
+
+        public Entity(string name, Scene scene)
         {
+            Scene = scene;
             Name = name;
             Components = new ComponentList(this);
             Components.Add(new Transform(this));
         }
 
-        public Entity(string name, Vector2 position) : this(name)
+        public Entity(string name, Vector2 position, Scene scene) : this(name, scene)
         {
             Transform.Position = position;
         }
 
-        public Entity(string name, string[] tags, Vector2 position) : this(name, position)
+        public Entity(string name, string[] tags, Vector2 position, Scene scene) : this(name, position, scene)
         {
             Tags = tags.ToList();
         }
@@ -127,5 +134,28 @@ namespace Mechanical
 
         }
 
+        /// <summary>
+        /// A shorthand to add components to an entity.
+        /// </summary>
+        /// <param name="component">The component to add.</param>
+        public void AddComponent(Component component) => Components.Add(component);
+
+        /// <summary>
+        /// A shorthand to remove components to an entity.
+        /// </summary>
+        /// <param name="component"></param>
+        public void RemoveComponent(Component component) => Components.Remove(component);
+
+        #region Enumerator
+        public IEnumerator<Component> GetEnumerator()
+        {
+            return Components.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Components.GetEnumerator();
+        }
+        #endregion
     }
 }

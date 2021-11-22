@@ -13,30 +13,13 @@ namespace Mechanical
     public class EntityList : GameLikeList<Entity>
     {
 
-        ///// <summary>
-        ///// The items in the list
-        ///// </summary>
-        //private List<Entity> entities;
-
-        ///// <summary>
-        ///// A queue of items to add next update.
-        ///// </summary>
-        //private Queue<Entity> toAdd;
-
-        ///// <summary>
-        ///// A queue of items to remove next update.
-        ///// </summary>
-        //private Queue<Entity> toRemove;
-
         /// <summary>
         /// Just added items.
         /// </summary>
-        List<Entity> justAdded = new List<Entity>();
+        private List<Entity> justAdded = new List<Entity>();
 
-        /// <summary>
-        /// The amount of items in the list.
-        /// </summary>
-        //public int Count { get => items.Count; }
+
+        private bool safeToChange = true;
 
         #region Indexors
         /// <summary>
@@ -90,7 +73,8 @@ namespace Mechanical
         {
             if (!items.Contains(entity))
             {
-                toAdd.Enqueue(entity);
+                if (safeToChange) items.Add(entity);
+                else toAdd.Enqueue(entity);
             }
             else
             {
@@ -107,7 +91,8 @@ namespace Mechanical
         {
             if (items.Contains(entity))
             {
-                toRemove.Enqueue(entity);
+                if (safeToChange) items.Remove(entity);
+                else toRemove.Enqueue(entity);
             }
             else
             {
@@ -151,11 +136,13 @@ namespace Mechanical
 
             justAdded.Clear();
 
+            safeToChange = false;
             // update items
             for (int k = 0; k < items.Count; k++)
             {
                 items[k].Update(deltaTime);
             }
+            safeToChange = true;
         }
 
         /// <summary>

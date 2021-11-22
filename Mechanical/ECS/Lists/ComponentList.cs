@@ -14,6 +14,8 @@ namespace Mechanical
 
         private readonly Entity attached;
 
+        private bool safeToChange = true;
+
         /// <summary>
         /// Get component from list.
         /// </summary>
@@ -39,7 +41,8 @@ namespace Mechanical
             // if it is allowed to be added
             if (!items.Contains(item) || item.AllowMultiple)
             {
-                toAdd.Enqueue(item);
+                if (safeToChange) items.Add(item);
+                else toAdd.Enqueue(item);
             }
             else
             {
@@ -104,7 +107,8 @@ namespace Mechanical
             if (!item.CanBeRemoved || !items.Contains(item)) throw new Exception($"The component, {item.GetType().Name}, cannot be removed or is not in the list!");
             else
             {
-                toRemove.Enqueue(item);
+                if (safeToChange) items.Remove(item);
+                else toRemove.Enqueue(item);
             }
         }
 
@@ -156,12 +160,13 @@ namespace Mechanical
 
             justAdded.Clear();
 
+            safeToChange = false;
             for (int i = 0; i < items.Count; i++)
             {
                 if (items[i].Active)
                     items[i].Update(deltaTime);
             }
-
+            safeToChange = true;
         }
 
         /// <summary>
