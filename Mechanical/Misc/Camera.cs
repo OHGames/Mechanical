@@ -91,22 +91,35 @@ namespace Mechanical
         private Vector2 origin = Vector2.Zero;
 
         /// <summary>
-        /// The rotation of the camera.
+        /// The rotation of the camera. This is in radians.
         /// </summary>
-        public float Rotation 
+        public float RotationRadians 
         { 
-            get => rotation;
+            get => rotationRadians;
             set
             {
-                rotation = value;
+                rotationRadians = value;
                 UpdateMatrix();
             } 
         }
 
         /// <summary>
+        /// The rotation of the camera. This is in degrees.
+        /// </summary>
+        public float Rotation
+        {
+            get => rotationRadians.ToDegrees();
+            set
+            {
+                rotationRadians = value.ToRadians();
+                UpdateMatrix();
+            }
+        }
+
+        /// <summary>
         /// The rotation, but private.
         /// </summary>
-        private float rotation;
+        private float rotationRadians;
 
         /// <summary>
         /// A refrence to the viewport.
@@ -185,7 +198,7 @@ namespace Mechanical
 
             TransformationMatrix = Matrix.Identity
                 * Matrix.CreateTranslation(new Vector3(-new Vector2((int)Math.Floor(position.X), (int)Math.Floor(position.Y)), 0))
-                * Matrix.CreateRotationZ(rotation)
+                * Matrix.CreateRotationZ(rotationRadians)
                 * Matrix.CreateScale(new Vector3(z, z, 1))
                 * Matrix.CreateTranslation(new Vector3((int)Math.Floor(origin.X), (int)Math.Floor(origin.Y), 0));
 
@@ -205,7 +218,7 @@ namespace Mechanical
         /// Takes a psoition on screen and places it in the world position.
         /// </summary>
         /// <returns></returns>
-        public Vector2 ScreenToWorld()
+        public Vector2 ScreenToWorld(Vector2 position)
         {
             return Vector2.Transform(position, Inverse);
         }
@@ -214,7 +227,7 @@ namespace Mechanical
         /// Takes a world position and places it on screen.
         /// </summary>
         /// <returns></returns>
-        public Vector2 WorldToScreen()
+        public Vector2 WorldToScreen(Vector2 position)
         {
             return Vector2.Transform(position, TransformationMatrix);
         }

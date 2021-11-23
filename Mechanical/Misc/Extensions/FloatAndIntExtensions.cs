@@ -44,5 +44,47 @@ namespace Mechanical
             else return value;
         }
 
+        /// <summary>
+        /// This converts degrees to radians.
+        /// </summary>
+        /// <param name="degrees">The degrees to convert.</param>
+        /// <returns>The converted degrees.</returns>
+        public static int ToRadians(this int degrees)
+        {
+            return (int)(degrees * Math.PI / 180);
+        }
+
+        /// <summary>
+        /// This converts radians to degrees.
+        /// </summary>
+        /// <param name="radians">The radians to convert.</param>
+        /// <returns>The converted radians.</returns>
+        public static int ToDegrees(this int radians)
+        {
+            return (int)(radians * 180 / Math.PI);
+        }
+
+        /// <summary>
+        /// This converts degrees to radians.
+        /// </summary>
+        /// <param name="degrees">The degrees to convert.</param>
+        /// <returns>The converted degrees.</returns>
+        public static float ToRadians(this float degrees)
+        {
+            return (float)(degrees * Math.PI / 180);
+        }
+
+        /// <summary>
+        /// This converts radians to degrees.
+        /// </summary>
+        /// <param name="radians">The radians to convert.</param>
+        /// <returns>The converted radians.</returns>
+        // thank you Math Is Fun
+        // https://www.mathsisfun.com/geometry/radians.html
+        public static float ToDegrees(this float radians)
+        {
+            return (float)(radians * 180 / Math.PI);
+        }
+
     }
 }

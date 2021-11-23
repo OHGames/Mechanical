@@ -141,9 +141,33 @@ namespace Mechanical
 
         }
 
+        /// <summary>
+        /// Destroy the entity.
+        /// </summary>
         public void Destroy()
         {
+            
+        }
 
+        /// <summary>
+        /// This will duplicate the entity.
+        /// </summary>
+        /// <returns></returns>
+        public virtual Entity Clone()
+        {
+            Entity e = new Entity(Name, Tags.ToArray(), Transform.Position, Scene);
+            var c = Components;
+            e.Components = c;
+            for (int i = 0; i < e.Components.Count; i++)
+            {
+                e.Components[i].Attached = e;
+            }
+            e.Components.attached = e;
+            e.Active = Active;
+            e.Paused = Paused;
+            e.Visible = Visible;
+            e.HasDebugDraw = HasDebugDraw;
+            return e;
         }
 
         /// <summary>

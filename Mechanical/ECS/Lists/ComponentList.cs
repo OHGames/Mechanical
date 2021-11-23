@@ -15,7 +15,7 @@ namespace Mechanical
         private List<Component> justAdded = new List<Component>();
 
         [DataMember]
-        private Entity attached;
+        public Entity attached;
 
         private bool safeToChange = true;
 

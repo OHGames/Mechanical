@@ -377,7 +377,7 @@ namespace Mechanical
             int count = verticies.Length;
             if (count > 0)
             {
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < count - 1; i++)
                 {
                     DrawLine(verticies[i], verticies[i + 1], color, width, effect);
                 }
