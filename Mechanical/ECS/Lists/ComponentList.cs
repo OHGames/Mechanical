@@ -3,16 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     public sealed class ComponentList : GameLikeList<Component>
     {
 
         private List<Component> justAdded = new List<Component>();
 
-        private readonly Entity attached;
+        [DataMember]
+        private Entity attached;
 
         private bool safeToChange = true;
 

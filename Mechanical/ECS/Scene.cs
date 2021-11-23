@@ -3,10 +3,12 @@ using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// The scene is a container for <see cref="Entity"/>s.
     /// 
@@ -16,32 +18,37 @@ namespace Mechanical
     /// </summary>
     public class Scene : IEnumerable<Entity>
     {
-
+        [DataMember]
         /// <summary>
         /// The list of entities in the scene.
         /// </summary>
         public EntityList Entities { get; set; } = new EntityList();
 
+        [DataMember]
         /// <summary>
         /// The name of the scene.
         /// </summary>
         public string Name { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The index of the scene.
         /// </summary>
         public int SceneIndex { get; set; }
 
+        [DataMember]
         /// <summary>
         /// If the scene will update.
         /// </summary>
         public bool Paused { get; set; }
 
+        [DataMember]
         /// <summary>
         /// If the scene is active. It is active it updates and draws.
         /// </summary>
         public bool IsActiveScene { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The color to clear the render target to.
         /// </summary>

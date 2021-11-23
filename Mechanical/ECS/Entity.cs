@@ -4,20 +4,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// The entity class is anything that can be draw or updated in a <see cref="Scene"/>
     /// </summary>
     public class Entity : IEnumerable<Component>
     {
+
+        [DataMember]
         /// <summary>
         /// The name of the entity.
         /// </summary>
         public string Name { get; set; } = "Entity";
 
+        [DataMember]
         /// <summary>
         /// The static, nonchanging ID of the entity.
         /// 
@@ -27,11 +32,13 @@ namespace Mechanical
         /// </summary>
         public int ID { get; set; } = IDManager.GetId();
 
+        [DataMember]
         /// <summary>
         /// A list of strings used to group entities.
         /// </summary>
         public List<string> Tags = new List<string>();
         
+        [DataMember]
         /// <summary>
         /// The list of components attached to this entity.
         /// </summary>
@@ -43,16 +50,19 @@ namespace Mechanical
         // This is the first index because it should always be the first component. 
         public Transform Transform { get => (Transform)Components[0]; }
 
+        [DataMember]
         /// <summary>
         /// If the entity will update or draw.
         /// </summary>
         public bool Active { get; set; }
         
+        [DataMember]
         /// <summary>
         /// If the entity will be drawn.
         /// </summary>
         public bool Visible { get; set; }
 
+        [DataMember]
         /// <summary>
         /// If the entity will update.
         /// </summary>
@@ -61,11 +71,13 @@ namespace Mechanical
             get; set;
         }
 
+        [DataMember]
         /// <summary>
         /// If the entity has an override for the <see cref="DebugDraw"/> function
         /// </summary>
         public bool HasDebugDraw { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The scene that the entity is in.
         /// </summary>

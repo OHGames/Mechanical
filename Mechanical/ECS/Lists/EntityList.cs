@@ -3,10 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// The EntityList is a convenient method to store and update entities. This should only be used for scenes.
     /// </summary>

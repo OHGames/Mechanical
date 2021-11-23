@@ -16,7 +16,7 @@ namespace Mechanical
         /// <summary>
         /// A refrence to teh spritebatch from the <see cref="Engine"/> class.
         /// </summary>
-        public static SpriteBatch SpriteBatch { get => engine.SpriteBatch; }
+        public static SpriteBatch SpriteBatch { get; set; }
 
         /// <summary>
         /// A texture that is a 1x1 white pixel.
@@ -115,7 +115,7 @@ namespace Mechanical
             //}
             //else
             //{
-                engine.DefaultBeginBatch(currentEffect);
+                engine.DefaultBeginBatch(currentEffect, engine.Camera.TransformationMatrix);
             //}
         }
 

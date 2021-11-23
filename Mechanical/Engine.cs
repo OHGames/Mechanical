@@ -96,6 +96,12 @@ namespace Mechanical
         /// </summary>
         public bool ExitOnEscape { get; set; } = true;
 #endif
+
+        /// <summary>
+        /// The camera of the game.
+        /// </summary>
+        public Camera Camera { get; set; }
+
         /// <summary>
         /// The main constructor for the Engine.
         /// </summary>
@@ -140,12 +146,14 @@ namespace Mechanical
         protected override void Initialize()
         {
             SetupWindow();
+            Camera = new Camera(GraphicsDevice.Viewport);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
+            Drawing.SpriteBatch = SpriteBatch;
             base.LoadContent();
         }
 
@@ -163,7 +171,7 @@ namespace Mechanical
 
         protected override bool BeginDraw()
         {
-            DefaultBeginBatch();
+            DefaultBeginBatch(transformMatrix: Camera.TransformationMatrix);
             return base.BeginDraw();
         }
 

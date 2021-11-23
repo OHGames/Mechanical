@@ -1,16 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
+    [KnownType(typeof(Transform))]
     /// <summary>
     /// The Transform component is required on all entities. It has data on the size, position, and origin of the entity.
     /// </summary>
     public sealed class Transform : Component, IParentChildHierarchy<Transform>
     {
-
+        [DataMember]
         /// <summary>
         /// The position in world space.
         /// </summary>
@@ -28,6 +31,7 @@ namespace Mechanical
             }
         }
 
+        [DataMember]
         /// <summary>
         /// The position, but private.
         /// </summary>
@@ -57,6 +61,7 @@ namespace Mechanical
             }
         }
 
+        [DataMember]
         /// <summary>
         /// The local position of the tranform.
         /// </summary>
@@ -74,33 +79,40 @@ namespace Mechanical
             } 
         }
 
+        [DataMember]
         /// <summary>
         /// The scale relative to the parent.
         /// </summary>
         public Vector2 LocalScale { get; set; } = Vector2.One;
 
+        [DataMember]
         /// <summary>
         /// The rotation relative to the parent.
         /// </summary>
         public float LocalRotation { get; set; } = 0;
 
+        [DataMember]
         /// <summary>
         /// The point to render the entity at.
         /// </summary>
         public Vector2 Origin { get; set; } = Vector2.Zero;
 
+        [DataMember]
         /// <summary>
         /// The bounds of the transform.
         /// </summary>
         public Rectangle Bounds { get; set; } = Rectangle.Empty;
 
+        [DataMember]
         /// <summary>
         /// The private version of the parent.
         /// </summary>
         private Transform parent;
         
+
         public Transform Parent { get => parent; set => SetParent(value); }
 
+        [DataMember]
         public List<Transform> Children { get; set; } = new List<Transform>();
 
         public string HierarchyPath { get => Parent == null ? $"{Attached.Name}.Tranform" : $"{Parent.HierarchyPath}/{Attached.Name}.Tranform"; }
@@ -119,6 +131,11 @@ namespace Mechanical
             AllowMultiple = false;
             CanBeRemoved = false;
         }
+
+        /// <summary>
+        /// serialization only.
+        /// </summary>
+        public Transform() { }
 
         /// <summary>
         /// Move the position by the amount.
