@@ -2,7 +2,7 @@ This file contains the licesenses for code refrenced and tutorials used.
 
 ========== Monocle Engine ==========
 https://github.com/JamesMcMahon/monocle-engine/blob/master/License.txt
-Some code in engine is referenced from this repo^^^
+Some code in engine is referenced and tweaked from this repo^^^
  m o n O c l e
 
    e n g i n e
@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 =========== Yetibyte.Himalaya ==================
 https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/LICENSE
-Some code in engine is referenced from this repo^^^
+Some code in engine is referenced and tweaked from this repo^^^
 
 MIT License
 
