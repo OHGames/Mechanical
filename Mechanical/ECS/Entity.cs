@@ -15,9 +15,9 @@ namespace Mechanical
     /// 
     /// TODO: add parents and decide wither enmtities should draw themselves.
     /// </summary>
-    public class Entity : IEnumerable<Component>
+    public class Entity : IParentChildHierarchy<Entity>, IEnumerable<Component>
     {
-
+        #region Variables
         [DataMember]
         /// <summary>
         /// The name of the entity.
@@ -85,6 +85,24 @@ namespace Mechanical
         /// </summary>
         public Scene Scene { get; set; }
 
+        [DataMember]
+        /// <summary>
+        /// The parent, but private.
+        /// </summary>
+        private Entity parent;
+
+        public Entity Parent { get => parent; set => SetParent(value); }
+
+        public string HierarchyPath => HasParent ? $"{Parent.HierarchyPath}/{Name}" : Name;
+
+        public List<Entity> Children { get; set; } = new List<Entity>();
+
+        public bool HasParent => Parent != null;
+
+        #endregion
+
+        #region Constructors
+
         public Entity(string name, Scene scene)
         {
             Scene = scene;
@@ -102,6 +120,10 @@ namespace Mechanical
         {
             Tags = tags.ToList();
         }
+
+        #endregion
+
+        #region Main Functions
 
         public virtual void Initalize()
         {
@@ -180,6 +202,9 @@ namespace Mechanical
             e.HasDebugDraw = HasDebugDraw;
             return e;
         }
+        #endregion
+
+        #region Components
 
         /// <summary>
         /// A shorthand to add components to an entity.
@@ -207,6 +232,8 @@ namespace Mechanical
         /// <returns>All components that match the type.</returns>
         public T[] GetComponents<T>() => Components.OfType<T>().ToArray();
 
+        #endregion
+
         #region Enumerator
         public IEnumerator<Component> GetEnumerator()
         {
@@ -216,6 +243,82 @@ namespace Mechanical
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Components.GetEnumerator();
+        }
+
+        #endregion
+
+        #region Parenting
+        public void AddChild(Entity child)
+        {
+            if (!IsParentOf(child))
+            {
+                Children.Add(child);
+                // dont call SetParent function to avoid loops.
+                child.Parent = this;
+                // call event
+                child.OnParentAdded(this);
+                // add transform.
+                Transform.AddChild(child.Transform);
+            }
+        }
+
+        public void RemoveChild(Entity child)
+        {
+            if (Children.Contains(child))
+            {
+                Children.Remove(child);
+                child.SetParent(null);
+                child.OnParentRemoved(this);
+                Transform.RemoveChild(child.Transform);
+            }
+        }
+
+        /// <summary>
+        /// When the entity's parent is removed.
+        /// </summary>
+        /// <param name="parent">The parent that was removed.</param>
+        public virtual void OnParentRemoved(Entity parent)
+        {
+
+        }
+
+        /// <summary>
+        /// When the entity gets a parent.
+        /// </summary>
+        /// <param name="parent">The new parent.</param>
+        public virtual void OnParentAdded(Entity parent)
+        {
+
+        }
+
+        public void SetParent(Entity parent)
+        {
+            if (HasParent)
+            {
+                // remove this component has the child.
+                this.parent.RemoveChild(this);
+            }
+
+            // set this as child of new parent.
+            parent?.AddChild(this);
+
+            // add new parent.
+            this.parent = parent;
+        }
+
+        public bool IsParentOf(Entity child)
+        {
+            return Children.Contains(child);
+        }
+
+        public Entity GetAncestor()
+        {
+            Entity currentChild = this;
+            while (currentChild.HasParent)
+            {
+                currentChild = currentChild.Parent;
+            }
+            return currentChild;
         }
         #endregion
     }

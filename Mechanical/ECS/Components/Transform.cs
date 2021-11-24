@@ -111,7 +111,6 @@ namespace Mechanical
         /// </summary>
         private Transform parent;
         
-
         public Transform Parent { get => parent; set => SetParent(value); }
 
         [DataMember]
