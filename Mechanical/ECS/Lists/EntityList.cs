@@ -14,12 +14,13 @@ namespace Mechanical
     /// </summary>
     public class EntityList : GameLikeList<Entity>
     {
-
+        [DataMember]
         /// <summary>
         /// Just added items.
         /// </summary>
         private List<Entity> justAdded = new List<Entity>();
 
+        [DataMember]
         private List<IDrawable> drawable = new List<IDrawable>();
 
         private bool safeToChange = true;

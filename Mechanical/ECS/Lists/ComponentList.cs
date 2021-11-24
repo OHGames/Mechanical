@@ -11,9 +11,10 @@ namespace Mechanical
     [DataContract]
     public sealed class ComponentList : GameLikeList<Component>
     {
-
+        [DataMember]
         private List<Component> justAdded = new List<Component>();
 
+        [DataMember]
         /// <summary>
         /// The drawable components.
         /// </summary>

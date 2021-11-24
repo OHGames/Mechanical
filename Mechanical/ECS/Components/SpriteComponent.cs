@@ -14,7 +14,7 @@ namespace Mechanical
     public sealed class SpriteComponent : Component, IDrawableComponent
     {
 
-        [DataMember]
+        //[DataMember]
         /// <summary>
         /// The texture to draw.
         /// </summary>
@@ -52,7 +52,7 @@ namespace Mechanical
         /// </summary>
         public Rectangle? SourceRectangle { get; set; } = null;
 
-        [DataMember]
+        //[DataMember]
         /// <summary>
         /// The effect to draw.
         /// </summary>

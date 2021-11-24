@@ -20,11 +20,13 @@ namespace Mechanical
         /// </summary>
         protected List<T> items = new List<T>();
 
+        [DataMember]
         /// <summary>
         /// A queue of items to add next update.
         /// </summary>
         protected Queue<T> toAdd = new Queue<T>();
 
+        [DataMember]
         /// <summary>
         /// A queue of items to remove next update.
         /// </summary>
