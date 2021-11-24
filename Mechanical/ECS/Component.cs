@@ -85,7 +85,27 @@ namespace Mechanical
 
         }
 
-        public void OnAdded()
+        public virtual void OnAdded()
+        {
+
+        }
+
+        public virtual void EntityAwakes()
+        {
+
+        }
+
+        public virtual void EntityAdded()
+        {
+
+        }
+
+        public virtual void EntityRemoved()
+        {
+
+        }
+
+        public void OnEntityDestroyed()
         {
 
         }

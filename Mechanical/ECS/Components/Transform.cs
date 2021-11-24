@@ -10,6 +10,8 @@ namespace Mechanical
     [KnownType(typeof(Transform))]
     /// <summary>
     /// The Transform component is required on all entities. It has data on the size, position, and origin of the entity.
+    /// 
+    /// This whole class is pretty much from https://github.com/Yeti47/Yetibyte.Himalaya slight tweaks made and variables added.
     /// </summary>
     public sealed class Transform : Component, IParentChildHierarchy<Transform>
     {
@@ -44,7 +46,7 @@ namespace Mechanical
         {
             get
             {
-                Vector2 relation = HasParent ? Parent.Scale : Vector2.Zero;
+                Vector2 relation = HasParent ? Parent.Scale : Vector2.One;
                 return LocalScale * relation;
             }
         }
@@ -131,11 +133,6 @@ namespace Mechanical
             AllowMultiple = false;
             CanBeRemoved = false;
         }
-
-        /// <summary>
-        /// serialization only.
-        /// </summary>
-        public Transform() { }
 
         /// <summary>
         /// Move the position by the amount.

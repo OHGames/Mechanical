@@ -14,6 +14,11 @@ namespace Mechanical
 
         private List<Component> justAdded = new List<Component>();
 
+        /// <summary>
+        /// The drawable components.
+        /// </summary>
+        private List<IDrawableComponent> drawables = new List<IDrawableComponent>();
+
         [DataMember]
         public Entity attached;
 
@@ -44,7 +49,15 @@ namespace Mechanical
             // if it is allowed to be added
             if (!items.Contains(item) || item.AllowMultiple)
             {
-                if (safeToChange) items.Add(item);
+                if (safeToChange) 
+                { 
+                    items.Add(item);
+                    // if component is drawable
+                    if (item.GetType().GetInterface("IDrawableComponent") != null)
+                    {
+                        drawables.Add(item as IDrawableComponent);
+                    }
+                }
                 else toAdd.Enqueue(item);
             }
             else
@@ -66,12 +79,20 @@ namespace Mechanical
         /// <summary>
         /// Draw the components.
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Draw()
         {
-            for (int i = 0; i < items.Count; i++)
+            // sort by render order.
+            if (drawables.Count > 0)
             {
-                items[i].Draw();
+
+                drawables.OrderBy(c => c.RenderOrder);
+
+                for (int i = 0; i < drawables.Count(); i++)
+                {
+                    drawables[i].Draw();
+                }
+                // TODO: implement this in the scene.
+
             }
         }
 
@@ -149,6 +170,12 @@ namespace Mechanical
                     items.Add(c);
                     c.OnAdded();
                     justAdded.Add(c);
+
+                    // if component is drawable
+                    if (c.GetType().GetInterface("IDrawableComponent") != null)
+                    {
+                        drawables.Add((IDrawableComponent)c);
+                    }
                 }
             }
             for (int i = 0; i < toRemove.Count; i++)
@@ -186,6 +213,50 @@ namespace Mechanical
             for (int i = 0; i < items.Count; i++)
             {
                 items[i].DebugDraw();
+            }
+        }
+
+        /// <summary>
+        /// When the entity awakes.
+        /// </summary>
+        public void EntityAwakes()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].EntityAwakes();
+            }
+        }
+
+        /// <summary>
+        /// When the entity is added.
+        /// </summary>
+        public void OnEntityAdded()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].EntityAdded();
+            }
+        }
+
+        /// <summary>
+        /// When the entity is removed.
+        /// </summary>
+        public void OnEntityRemoved()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].EntityRemoved();
+            }
+        }
+
+        /// <summary>
+        /// When the entity is destroyed.
+        /// </summary>
+        public void OnEntityDestroyed()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].OnEntityDestroyed();
             }
         }
 

@@ -10,12 +10,12 @@ namespace Mechanical
     /// The camera is a game window to the 2D world!
     /// 
     /// <para>
-    /// This whole class is pretty much from https://github.com/JamesMcMahon/monocle-engine/blob/master/Monocle/Util/Camera.cs and https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/Yetibyte.Himalaya/GameElements/Camera.cs
+    /// This whole class is pretty much from https://github.com/JamesMcMahon/monocle-engine/blob/master/Monocle/Util/Camera.cs and https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/Yetibyte.Himalaya/GameElements/Camera.cs slight tweaks made and variables added
     /// </para>
     /// </summary>
     public sealed class Camera
     {
-
+        #region Variables
         /// <summary>
         /// The minimum zoom.
         /// </summary>
@@ -177,6 +177,8 @@ namespace Mechanical
                 UpdateMatrix();
             }
         }
+
+        #endregion
 
         public Camera(Viewport viewport)
         {

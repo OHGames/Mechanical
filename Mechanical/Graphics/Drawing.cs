@@ -12,7 +12,7 @@ namespace Mechanical
     /// </summary>
     public static class Drawing
     {
-
+        #region Variables
         /// <summary>
         /// A refrence to teh spritebatch from the <see cref="Engine"/> class.
         /// </summary>
@@ -61,6 +61,9 @@ namespace Mechanical
         /// </summary>
         private static bool GlobalEffectChanged => prevoiousGlobalEffect != GlobalEffect;
 
+        #endregion
+
+        #region Functions
         /// <summary>
         /// Load the content for the draw class.
         /// </summary>
@@ -120,6 +123,8 @@ namespace Mechanical
         }
 
         public static void End() => SpriteBatch.End();
+
+        #endregion
 
         #region Draw Wrapper
 

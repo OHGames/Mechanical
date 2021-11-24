@@ -11,7 +11,9 @@ namespace Mechanical
 {
     [DataContract]
     /// <summary>
-    /// The entity class is anything that can be draw or updated in a <see cref="Scene"/>
+    /// The entity class is anything that can be draw or updated in a <see cref="Scene"/> 
+    /// 
+    /// TODO: add parents and decide wither enmtities should draw themselves.
     /// </summary>
     public class Entity : IEnumerable<Component>
     {
@@ -103,12 +105,12 @@ namespace Mechanical
 
         public virtual void Initalize()
         {
-
+            Components.Initialize();
         }
 
         public virtual void LoadContent(ContentManager content)
         {
-
+            Components.LoadContent(content);
         }
 
         public virtual void Update(float deltaTime)
@@ -118,7 +120,7 @@ namespace Mechanical
 
         public virtual void Draw()
         {
-
+            Components.Draw();
         }
 
         public virtual void DebugDraw()
@@ -126,27 +128,36 @@ namespace Mechanical
             if (!HasDebugDraw) Draw();
         }
 
-        public void Awake()
+        /// <summary>
+        /// When all entities in the current frame has been added.
+        /// </summary>
+        public virtual void Awake()
         {
-
+            Components.EntityAwakes();
         }
 
-        public void OnAdded()
+        /// <summary>
+        /// When the entity is added to the scene.
+        /// </summary>
+        public virtual void OnAdded()
         {
-
+            Components.OnEntityAdded();
         }
 
-        public void OnRemoved()
+        /// <summary>
+        /// When the entity is removed from the scene.
+        /// </summary>
+        public virtual void OnRemoved()
         {
-
+            Components.OnEntityRemoved();
         }
 
         /// <summary>
         /// Destroy the entity.
         /// </summary>
-        public void Destroy()
+        public virtual void Destroy()
         {
-            
+            Components.OnEntityDestroyed();
         }
 
         /// <summary>
@@ -181,6 +192,20 @@ namespace Mechanical
         /// </summary>
         /// <param name="component"></param>
         public void RemoveComponent(Component component) => Components.Remove(component);
+
+        /// <summary>
+        /// Get the first component of that type.
+        /// </summary>
+        /// <typeparam name="T">The component's type.</typeparam>
+        /// <returns>The first component that matches the type.</returns>
+        public T GetComponent<T>() => Components.OfType<T>().First();
+
+        /// <summary>
+        /// Gets all components of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The components' type.</typeparam>
+        /// <returns>All components that match the type.</returns>
+        public T[] GetComponents<T>() => Components.OfType<T>().ToArray();
 
         #region Enumerator
         public IEnumerator<Component> GetEnumerator()

@@ -20,6 +20,7 @@ namespace Mechanical
         /// </summary>
         private List<Entity> justAdded = new List<Entity>();
 
+        private List<IDrawable> drawable = new List<IDrawable>();
 
         private bool safeToChange = true;
 
@@ -75,7 +76,15 @@ namespace Mechanical
         {
             if (!items.Contains(entity))
             {
-                if (safeToChange) items.Add(entity);
+                if (safeToChange)
+                {
+                    items.Add(entity);
+
+                    if (entity.GetType().GetInterface("IDrawable") != null)
+                    {
+                        drawable.Add(entity as IDrawable);
+                    }
+                }
                 else toAdd.Enqueue(entity);
             }
             else
@@ -152,9 +161,32 @@ namespace Mechanical
         /// </summary>
         public override void Draw()
         {
-            for (int i = 0; i < items.Count; i++)
+            if (drawable.Count > 0)
             {
-                items[i].Draw();
+
+                IDrawable[] bg = drawable.Where(e => e.RenderLayer == RenderLayer.Background).ToArray();
+                IDrawable[] mg = drawable.Where(e => e.RenderLayer == RenderLayer.Midground).ToArray();
+                IDrawable[] fg = drawable.Where(e => e.RenderLayer == RenderLayer.Foreground).ToArray();
+
+                bg = bg.OrderBy(e => e.RenderOrder).ToArray();
+                mg = mg.OrderBy(e => e.RenderOrder).ToArray();
+                fg = fg.OrderBy(e => e.RenderOrder).ToArray();
+
+                for (int i = 0; i < bg.Count(); i++)
+                {
+                    bg[i].Draw();
+                }
+
+                for (int i = 0; i < mg.Count(); i++)
+                {
+                    mg[i].Draw();
+                }
+
+                for (int i = 0; i < fg.Count(); i++)
+                {
+                    fg[i].Draw();
+                }
+
             }
         }
 
