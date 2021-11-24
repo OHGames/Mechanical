@@ -79,9 +79,9 @@ namespace Mechanical
             Entities.Draw();
         }
 
-        public virtual void DebugDraw()
+        public virtual void DebugDraw(bool editorRender)
         {
-            Entities.DebugDraw();
+            Entities.DebugDraw(editorRender);
         }
 
         /// <summary>

@@ -49,7 +49,7 @@ namespace Mechanical
 
         public abstract void Draw();
 
-        public abstract void DebugDraw();
+        public abstract void DebugDraw(bool editorRender);
 
         public abstract List<T> GetAll();
 

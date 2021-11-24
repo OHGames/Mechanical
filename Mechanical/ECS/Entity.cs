@@ -123,7 +123,7 @@ namespace Mechanical
             Components.Draw();
         }
 
-        public virtual void DebugDraw()
+        public virtual void DebugDraw(bool editorRender)
         {
             if (!HasDebugDraw) Draw();
         }

@@ -225,11 +225,11 @@ namespace Mechanical
         /// <summary>
         /// Debug draw all entities.
         /// </summary>
-        public override void DebugDraw()
+        public override void DebugDraw(bool editorRender)
         {
             for (int i = 0; i < items.Count; i++)
             {
-                items[i].DebugDraw();
+                items[i].DebugDraw(editorRender);
             }
         }
     }
