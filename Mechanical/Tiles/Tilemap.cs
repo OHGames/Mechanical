@@ -8,6 +8,8 @@ namespace Mechanical
 {
     /// <summary>
     /// The tilemap is an entity that will render <see cref="Tile"/>s
+    /// 
+    /// TODO: refactor
     /// </summary>
     public class Tilemap : Entity, IDrawable
     {
