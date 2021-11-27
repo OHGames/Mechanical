@@ -92,8 +92,6 @@ namespace Mechanical
                 {
                     drawables[i].Draw();
                 }
-                // TODO: implement this in the scene.
-
             }
         }
 
@@ -211,9 +209,16 @@ namespace Mechanical
 
         public override void DebugDraw(bool editorRender)
         {
-            for (int i = 0; i < items.Count; i++)
+            // sort by render order.
+            if (drawables.Count > 0)
             {
-                items[i].DebugDraw(editorRender);
+
+                drawables.OrderBy(c => c.RenderOrder);
+
+                for (int i = 0; i < drawables.Count(); i++)
+                {
+                    drawables[i].DebugDraw(editorRender);
+                }
             }
         }
 

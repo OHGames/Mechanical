@@ -228,9 +228,32 @@ namespace Mechanical
         /// </summary>
         public override void DebugDraw(bool editorRender)
         {
-            for (int i = 0; i < items.Count; i++)
+            if (drawable.Count > 0)
             {
-                items[i].DebugDraw(editorRender);
+
+                IDrawable[] bg = drawable.Where(e => e.RenderLayer == RenderLayer.Background).ToArray();
+                IDrawable[] mg = drawable.Where(e => e.RenderLayer == RenderLayer.Midground).ToArray();
+                IDrawable[] fg = drawable.Where(e => e.RenderLayer == RenderLayer.Foreground).ToArray();
+
+                bg = bg.OrderBy(e => e.RenderOrder).ToArray();
+                mg = mg.OrderBy(e => e.RenderOrder).ToArray();
+                fg = fg.OrderBy(e => e.RenderOrder).ToArray();
+
+                for (int i = 0; i < bg.Count(); i++)
+                {
+                    bg[i].DebugDraw(editorRender);
+                }
+
+                for (int i = 0; i < mg.Count(); i++)
+                {
+                    mg[i].DebugDraw(editorRender);
+                }
+
+                for (int i = 0; i < fg.Count(); i++)
+                {
+                    fg[i].DebugDraw(editorRender);
+                }
+
             }
         }
     }

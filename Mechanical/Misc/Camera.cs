@@ -19,7 +19,7 @@ namespace Mechanical
         /// <summary>
         /// The minimum zoom.
         /// </summary>
-        public const float MIN_ZOOM = 0;
+        public const float MIN_ZOOM = 100;
 
         /// <summary>
         /// The max zoom
@@ -177,6 +177,36 @@ namespace Mechanical
                 UpdateMatrix();
             }
         }
+
+        /// <summary>
+        /// The actual zoom of the camera.
+        /// </summary>
+        public float ActualZoom
+        {
+            get => zoom / 100;
+            set { zoom = value.Clamp(MIN_ZOOM, MAX_ZOOM) * 100; UpdateMatrix(); }
+        }
+
+        /// <summary>
+        /// The rectangle of the camera.
+        /// </summary>
+        public Rectangle CameraRect
+        {
+            get => new Rectangle((int)X - Width / 2, (int)Y - Height / 2, Width, Height);
+        }
+
+        /// <summary>
+        /// The padded version of the rectangle. This is used for culling.
+        /// </summary>
+        public Rectangle CameraRectPadded
+        {
+            get => new Rectangle((int)((X - Width / 2) - Padding), (int)((Y - Height / 2) - Padding), (int)(Width + Padding), (int)(Height + Padding));
+        }
+
+        /// <summary>
+        /// The padding to be used on the <see cref="CameraRectPadded"/>
+        /// </summary>
+        public float Padding { get; set; } = 50;
 
         #endregion
 

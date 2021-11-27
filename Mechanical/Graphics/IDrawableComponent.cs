@@ -6,15 +6,10 @@ using System.Text;
 namespace Mechanical
 {
     /// <summary>
-    /// If an entity wants to draw, it needs this class.
+    /// If a component wants to draw, it needs this class.
     /// </summary>
-    public interface IDrawable
+    public interface IDrawableComponent
     {
-
-        /// <summary>
-        /// The render layer.
-        /// </summary>
-        RenderLayer RenderLayer { get; set; }
 
         /// <summary>
         /// The order for rendering. Lower number renders first.
@@ -22,6 +17,8 @@ namespace Mechanical
         int RenderOrder { get; set; }
 
         void Draw();
+
+        void DebugDraw(bool editorRender);
 
     }
 }
