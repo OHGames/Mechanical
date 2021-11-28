@@ -21,28 +21,76 @@ namespace Mechanical
     /// </summary>
     public class MechAxis
     {
+        #region Variables
 
+        /// <summary>
+        /// The key that will be used to get a negative value.
+        /// </summary>
         public Keys NegativeKey { get; private set; }
 
+        /// <summary>
+        /// The key that will be used to get a positive value.
+        /// </summary>
         public Keys PositiveKey { get; private set; }
 
+        /// <summary>
+        /// An alternative key that will get a negative value.
+        /// </summary>
         public Keys AlternativeNegativeKey { get; private set; }
 
+        /// <summary>
+        /// An alternative key that will get a positive value.
+        /// </summary>
         public Keys AlternativePositiveKey { get; private set; }
 
+        /// <summary>
+        /// A button that will get a negative value.
+        /// </summary>
         public Buttons NegativeButton { get; private set; }
 
+        /// <summary>
+        /// A button that will get a positive value.
+        /// </summary>
         public Buttons PositiveButton { get; private set; }
 
+        /// <summary>
+        /// An alternate button that will get a negative value.
+        /// </summary>
         public Buttons AlternativeNegativeButton { get; private set; }
 
+        /// <summary>
+        /// An alternate button that will get a positive value.
+        /// </summary>
         public Buttons AlternativePositiveButton { get; private set; }
 
-        public PlayerIndex PlayerIndex { get; private set; }
-
+        /// <summary>
+        /// If the axis is using a keyboard and a controller(s).
+        /// </summary>
         private bool usingBoth;
 
-        private bool usingOnlyKeyboard;
+        /// <summary>
+        /// If using only a keyboard.
+        /// </summary>
+        private bool usingKeyboard;
+
+        /// <summary>
+        /// The direction of the controller.
+        /// </summary>
+        public MechControllerAxisDirection Direction { get; set; }
+
+        /// <summary>
+        /// The axis to get.
+        /// </summary>
+        public MechControllerAxes Axis { get; set; }
+
+        /// <summary>
+        /// How much a key or button needs to be pressed in order to get registered.
+        /// </summary>
+        public float Deadzone { get; set; } = 0.15f;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Makes a new mech axis with keyboard input only.
@@ -57,7 +105,7 @@ namespace Mechanical
             PositiveKey = positive;
             AlternativeNegativeKey = altNeg;
             AlternativePositiveKey = altPos;
-            usingOnlyKeyboard = true;
+            usingKeyboard = true;
         }
 
         /// <summary>
@@ -67,14 +115,15 @@ namespace Mechanical
         /// <param name="positive">The positive button.</param>
         /// <param name="altNeg">The alternate negative button.</param>
         /// <param name="altPos">The alternate positive button.</param>
-        public MechAxis(Buttons negative, Buttons positive, Buttons altNeg, Buttons altPos, PlayerIndex index)
+        public MechAxis(Buttons negative, Buttons positive, Buttons altNeg, Buttons altPos, MechControllerAxisDirection direction, MechControllerAxes axes)
         {
             NegativeButton = negative;
             PositiveButton = positive;
             AlternativeNegativeButton = altNeg;
             AlternativePositiveButton = altPos;
-            usingOnlyKeyboard = false;
-            PlayerIndex = index;
+            usingKeyboard = false;
+            Direction = direction;
+            Axis = axes;
         }
 
         /// <summary>
@@ -88,93 +137,153 @@ namespace Mechanical
         /// <param name="positiveB">The positive button.</param>
         /// <param name="altNegB">The alternate negative button.</param>
         /// <param name="altPosB">The alternate positive button.</param>
-        public MechAxis(Keys negative, Keys positive, Keys altNeg, Keys altPos, Buttons negativeB, Buttons positiveB, Buttons altNegB, Buttons altPosB, PlayerIndex index) : this(negative, positive, altNeg, altPos)
+        public MechAxis(Keys negative, Keys positive, Keys altNeg, Keys altPos, Buttons negativeB, Buttons positiveB, Buttons altNegB, Buttons altPosB, MechControllerAxisDirection direction, MechControllerAxes axes) : this(negative, positive, altNeg, altPos)
         {
             NegativeButton = negativeB;
             PositiveButton = positiveB;
             AlternativeNegativeButton = altNegB;
             AlternativePositiveButton = altPosB;
             usingBoth = true;
-            PlayerIndex = index;
+            Direction = direction;
+            Axis = axes;
         }
 
+        #endregion
+
+        #region GetAxis
         /// <summary>
         /// Gets the axis.
         /// 
         /// TODO: refactor and make better.
         /// </summary>
-        /// <returns></returns>
-        public int GetAxisRaw()
+        /// <returns>A float with the </returns>
+        /// https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/Yetibyte.Himalaya/Controls/GameControlAxis.cs
+        public float GetAxis(PlayerIndex index = PlayerIndex.One)
         {
-            if (usingOnlyKeyboard || usingBoth)
+            bool isPosKey = false;
+            bool isNegKey = false;
+            if (usingKeyboard || usingBoth)
             {
-                // if the negative is down and the positive is up.
-                if (MechKeyboard.IsKeyDown(NegativeKey) && MechKeyboard.IsKeyUp(PositiveKey))
+                // positive down.
+                if (PositiveKey != 0 && NegativeKey != 0 && MechKeyboard.IsKeyDown(PositiveKey) && MechKeyboard.IsKeyUp(NegativeKey))
                 {
-                    return -1;
+                    isPosKey = true;
                 }
-                // if the negative is up and the positive is down.
-                else if (MechKeyboard.IsKeyUp(NegativeKey) && MechKeyboard.IsKeyDown(PositiveKey))
+                // positive down.
+                else if (AlternativePositiveKey != 0 && AlternativeNegativeKey != 0 && MechKeyboard.IsKeyDown(AlternativePositiveKey) && MechKeyboard.IsKeyUp(AlternativeNegativeKey))
                 {
-                    return 1;
+                    isPosKey = true;
                 }
-                // either none are down or both at same time. Check alternatives.
-                else
+                // negative down.
+                if (PositiveKey != 0 && NegativeKey != 0 && MechKeyboard.IsKeyDown(NegativeKey) && MechKeyboard.IsKeyUp(PositiveKey))
                 {
-                    // if the negative is down and the positive is up.
-                    if (MechKeyboard.IsKeyDown(AlternativeNegativeKey) && MechKeyboard.IsKeyUp(AlternativePositiveKey))
-                    {
-                        return -1;
-                    }
-                    // if the negative is up and the positive is down.
-                    else if (MechKeyboard.IsKeyUp(AlternativeNegativeKey) && MechKeyboard.IsKeyDown(AlternativePositiveKey))
-                    {
-                        return 1;
-                    }
-                    // nothing
-                    else
-                    {
-                        return 0;
-                    }
+                    isNegKey = true;
+                }
+                else if (AlternativePositiveKey != 0 && AlternativeNegativeKey != 0 && MechKeyboard.IsKeyDown(AlternativeNegativeKey) && MechKeyboard.IsKeyUp(AlternativePositiveKey))
+                {
+                    isNegKey = true;
                 }
             }
-            else if (!usingOnlyKeyboard || usingBoth)
-            {
-                // if the negative is down and the positive is up.
-                if (MechController.IsButtonDown(NegativeButton, PlayerIndex) && MechController.IsButtonUp(PositiveButton, PlayerIndex))
-                {
-                    return -1;
-                }
-                // if the negative is up and the positive is down.
-                else if (MechController.IsButtonUp(NegativeButton, PlayerIndex) && MechController.IsButtonDown(PositiveButton, PlayerIndex))
-                {
-                    return 1;
-                }
-                // either none are down or both at same time. Check alternatives.
-                else
-                {
-                    // if the negative is down and the positive is up.
-                    if (MechController.IsButtonDown(AlternativeNegativeButton, PlayerIndex) && MechController.IsButtonUp(AlternativePositiveButton, PlayerIndex))
-                    {
-                        return -1;
-                    }
-                    // if the negative is up and the positive is down.
-                    else if (MechController.IsButtonUp(AlternativeNegativeButton, PlayerIndex) && MechController.IsButtonDown(AlternativePositiveButton, PlayerIndex))
-                    {
-                        return 1;
-                    }
-                    // nothing
-                    else
-                    {
-                        return 0;
-                    }
-                }
-            }
-            else
-            {
-                return 0;
-            }
-        }
 
+            bool isPosCon = false;
+            bool isNegCon = false;
+
+            // controller.
+            if (!usingKeyboard || usingBoth)
+            {
+                // pos
+                if (PositiveButton != 0 
+                    && MechController.IsButtonDown(PositiveButton, index) 
+                    && NegativeButton != 0 
+                    && MechController.IsButtonUp(NegativeButton, index))
+                {
+                    isPosCon = true;
+                }
+                // alt pos
+                else if (AlternativePositiveButton != 0 
+                    && MechController.IsButtonDown(AlternativePositiveButton, index) 
+                    && AlternativeNegativeButton != 0 
+                    && MechController.IsButtonUp(AlternativeNegativeButton, index))
+                {
+                    isPosCon = true;
+                }
+
+                // neg
+                if (AlternativePositiveButton != 0 
+                    && MechController.IsButtonDown(NegativeButton, index) 
+                    && AlternativeNegativeButton != 0 
+                    && MechController.IsButtonUp(PositiveButton, index))
+                {
+                    isNegCon = true;
+                }
+                // alt neg
+                else if (AlternativePositiveButton != 0 
+                    && MechController.IsButtonDown(AlternativeNegativeButton, index) 
+                    && AlternativeNegativeButton != 0 
+                    && MechController.IsButtonDown(AlternativePositiveButton, index))
+                {
+                    isNegCon = true;
+                }
+            }
+
+            float keyValue = 0;
+
+            if (isPosKey || isPosCon) keyValue += 1;
+            else if (isNegKey || isNegCon) keyValue -= 1;
+
+            float conAxisValue = 0;
+
+            if (!usingKeyboard || usingBoth)
+            {
+                switch (Axis)
+                {
+                    case MechControllerAxes.None:
+                        break;
+                    case MechControllerAxes.LeftThumbstick:
+
+                        if (Direction == MechControllerAxisDirection.Horizontal) conAxisValue = MechController.GetLeftThumbstick(index).X;
+                        else if (Direction == MechControllerAxisDirection.Vertical) conAxisValue = MechController.GetLeftThumbstick(index).Y;
+                        break;
+
+                    case MechControllerAxes.RightThumbstick:
+                        if (Direction == MechControllerAxisDirection.Horizontal) conAxisValue = MechController.GetRightThumbstick(index).X;
+                        else if (Direction == MechControllerAxisDirection.Vertical) conAxisValue = MechController.GetRightThumbstick(index).Y;
+                        break;
+                    case MechControllerAxes.LeftTrigger:
+                        conAxisValue = MechController.GetLeftTrigger(index);
+                        break;
+                    case MechControllerAxes.RightTrigger:
+                        conAxisValue = MechController.GetRightTrigger(index);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            float potentialVal = Math.Abs(keyValue) > Math.Abs(conAxisValue) ? keyValue : conAxisValue;
+
+            return potentialVal >= Deadzone ? potentialVal : 0;
+
+        }
+        #endregion
     }
+
+    /// <summary>
+    /// An enum that contains the direction that will be looked for on the <see cref="MechAxis"/>.
+    /// </summary>
+    /// https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/Yetibyte.Himalaya/Controls
+    public enum MechControllerAxisDirection
+    {
+        Horizontal, Vertical
+    }
+
+    /// <summary>
+    /// An enum that contains the different types of game pad controls that return different values.
+    /// </summary>
+    /// https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/Yetibyte.Himalaya/Controls
+    public enum MechControllerAxes
+    {
+        None, LeftThumbstick, RightThumbstick, LeftTrigger, RightTrigger
+    }
+
 }

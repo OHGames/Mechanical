@@ -283,7 +283,7 @@ namespace Mechanical
         /// </summary>
         /// <param name="index">The player index.</param>
         /// <returns>The value of the trigger between 0 and 1.</returns>
-        public static float LeftTrigger(PlayerIndex index)
+        public static float GetLeftTrigger(PlayerIndex index)
         {
             switch (index)
             {
@@ -304,7 +304,7 @@ namespace Mechanical
         /// </summary>
         /// <param name="index">The player index.</param>
         /// <returns>The value of the trigger between 0 and 1.</returns>
-        public static float RightTrigger(PlayerIndex index)
+        public static float GetRightTrigger(PlayerIndex index)
         {
             switch (index)
             {
@@ -319,6 +319,52 @@ namespace Mechanical
             }
             return 0;
         }
+        #endregion
+
+        #region Thumbsticks
+
+        /// <summary>
+        /// Gets the position of the left thumbstick.
+        /// </summary>
+        /// <param name="index">The player index.</param>
+        /// <returns>The position of the thumbstick.</returns>
+        public static Vector2 GetLeftThumbstick(PlayerIndex index)
+        {
+            switch (index)
+            {
+                case PlayerIndex.One:
+                    return CurrentState1.ThumbSticks.Left;
+                case PlayerIndex.Two:
+                    return CurrentState2.ThumbSticks.Left;
+                case PlayerIndex.Three:
+                    return CurrentState3.ThumbSticks.Left;
+                case PlayerIndex.Four:
+                    return CurrentState4.ThumbSticks.Left;
+            }
+            return Vector2.Zero;
+        }
+
+        /// <summary>
+        /// Gets the position of the right thumbstick.
+        /// </summary>
+        /// <param name="index">The player index.</param>
+        /// <returns>The position of the thumbstick.</returns>
+        public static Vector2 GetRightThumbstick(PlayerIndex index)
+        {
+            switch (index)
+            {
+                case PlayerIndex.One:
+                    return CurrentState1.ThumbSticks.Right;
+                case PlayerIndex.Two:
+                    return CurrentState2.ThumbSticks.Right;
+                case PlayerIndex.Three:
+                    return CurrentState3.ThumbSticks.Right;
+                case PlayerIndex.Four:
+                    return CurrentState4.ThumbSticks.Right;
+            }
+            return Vector2.Zero;
+        }
+
         #endregion
 
     }
