@@ -182,7 +182,6 @@ namespace Mechanical
                 {
                     IsKeyboardDown = true;
                     IsSomeDown = true;
-                    return;
                 }
             }
 

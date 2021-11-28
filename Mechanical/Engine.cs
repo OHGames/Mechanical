@@ -164,6 +164,9 @@ namespace Mechanical
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Drawing.SpriteBatch = SpriteBatch;
+
+            Drawing.LoadContent(Content, this);
+
             base.LoadContent();
         }
 
@@ -176,6 +179,7 @@ namespace Mechanical
             MechController.Update((float)DeltaTime);
             MechKeyboard.Update((float)DeltaTime);
             MechMouse.Update((float)DeltaTime);
+            Keybinds.Update((float)DeltaTime);
 
 #if DEBUG
             if (MechKeyboard.IsKeyDown(Keys.Escape) && ExitOnEscape) Exit();

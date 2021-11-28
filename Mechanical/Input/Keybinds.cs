@@ -66,7 +66,11 @@ namespace Mechanical
         {
             for (int i = 0; i < RegisterdKeybinds.Count; i++)
             {
-                RegisterdKeybinds.ElementAt(i).Value.Update(deltaTime);
+                Keybind k = RegisterdKeybinds.ElementAt(i).Value;
+                k.Update(deltaTime);
+
+                string name = RegisterdKeybinds.Keys.ElementAt(i);
+                RegisterdKeybinds[name] = k;
             }
         }
 
