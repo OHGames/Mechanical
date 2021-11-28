@@ -172,8 +172,13 @@ namespace Mechanical
             RawDeltaTime = gameTime.ElapsedGameTime.TotalSeconds;
             DeltaTime = RawDeltaTime * TimeScale;
 
+            // update the input system.
+            MechController.Update((float)DeltaTime);
+            MechKeyboard.Update((float)DeltaTime);
+            MechMouse.Update((float)DeltaTime);
+
 #if DEBUG
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && ExitOnEscape) Exit();
+            if (MechKeyboard.IsKeyDown(Keys.Escape) && ExitOnEscape) Exit();
 #endif
 
             base.Update(gameTime);

@@ -210,13 +210,20 @@ namespace Mechanical
         /// </summary>
         public Rectangle CameraRectPadded
         {
-            get => new Rectangle((int)((X - Width / 2) - Padding), (int)((Y - Height / 2) - Padding), (int)(Width + Padding), (int)(Height + Padding));
+            //get => new Rectangle((int)((X - Width / 2) - Padding), (int)((Y - Height / 2) - Padding), (int)(Width + Padding), (int)(Height + Padding));
+            get
+            {
+                Rectangle r = CameraRect;
+                r.Inflate(Padding, Padding);
+                return r;
+            }
+            
         }
 
         /// <summary>
         /// The padding to be used on the <see cref="CameraRectPadded"/>
         /// </summary>
-        public float Padding { get; set; } = 50;
+        public float Padding { get; set; } = 100;
 
         #endregion
 

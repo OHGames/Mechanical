@@ -142,7 +142,7 @@ namespace Mechanical
 
                     Tile t = Tiles[x, y];
 
-                    if (t == Tile.NULL)
+                    if (t != Tile.NULL)
                     {
                         if (paddedRectangle.Contains(t.Rectangle.Location.ToVector2()))
                             Drawing.Draw(t.Tilesheet, t.Rectangle, t.SourceRectangle, Tint, Effect);
