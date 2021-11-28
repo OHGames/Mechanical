@@ -409,8 +409,22 @@ namespace Mechanical
             DrawPolygon(verticies, color, lineWidth, effect);
         }
 
+        /// <summary>
+        /// Draw a circle.
+        /// </summary>
+        /// <param name="center">The center of the circle.</param>
+        /// <param name="radius">The radius of the circle.</param>
+        /// <param name="color">The color of the circle.</param>
+        /// <param name="lineWidth">The width of the line.</param>
+        /// <param name="segments">The amount of segments in the circle. You can specify as many as posible 3 or more.</param>
+        /// <param name="effect">The effect to apply.</param>
+        /// <exception cref="ArgumentException">When the segment count is less than 3 and when the radius is 0.</exception>
         public static void DrawCircle(Vector2 center, float radius, Color color, float lineWidth, int segments = 16, Effect effect = null)
         {
+            if (segments < 3) throw new ArgumentException("The segments must be 3 or more when drawing a circle. Use DrawLine() instead for 2 segments and just draw a sprite for one segment.");
+
+            if (radius < 0) throw new ArgumentException("The radius must be above 0");
+
             Vector2[] verticies = new Vector2[segments];
 
             double increment = Math.PI * 2 / segments;

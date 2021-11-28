@@ -88,11 +88,6 @@ namespace Mechanical
             PlayerIndex = index;
         }
 
-        public void Update(float deltaTime)
-        {
-
-        }
-
         /// <summary>
         /// Gets the axis.
         /// 
