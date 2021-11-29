@@ -18,6 +18,8 @@ namespace Mechanical
 {
     /// <summary>
     /// A wrapper for the <see cref="Controller"/>
+    /// 
+    /// TODO: Add time held property.
     /// </summary>
     public static class MechController
     {
