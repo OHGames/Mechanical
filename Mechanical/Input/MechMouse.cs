@@ -48,6 +48,21 @@ namespace Mechanical
         public static Vector2 MousePosition => CurrentMouse.Position.ToVector2();
 
         /// <summary>
+        /// How long the left button is held.
+        /// </summary>
+        public static float LeftButtonHoldTime;
+
+        /// <summary>
+        /// How long the right button is held.
+        /// </summary>
+        public static float RightButtonHoldTime;
+
+        /// <summary>
+        /// How long the middle button is held.
+        /// </summary>
+        public static float MiddleButtonHoldTime;
+
+        /// <summary>
         /// Update the mouse.
         /// </summary>
         /// <param name="deltaTime"></param>
@@ -56,6 +71,102 @@ namespace Mechanical
             PreviousMouse = CurrentMouse;
 
             CurrentMouse = Mouse.GetState();
+
+            #region Hold Time
+            if (IsLeftButtonDown())
+            {
+                if (LeftButtonHoldTime != 0)
+                    LeftButtonHoldTime += deltaTime;
+                else
+                    // if the button is now held, it should not be added to time because that time was the LAST frame. It is held THIS frame.
+                    LeftButtonHoldTime = 0;
+            }
+            else if (IsLeftButtonUp() && LeftButtonHoldTime != 0)
+            {
+                LeftButtonHoldTime = 0;
+            }
+
+            if (IsRightButtonDown())
+            {
+                if (RightButtonHoldTime != 0)
+                    RightButtonHoldTime += deltaTime;
+                else
+                    // if the button is now held, it should not be added to time because that time was the LAST frame. It is held THIS frame.
+                    RightButtonHoldTime = 0;
+            }
+            else if (IsRightButtonUp() && RightButtonHoldTime != 0)
+            {
+                RightButtonHoldTime = 0;
+            }
+
+            if (IsMiddleButtonDown())
+            {
+                if (MiddleButtonHoldTime != 0)
+                    MiddleButtonHoldTime += deltaTime;
+                else
+                    // if the button is now held, it should not be added to time because that time was the LAST frame. It is held THIS frame.
+                    MiddleButtonHoldTime = 0;
+            }
+            else if (IsMiddleButtonUp() && MiddleButtonHoldTime != 0)
+            {
+                MiddleButtonHoldTime = 0;
+            }
+            #endregion
+
+        }
+
+        /// <summary>
+        /// If the left button is down.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsLeftButtonDown()
+        {
+            return CurrentMouse.LeftButton == ButtonState.Pressed;
+        }
+
+        /// <summary>
+        /// If the left button is down.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsLeftButtonUp()
+        {
+            return CurrentMouse.LeftButton == ButtonState.Released;
+        }
+
+        /// <summary>
+        /// If the right button is down.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsRightButtonDown()
+        {
+            return CurrentMouse.RightButton == ButtonState.Pressed;
+        }
+
+        /// <summary>
+        /// If the right button is down.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsRightButtonUp()
+        {
+            return CurrentMouse.RightButton == ButtonState.Released;
+        }
+
+        /// <summary>
+        /// If the middle button is down.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsMiddleButtonDown()
+        {
+            return CurrentMouse.MiddleButton == ButtonState.Pressed;
+        }
+
+        /// <summary>
+        /// If the middle button is down.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsMiddleButtonUp()
+        {
+            return CurrentMouse.MiddleButton == ButtonState.Released;
         }
 
         /// <summary>

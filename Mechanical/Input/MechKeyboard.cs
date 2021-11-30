@@ -9,6 +9,7 @@
  */
 
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Mechanical
 {
@@ -28,11 +29,56 @@ namespace Mechanical
         /// </summary>
         public static KeyboardState PreviousState { get; set; }
 
+        /// <summary>
+        /// How long each button was held.
+        /// </summary>
+        public static Dictionary<Keys, float> TimeHeld = new Dictionary<Keys, float>();
+
+        /// <summary>
+        /// The temp value.
+        /// </summary>
+        private static Dictionary<Keys, float> timeHeldTemp = new Dictionary<Keys, float>();
+
         public static void Update(float deltaTime)
         {
             PreviousState = CurrentState;
 
             CurrentState = Keyboard.GetState();
+
+            Keys[] pressed = CurrentState.GetPressedKeys();
+
+            timeHeldTemp = TimeHeld;
+
+            for (int i = 0; i < pressed.Length; i++)
+            {
+                Keys k = pressed[i];
+                // if held previously. We dont check if key is no longer held because it only has the currently pressed keys.
+                if (timeHeldTemp.ContainsKey(k) && CurrentState.IsKeyDown(k))
+                {
+                    timeHeldTemp[k] = timeHeldTemp[k] + deltaTime;
+                }
+                // if not pressed yet.
+                else if (timeHeldTemp.ContainsKey(k))
+                {
+                    timeHeldTemp.Add(k, 0);
+                }
+            }
+
+            TimeHeld.Clear();
+
+            // we make a temp because it only goes through pressed keys this frame. If there is a key no longer pressed we want to clear it from the list.
+            TimeHeld = timeHeldTemp;
+        }
+
+        /// <summary>
+        /// Get the time a key has been held for.
+        /// </summary>
+        /// <param name="key">The key to check.</param>
+        /// <returns>The amount of time that a key has been held.</returns>
+        public static float GetTimeHeld(Keys key)
+        {
+            if (TimeHeld.ContainsKey(key)) return TimeHeld[key];
+            else return 0;
         }
 
         /// <summary>

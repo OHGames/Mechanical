@@ -1,4 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*
+ * 
+ * This file is part of the Mechanical Game Engine and is licensed under the MIT license.
+ * https://github.com/OHGames/Mechanical
+ * 
+ * By O.H. Games
+ * 
+ * Note: some files contain code from other sources so see https://github.com/OHGames/Mechanical/blob/main/USED_CODE_LICENSES.txt for more info.
+ */
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -59,10 +69,7 @@ namespace Mechanical
         public bool UsingKeyboard { get; private set; }
 
         /// <summary>
-        /// If the keybind will use both a keyboard, and a controller. 
-        /// <para>
-        /// Note: The controller will not influence the keys. The keys and controller will be checked seperatly. The <see cref="IsKeyboardDown"/> is if the keyboard is down OR the controller.
-        /// </para>
+        /// If the keybind will use both a keyboard, and a controller.
         /// </summary>
         public bool UsingBoth { get; private set; }
 

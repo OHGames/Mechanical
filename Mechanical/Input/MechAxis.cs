@@ -153,12 +153,10 @@ namespace Mechanical
         #region GetAxis
         /// <summary>
         /// Gets the axis.
-        /// 
-        /// TODO: refactor and make better.
         /// </summary>
         /// <returns>A float with the </returns>
         /// https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/Yetibyte.Himalaya/Controls/GameControlAxis.cs
-        public float GetAxis(PlayerIndex index = PlayerIndex.One)
+        public float GetAxis(int index = 1)
         {
             bool isPosKey = false;
             bool isNegKey = false;
