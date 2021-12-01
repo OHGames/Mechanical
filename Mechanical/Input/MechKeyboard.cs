@@ -9,7 +9,9 @@
  */
 
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Mechanical
 {
@@ -41,33 +43,32 @@ namespace Mechanical
 
         public static void Update(float deltaTime)
         {
+
             PreviousState = CurrentState;
 
             CurrentState = Keyboard.GetState();
 
-            Keys[] pressed = CurrentState.GetPressedKeys();
-
-            timeHeldTemp = TimeHeld;
-
-            for (int i = 0; i < pressed.Length; i++)
+            foreach (Keys k in Enum.GetValues(typeof(Keys)))
             {
-                Keys k = pressed[i];
-                // if held previously. We dont check if key is no longer held because it only has the currently pressed keys.
-                if (timeHeldTemp.ContainsKey(k) && CurrentState.IsKeyDown(k))
+                if (CurrentState.IsKeyDown(k))
                 {
-                    timeHeldTemp[k] = timeHeldTemp[k] + deltaTime;
+                    if (TimeHeld.ContainsKey(k))
+                    {
+                        TimeHeld[k] = TimeHeld[k] + deltaTime;
+                    }
+                    else
+                    {
+                        TimeHeld.Add(k, 0);
+                    }
                 }
-                // if not pressed yet.
-                else if (timeHeldTemp.ContainsKey(k))
+                else
                 {
-                    timeHeldTemp.Add(k, 0);
+                    if (TimeHeld.ContainsKey(k))
+                    {
+                        TimeHeld.Remove(k);
+                    }
                 }
             }
-
-            TimeHeld.Clear();
-
-            // we make a temp because it only goes through pressed keys this frame. If there is a key no longer pressed we want to clear it from the list.
-            TimeHeld = timeHeldTemp;
         }
 
         /// <summary>

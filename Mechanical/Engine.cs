@@ -157,6 +157,9 @@ namespace Mechanical
         {
             SetupWindow();
             Camera = new Camera(GraphicsDevice.Viewport);
+
+            MechController.Initialize();
+
             base.Initialize();
         }
 

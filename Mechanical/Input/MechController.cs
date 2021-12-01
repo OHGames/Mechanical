@@ -52,6 +52,12 @@ namespace Mechanical
             PreviousStates = new GamePadState[MaxControllerCount];
 
             TimeButtonsHeld = new Dictionary<Buttons, float>[MaxControllerCount];
+
+            for (int i = 0; i < MaxControllerCount; i++)
+            {
+                TimeButtonsHeld[i] = new Dictionary<Buttons, float>();
+            }
+
         }
 
         #region Update
@@ -64,13 +70,13 @@ namespace Mechanical
             }
 
             // loop through all states
-            for (int i = 0; i <= MaxControllerCount; i++)
+            for (int i = 0; i < MaxControllerCount; i++)
             {
                 // loop through buttons.
                 // https://dotnethow.net/iterate-through-an-enumeration-enum-in-c/
                 foreach (Buttons button in Enum.GetValues(typeof(Buttons)))
                 {
-                    if (IsButtonHeld(button, (PlayerIndex)i))
+                    if (IsButtonDown(button, i))
                     {
                         if (TimeButtonsHeld[i].ContainsKey(button))
                         {

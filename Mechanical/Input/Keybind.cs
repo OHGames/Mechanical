@@ -20,28 +20,28 @@ namespace Mechanical
     /// <summary>
     /// A keybind holds data on the keys or buttons needed to trigger.
     /// </summary>
-    public struct Keybind
+    public class Keybind
     {
 
         /// <summary>
         /// The keys needed to be pressed down in order to trigger.
         /// </summary>
-        public List<Keys> Keys { get; set; }
+        public List<Keys> Keys { get; set; } = new List<Keys>();
 
         /// <summary>
         /// The keys that are also used to trigger. The dictonary key is the key the alternate is mapped to. The Value is a list of keys that can replace the Key. 
         /// </summary>
-        public Dictionary<Keys, Keys[]> AlternateKeys { get; set; }
+        public Dictionary<Keys, Keys[]> AlternateKeys { get; set; } = new Dictionary<Keys, Keys[]>();
 
         /// <summary>
         /// The buttons needed to trigger.
         /// </summary>
-        public List<Buttons> Buttons { get; set; }
+        public List<Buttons> Buttons { get; set; } = new List<Buttons>();
 
         /// <summary>
         /// The buttons that are also used to trigger. The dictonary key is the button the alternate is mapped to. The Value is a list of buttons that can replace the Key.
         /// </summary>
-        public Dictionary<Buttons, Buttons[]> AlternateButtons { get; set; }
+        public Dictionary<Buttons, Buttons[]> AlternateButtons { get; set; } = new Dictionary<Buttons, Buttons[]>();
 
         /// <summary>
         /// If all required keys are pressed.
@@ -76,27 +76,36 @@ namespace Mechanical
         /// <summary>
         /// The player index that this keybind will be attached to.
         /// </summary>
-        public PlayerIndex PlayerIndex { get; set; }
+        public PlayerIndex PlayerIndex { get; set; } = PlayerIndex.One;
 
         /// <summary>
         /// How long the keybind has been held for (game time).
         /// </summary>
         public float TimeHeld { get; private set; }
 
+        /// <summary>
+        /// An event that is called when the keybind is triggered.
+        /// </summary>
+        // https://codereview.stackexchange.com/a/1143
+        // did not know events are null by default, thanks for info.
+        // https://codereview.stackexchange.com/a/1147
+        // thanks for: = delagate { }
+        public event Action KeybindTriggered = delegate { };
+
+        /// <summary>
+        /// When the keybind is no longer on.
+        /// </summary>
+        // https://codereview.stackexchange.com/a/1143
+        // did not know events are null by default, thanks for info.
+        // https://codereview.stackexchange.com/a/1147
+        // thanks for: = delagate { }
+        public event Action KeybindUntriggered = delegate { };
+
         public Keybind(Keys[] keys, Dictionary<Keys, Keys[]> alternate)
         {
-            IsKeyboardDown = false;
-            IsSomeDown = false;
             Keys = keys.ToList();
             AlternateKeys = alternate;
-            Buttons = new List<Buttons>();
-            AlternateButtons = new Dictionary<Buttons, Buttons[]>();
-            UsingBoth = false;
             UsingKeyboard = true;
-            IsBothDown = false;
-            IsControllerDown = false;
-            PlayerIndex = PlayerIndex.One;
-            TimeHeld = 0;
         }
 
         public Keybind(List<Keys> keys, Dictionary<Keys, Keys[]> alternate) : this(keys.ToArray(), alternate)
@@ -121,18 +130,9 @@ namespace Mechanical
 
         public Keybind(Buttons[] buttons, Dictionary<Buttons, Buttons[]> alternate, PlayerIndex index = PlayerIndex.One)
         {
-            IsKeyboardDown = false;
-            IsSomeDown = false;
-            Keys = new List<Keys>();
-            AlternateKeys = new Dictionary<Keys, Keys[]>();
             Buttons = buttons.ToList();
             AlternateButtons = alternate;
-            UsingBoth = false;
-            UsingKeyboard = false;
-            IsBothDown = false;
-            IsControllerDown = false;
-            PlayerIndex = PlayerIndex.One;
-            TimeHeld = 0;
+            PlayerIndex = index;
         }
 
         public Keybind(List<Buttons> buttons, Dictionary<Buttons, Buttons[]> alternate, PlayerIndex index = PlayerIndex.One) : this(buttons.ToArray(), alternate, index)
@@ -180,17 +180,25 @@ namespace Mechanical
                     }
                 }
 
-                if (keysDownCount == Keys.Count)
+
+                // if enough alts are used and keys are down.
+                if (keysDownCount >= Keys.Count)
                 {
+                    // if triggered
+                    if (!IsKeyboardDown)
+                    {
+                        KeybindTriggered.Invoke();
+                    }
                     IsKeyboardDown = true;
                     IsSomeDown = true;
                 }
-
-                // if enough alts are used.
-                if (keysDownCount >= Keys.Count)
+                else
                 {
-                    IsKeyboardDown = true;
-                    IsSomeDown = true;
+                    if (IsKeyboardDown)
+                    {
+                        KeybindUntriggered.Invoke();
+                    }
+                    IsKeyboardDown = false;
                 }
             }
 
@@ -224,15 +232,22 @@ namespace Mechanical
                         }
                     }
                 }
-                // check if all down.
-                if (buttonsDownCount == Buttons.Count)
-                {
-                    IsControllerDown = true;
-                }
-
+                // check if all down and alts.
                 if (buttonsDownCount >= Buttons.Count)
                 {
+                    if (!IsControllerDown)
+                    {
+                        KeybindTriggered.Invoke();
+                    }
                     IsControllerDown = true;
+                }
+                else
+                {
+                    if (IsControllerDown)
+                    {
+                        KeybindUntriggered.Invoke();
+                    }
+                    IsControllerDown = false;
                 }
             }
 
