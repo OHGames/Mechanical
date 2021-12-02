@@ -202,5 +202,11 @@ namespace Mechanical
             base.Draw(gameTime);
         }
 
+        protected override void EndDraw()
+        {
+            SpriteBatch.End();
+            base.EndDraw();
+        }
+
     }
 }

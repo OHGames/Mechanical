@@ -43,17 +43,28 @@ namespace Mechanical
         /// <summary>
         /// The max amount of controllers there are.
         /// </summary>
-        public static int MaxControllerCount { get => GamePad.MaximumGamePadCount; }
+        public static int MaxControllerCount { get => maxControllerCount; set => maxControllerCount = value.Clamp(1, GamePad.MaximumGamePadCount); }
+
+        /// <summary>
+        /// The max controller count but private.
+        /// </summary>
+        private static int maxControllerCount = DEFAULT_CONTROLLER_COUNT;
+
+        /// <summary>
+        /// The default count of controllers.
+        /// </summary>
+        public const int DEFAULT_CONTROLLER_COUNT = 4;
+
         #endregion
 
         public static void Initialize()
         {
-            CurrentStates = new GamePadState[MaxControllerCount];
-            PreviousStates = new GamePadState[MaxControllerCount];
+            CurrentStates = new GamePadState[maxControllerCount];
+            PreviousStates = new GamePadState[maxControllerCount];
 
-            TimeButtonsHeld = new Dictionary<Buttons, float>[MaxControllerCount];
+            TimeButtonsHeld = new Dictionary<Buttons, float>[maxControllerCount];
 
-            for (int i = 0; i < MaxControllerCount; i++)
+            for (int i = 0; i < maxControllerCount; i++)
             {
                 TimeButtonsHeld[i] = new Dictionary<Buttons, float>();
             }
@@ -63,14 +74,14 @@ namespace Mechanical
         #region Update
         public static void Update(float deltaTime)
         {
-            for (int i = 0; i < MaxControllerCount; i++)
+            for (int i = 0; i < maxControllerCount; i++)
             {
                 PreviousStates[i] = CurrentStates[i];
                 CurrentStates[i] = GamePad.GetState(i);
             }
 
             // loop through all states
-            for (int i = 0; i < MaxControllerCount; i++)
+            for (int i = 0; i < maxControllerCount; i++)
             {
                 // loop through buttons.
                 // https://dotnethow.net/iterate-through-an-enumeration-enum-in-c/
@@ -135,8 +146,8 @@ namespace Mechanical
         /// <returns>A bool array of 4 elements. If the element is true the button is down.</returns>
         public static bool[] IsButtonDowns(Buttons button)
         {
-            bool[] downs = new bool[MaxControllerCount];
-            for (int i = 0; i < MaxControllerCount; i++)
+            bool[] downs = new bool[maxControllerCount];
+            for (int i = 0; i < maxControllerCount; i++)
             {
                 downs[i] = CurrentStates[i].IsButtonDown(button);
             }
@@ -150,8 +161,8 @@ namespace Mechanical
         /// <returns>A bool array of 4 elements. If the element is true the button is up.</returns>
         public static bool[] IsButtonUps(Buttons button)
         {
-            bool[] ups = new bool[MaxControllerCount];
-            for (int i = 0; i < MaxControllerCount; i++)
+            bool[] ups = new bool[maxControllerCount];
+            for (int i = 0; i < maxControllerCount; i++)
             {
                 ups[i] = CurrentStates[i].IsButtonUp(button);
             }
