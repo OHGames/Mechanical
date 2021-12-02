@@ -44,19 +44,9 @@ namespace Mechanical
         public Dictionary<Buttons, Buttons[]> AlternateButtons { get; set; } = new Dictionary<Buttons, Buttons[]>();
 
         /// <summary>
-        /// If all required keys are pressed.
+        /// If all required keys or buttons are pressed.
         /// </summary>
-        public bool IsKeyboardDown { get; private set; }
-
-        /// <summary>
-        /// If all required buttons are pressed.
-        /// </summary>
-        public bool IsControllerDown { get; private set; }
-
-        /// <summary>
-        /// If all required buttons and keys are pressed.
-        /// </summary>
-        public bool IsBothDown { get; private set; }
+        public bool IsDown { get; private set; }
 
         /// <summary>
         /// If some of the needed keys are down.
@@ -71,7 +61,7 @@ namespace Mechanical
         /// <summary>
         /// If the keybind will use both a keyboard, and a controller.
         /// </summary>
-        public bool UsingBoth { get; private set; }
+        //public bool UsingBoth { get; private set; }
 
         /// <summary>
         /// The player index that this keybind will be attached to.
@@ -112,22 +102,6 @@ namespace Mechanical
         {
         }
 
-        public Keybind(Keys[] keys, Dictionary<Keys, Keys[]> altKeys, Buttons[] buttons, Dictionary<Buttons, Buttons[]> altButtons, PlayerIndex index = PlayerIndex.One) : this(keys, altKeys)
-        {
-            AlternateButtons = altButtons;
-            Buttons = buttons.ToList();
-            UsingBoth = true;
-            PlayerIndex = index;
-        }
-
-        public Keybind(List<Keys> keys, Dictionary<Keys, Keys[]> altKeys, List<Buttons> buttons, Dictionary<Buttons, Buttons[]> altButtons, PlayerIndex index = PlayerIndex.One) : this(keys, altKeys)
-        {
-            AlternateButtons = altButtons;
-            Buttons = buttons;
-            UsingBoth = true;
-            PlayerIndex = index;
-        }
-
         public Keybind(Buttons[] buttons, Dictionary<Buttons, Buttons[]> alternate, PlayerIndex index = PlayerIndex.One)
         {
             Buttons = buttons.ToList();
@@ -142,13 +116,11 @@ namespace Mechanical
 
         public void Update(float deltaTime)
         {
-            int keysDownCount = 0;
-            int buttonsDownCount = 0;
+            int downCount = 0;
 
-            // how many keys or buttons need to be down for both to happen.
-            int countNeededForBoth = Keys.Count + Buttons.Count;
+            var prevHeld = IsDown;
 
-            if (UsingKeyboard || UsingBoth)
+            if (UsingKeyboard)
             {
                 for (int i = 0; i < Keys.Count; i++)
                 {
@@ -156,7 +128,7 @@ namespace Mechanical
 
                     if (MechKeyboard.IsKeyDown(k))
                     {
-                        keysDownCount++;
+                        downCount++;
                         IsSomeDown = true;
                         continue;
                     }
@@ -171,7 +143,7 @@ namespace Mechanical
                             {
                                 if (MechKeyboard.IsKeyDown(keys[j]))
                                 {
-                                    keysDownCount++;
+                                    downCount++;
                                     IsSomeDown = true;
                                     break;
                                 }
@@ -182,34 +154,34 @@ namespace Mechanical
 
 
                 // if enough alts are used and keys are down.
-                if (keysDownCount >= Keys.Count)
+                if (downCount >= Keys.Count)
                 {
                     // if triggered
-                    if (!IsKeyboardDown)
+                    if (!IsDown)
                     {
                         KeybindTriggered.Invoke();
                     }
-                    IsKeyboardDown = true;
+                    IsDown = true;
                     IsSomeDown = true;
                 }
                 else
                 {
-                    if (IsKeyboardDown)
+                    if (IsDown)
                     {
                         KeybindUntriggered.Invoke();
                     }
-                    IsKeyboardDown = false;
+                    IsDown = false;
                 }
             }
 
-            if (!UsingKeyboard || UsingBoth)
+            if (!UsingKeyboard)
             {
                 for (int i = 0; i < Buttons.Count; i++)
                 {
                     Buttons b = Buttons[i];
                     if (MechController.IsButtonDown(b, PlayerIndex))
                     {
-                        buttonsDownCount++;
+                        downCount++;
                         IsSomeDown = true;
                         continue;
                     }
@@ -224,7 +196,7 @@ namespace Mechanical
                             {
                                 if (MechController.IsButtonDown(buttons[j], PlayerIndex))
                                 {
-                                    buttonsDownCount++;
+                                    downCount++;
                                     IsSomeDown = true;
                                     break;
                                 }
@@ -233,32 +205,31 @@ namespace Mechanical
                     }
                 }
                 // check if all down and alts.
-                if (buttonsDownCount >= Buttons.Count)
+                if (downCount >= Buttons.Count)
                 {
-                    if (!IsControllerDown)
+                    if (!IsDown)
                     {
                         KeybindTriggered.Invoke();
                     }
-                    IsControllerDown = true;
+                    IsDown = true;
                 }
                 else
                 {
-                    if (IsControllerDown)
+                    if (IsDown)
                     {
                         KeybindUntriggered.Invoke();
                     }
-                    IsControllerDown = false;
+                    IsDown = false;
                 }
             }
 
-            if (UsingBoth)
+            if (IsDown)
             {
-                IsBothDown = keysDownCount + buttonsDownCount >= countNeededForBoth;
-            }
-
-            if (IsBothDown || IsControllerDown || IsKeyboardDown)
-            {
-                TimeHeld += deltaTime;
+                // if we should add
+                if (prevHeld)
+                    TimeHeld += deltaTime;
+                else
+                    TimeHeld = 0;
             }
             else
             {
