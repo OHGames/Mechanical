@@ -164,10 +164,67 @@ namespace Mechanical
 
                     if (paddedRectangle.Contains(t.Rectangle.Location.ToVector2()))
                         // the position of the current tile.
-                        Drawing.DrawRectangle(Tiles[x, y].Rectangle, Color.White, 4 / engine.Camera.ActualZoom);
+                        Drawing.DrawRectangle(Tiles[x, y].Rectangle, Color.White, 2 / engine.Camera.ActualZoom);
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Sets the tile at the specified LOCATION, not INDEX.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate</param>
+        /// <param name="tile">The tile to set.</param>
+        public void SetTileAt(int x, int y, Tile tile)
+        {
+            for (int i = 0; i < Tiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < Tiles.GetLength(1); j++)
+                {
+                    // check to see if location is a tile.
+                    if (Tiles[i, j].Rectangle.Contains(x, y))
+                    {
+                        // set tile
+                        Tiles[i, j] = tile;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the tile at the specified LOCATION, not INDEX.
+        /// </summary>
+        /// <param name="position">The position to check.</param>
+        /// <param name="tile">The tile to set.</param>
+        public void SetTileAt(Vector2 position, Tile tile)
+        {
+            SetTileAt((int)position.X, (int)position.Y, tile);
+        }
+
+        /// <summary>
+        /// Set the tile at the specified INDEX, not POSITION.
+        /// </summary>
+        /// <param name="x">The first index.</param>
+        /// <param name="y">The second index.</param>
+        /// <param name="tile">The tile to set.</param>
+        public void SetTile(int x, int y, Tile tile)
+        {
+            if (x >= Tiles.GetLength(0) || y >= Tiles.GetLength(1) || x < 0 || y < 0) throw new ArgumentException("Invalid index");
+
+            Tiles[x, y] = tile;
+        }
+
+        /// <summary>
+        /// Set the tile at the specified INDEX, not POSITION.
+        /// </summary>
+        /// <param name="tile">The tile to set.</param>
+        /// <param name="index">The index.</param>
+        public void SetTile(Vector2 index, Tile tile)
+        {
+            if (index.X >= Tiles.GetLength(0) || index.Y >= Tiles.GetLength(1) || index.X < 0 || index.Y < 0) throw new ArgumentException("Invalid index");
+
+            Tiles[(int)index.X, (int)index.Y] = tile;
         }
 
     }

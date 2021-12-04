@@ -111,6 +111,27 @@ namespace Mechanical
             }
 
         }
+
+        /// <summary>
+        /// If the state of the controller has changed.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>True if the state of the controller is different this frame.</returns>
+        public static bool HasChanged(int index)
+        {
+            return PreviousStates[index] != CurrentStates[index];
+        }
+
+        /// <summary>
+        /// If the state of the controller has changed.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>True if the state of the controller is different this frame.</returns>
+        public static bool HasChanged(PlayerIndex index)
+        {
+            return PreviousStates[(int)index] != CurrentStates[(int)index];
+        }
+
         #endregion
 
         #region Buttons

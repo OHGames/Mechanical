@@ -26,7 +26,7 @@ namespace Mechanical
         public string[] Arguments { get; set; }
 
         /// <summary>
-        /// The Graphics Device.
+        /// The Graphics Device Manager.
         /// </summary>
         public GraphicsDeviceManager GraphicsDeviceManager { get; set; }
 
@@ -78,7 +78,7 @@ namespace Mechanical
         /// <summary>
         /// The clear color.
         /// </summary>
-        public Color ClearColor { get; set; }
+        public Color ClearColor { get; set; } = Color.CornflowerBlue;
 
         /// <summary>
         /// The time since the last frame.
@@ -113,6 +113,31 @@ namespace Mechanical
         public Camera Camera { get; set; }
 
         /// <summary>
+        /// The instance of the engine.
+        /// </summary>
+        public static Engine Instance { get; private set; }
+
+        /// <summary>
+        /// The size of the game. This will be the size the of render targets created that will be used to draw the scene to.
+        /// </summary>
+        public Vector2 GameSize { get; set; } = new Vector2(1280, 720);
+
+        /// <summary>
+        /// The width of the game window.
+        /// </summary>
+        public int GameWidth { get => (int)GameSize.X; set => GameSize = new Vector2(value, GameSize.Y); }
+
+        /// <summary>
+        /// The height of the game window.
+        /// </summary>
+        public int GameHeight { get => (int)GameSize.Y; set => GameSize = new Vector2(GameSize.X, value); }
+
+        /// <summary>
+        /// The entire game will be rendered on to this render target. This render target will then be rendered to the back buffer and can be scaled accordingly.
+        /// </summary>
+        public RenderTarget2D GameRenderTarget { get; set; }
+
+        /// <summary>
         /// The main constructor for the Engine.
         /// </summary>
         /// <param name="args">The arguments passed into the game.</param>
@@ -122,6 +147,7 @@ namespace Mechanical
             GraphicsDeviceManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = ContentDirectory;
             IsMouseVisible = true;
+            Instance = this;
         }
 
         /// <summary>
@@ -138,19 +164,20 @@ namespace Mechanical
             GraphicsDeviceManager.PreferredBackBufferHeight = Height;
             GraphicsDeviceManager.IsFullScreen = IsFullscreen;
             GraphicsDeviceManager.ApplyChanges();
+            GameRenderTarget = new RenderTarget2D(GraphicsDevice, GameWidth, GameHeight);
         }
 
         /// <summary>
-        /// The default draw function for the spritebatch.
+        /// The default begin function for the spritebatch.
         /// </summary>
         /// <remarks>
         /// Change this when the camera class and draw class is set up.
         /// </remarks>
         /// <param name="effect"></param>
         /// <param name="transformMatrix"></param>
-        public virtual void DefaultBeginBatch(Effect effect = null, Matrix? transformMatrix = null)
+        public virtual void DefaultBeginBatch(Effect effect = null)
         {
-            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, effect: effect, transformMatrix: transformMatrix);
+            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, effect: effect, transformMatrix: Camera.TransformationMatrix);
         }
 
         protected override void Initialize()
@@ -160,7 +187,25 @@ namespace Mechanical
 
             MechController.Initialize();
 
+            GraphicsDeviceManager.DeviceCreated += OnGraphicsDeviceCreated;
+            GraphicsDeviceManager.DeviceReset += OnGraphicsDeviceReset;
+
             base.Initialize();
+        }
+
+        protected virtual void OnGraphicsDeviceReset(object sender, System.EventArgs e)
+        {
+            CreateRenderTarget();
+        }
+
+        protected virtual void OnGraphicsDeviceCreated(object sender, System.EventArgs e)
+        {
+            CreateRenderTarget();
+        }
+
+        protected virtual void CreateRenderTarget()
+        {
+            GameRenderTarget = new RenderTarget2D(GraphicsDevice, GameWidth, GameHeight);
         }
 
         protected override void LoadContent()
@@ -193,7 +238,10 @@ namespace Mechanical
 
         protected override bool BeginDraw()
         {
-            DefaultBeginBatch(transformMatrix: Camera.TransformationMatrix);
+            GraphicsDevice.SetRenderTarget(GameRenderTarget);
+            GraphicsDevice.Clear(ClearColor);
+
+            DefaultBeginBatch();
             return base.BeginDraw();
         }
 
@@ -204,8 +252,25 @@ namespace Mechanical
 
         protected override void EndDraw()
         {
+            // stop game rendering.
+            SpriteBatch.End();
+            GraphicsDevice.SetRenderTarget(null);
+
+            // clear the back buffer.
+            GraphicsDevice.Clear(Color.Black);
+            // start render target rendering to back buffer.
+            SpriteBatch.Begin();
+            // draw render target to screen. TODO: scale to fit screen.
+            SpriteBatch.Draw(GameRenderTarget, new Rectangle(0, 0, GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight), Color.White);
+            // final end
             SpriteBatch.End();
             base.EndDraw();
+        }
+
+        protected override void UnloadContent()
+        {
+            base.UnloadContent();
+            GameRenderTarget.Dispose();
         }
 
     }

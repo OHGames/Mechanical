@@ -127,7 +127,7 @@ namespace Mechanical
             //}
             //else
             //{
-                engine.DefaultBeginBatch(currentEffect, engine.Camera.TransformationMatrix);
+                engine.DefaultBeginBatch(currentEffect);
             //}
         }
 

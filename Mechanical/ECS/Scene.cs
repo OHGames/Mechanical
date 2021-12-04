@@ -10,6 +10,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Mechanical
     /// The scene is responsible for updating and drawing the entities.
     /// </para>
     /// </summary>
-    public class Scene : IEnumerable<Entity>
+    public class Scene : IEnumerable<Entity>, IDisposable
     {
         [DataMember]
         /// <summary>
@@ -64,13 +65,37 @@ namespace Mechanical
         /// </summary>
         public Color ClearColor { get; set; } = Color.CornflowerBlue;
 
+        /// <summary>
+        /// A render target for the scene to draw to.
+        /// </summary>
+        public RenderTarget2D RenderTarget { get; set; }
+
+        /// <summary>
+        /// A reference to the engine. 
+        /// </summary>
+        protected Engine engine = Engine.Instance;
+
+        /// <summary>
+        /// The width of the game window.
+        /// </summary>
+        public int TargetWitdh { get; set; }
+
+        /// <summary>
+        /// The height of the game window.
+        /// </summary>
+        public int TargetHeight { get; set; }
+
+
         public Scene(string name)
         {
             Name = name;
+            TargetWitdh = Engine.Instance.GameWidth;
+            TargetHeight = Engine.Instance.GameHeight;
         }
 
         public virtual void Initialize()
         {
+            RenderTarget = new RenderTarget2D(engine.GraphicsDevice, TargetWitdh, TargetHeight);
             Entities.Initialize();
         }
 
@@ -84,14 +109,24 @@ namespace Mechanical
             Entities.Update(deltaTime);
         }
 
+        /// <summary>
+        /// Draw the scene to the render target. This will change the current target so make sure to put it back.
+        /// </summary>
         public virtual void Draw()
         {
             Entities.Draw();
         }
 
+        /// <summary>
+        /// Draw the scene to the render target using the special draw method for specific entities.. This will change the current target so make sure to put it back.
+        /// </summary>
         public virtual void DebugDraw(bool editorRender)
         {
+            //engine.GraphicsDevice.SetRenderTarget(null);
+            //engine.GraphicsDevice.SetRenderTarget(RenderTarget);
+            //engine.GraphicsDevice.Clear(ClearColor);
             Entities.DebugDraw(editorRender);
+            //engine.GraphicsDevice.SetRenderTarget(null);
         }
 
         /// <summary>
@@ -115,5 +150,21 @@ namespace Mechanical
         {
             return Entities.GetEnumerator();
         }
+
+        public virtual void Dispose()
+        {
+            if (RenderTarget != null) RenderTarget.Dispose();
+        }
+
+        public virtual void OnGraphicsDeviceCreated(object sender, System.EventArgs e)
+        {
+            RenderTarget = new RenderTarget2D(engine.GraphicsDevice, TargetWitdh, TargetHeight);
+        }
+
+        public virtual void OnGraphicsDeviceReset(object sender, System.EventArgs e)
+        {
+            RenderTarget = new RenderTarget2D(engine.GraphicsDevice, TargetWitdh, TargetHeight);
+        }
+
     }
 }
