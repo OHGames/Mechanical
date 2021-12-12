@@ -43,7 +43,7 @@ namespace Mechanical
         public static float ScrollDelta => PreviousMouse.ScrollWheelValue - CurrentMouse.ScrollWheelValue;
 
         /// <summary>
-        /// A shorthand for the mouse position.
+        /// A shorthand for the mouse position relative to the window.
         /// </summary>
         public static Vector2 MousePosition => CurrentMouse.Position.ToVector2();
 
@@ -61,6 +61,11 @@ namespace Mechanical
         /// How long the middle button is held.
         /// </summary>
         public static float MiddleButtonHoldTime;
+
+        /// <summary>
+        /// The position of the mouse relative to the screen.
+        /// </summary>
+        public static Vector2 ScreenMousePosition => Vector2.Transform(MousePosition, Matrix.Invert(Engine.Instance.Screen.ScreenMatrix));
 
         /// <summary>
         /// Update the mouse.

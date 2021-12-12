@@ -297,7 +297,7 @@ namespace Mechanical
         /// <param name="amount"></param>
         public void MoveBy(Vector2 amount)
         {
-            this.position += amount;
+            position += amount;
             UpdateMatrix();
         }
 

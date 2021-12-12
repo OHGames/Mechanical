@@ -19,7 +19,7 @@ namespace Mechanical
     /// </summary>
     public class Engine : Game
     {
-
+        #region Variables
         /// <summary>
         /// The arguments passed into the program.
         /// </summary>
@@ -41,34 +41,48 @@ namespace Mechanical
         public string Title { get; set; }
 
         /// <summary>
-        /// The size of the window
+        /// The size of the window.
         /// </summary>
-        public Vector2 WindowSize { get; set; } = new Vector2(1280, 720);
+        public Vector2 WindowSize { get => Window.ClientBounds.Size.ToVector2(); }
 
         /// <summary>
-        /// The window's position
+        /// The window's position.
         /// </summary>
-        public Vector2 WindowPosition { get; set; }
+        public Vector2 WindowPosition { get => Window.Position.ToVector2(); set => Window.Position = value.ToPoint(); }
 
         /// <summary>
-        /// The witdth of the game window
+        /// The witdth of the application's window.
         /// </summary>
-        public int Width { get => (int)WindowSize.X; set => WindowSize = new Vector2(value, WindowSize.Y); }
+        public int WindowWidth { 
+            get => (int)WindowSize.X; 
+            set
+            {
+                GraphicsDeviceManager.PreferredBackBufferWidth = value;
+                GraphicsDeviceManager.ApplyChanges();
+            } 
+        }
 
         /// <summary>
-        /// The height of the game window.
+        /// The height of the application's window.
         /// </summary>
-        public int Height { get => (int)WindowSize.Y; set => WindowSize = new Vector2(WindowSize.X, value); }
+        public int WindowHeight { 
+            get => (int)WindowSize.Y;              
+            set
+            {
+                GraphicsDeviceManager.PreferredBackBufferHeight = value;
+                GraphicsDeviceManager.ApplyChanges();
+            }
+        }
 
         /// <summary>
         /// The X position of the window.
         /// </summary>
-        public int X { get => (int)WindowPosition.X; set => WindowPosition = new Vector2(value, WindowPosition.Y); }
+        public int X { get => (int)WindowPosition.X; set => WindowPosition.SetX(value); }
 
         /// <summary>
         /// The Y position of the window.
         /// </summary>
-        public int Y { get => (int)WindowPosition.Y; set => WindowPosition = new Vector2(WindowPosition.Y, value); }
+        public int Y { get => (int)WindowPosition.Y; set => WindowPosition.SetY(value); }
 
         /// <summary>
         /// If the game is fullscreen.
@@ -125,30 +139,66 @@ namespace Mechanical
         /// <summary>
         /// The width of the game window.
         /// </summary>
-        public int GameWidth { get => (int)GameSize.X; set => GameSize = new Vector2(value, GameSize.Y); }
+        public int GameWidth { get => (int)GameSize.X; set => GameSize.SetX(value); }
 
         /// <summary>
         /// The height of the game window.
         /// </summary>
-        public int GameHeight { get => (int)GameSize.Y; set => GameSize = new Vector2(GameSize.X, value); }
+        public int GameHeight { get => (int)GameSize.Y; set => GameSize.SetY(value); }
 
         /// <summary>
-        /// The entire game will be rendered on to this render target. This render target will then be rendered to the back buffer and can be scaled accordingly.
+        /// The width of the camera.
         /// </summary>
-        public RenderTarget2D GameRenderTarget { get; set; }
+        public int CameraWidth { get => Camera.Width; set => Camera.Width = value; }
 
+        /// <summary>
+        /// The height of the camera.
+        /// </summary>
+        public int CameraHeight { get => Camera.Height; set => Camera.Height = value; }
+
+        /// <summary>
+        /// The screen.
+        /// </summary>
+        public Screen Screen { get; protected set; }
+
+        /// <summary>
+        /// The width of the render target created by the <see cref="Screen"/>.
+        /// </summary>
+        private int RenderTargetWidth { get; set; }
+
+        /// <summary>
+        /// The width of the render target created by the <see cref="Screen"/>.
+        /// </summary>
+        private int RenderTargetHeight { get; set; }
+
+        #endregion
+
+        #region Constructor
         /// <summary>
         /// The main constructor for the Engine.
         /// </summary>
         /// <param name="args">The arguments passed into the game.</param>
-        public Engine(string[] args) : base()
+        public Engine(string[] args, int targetWidth, int targetHeight, int windowWidth, int windowHeight, bool fullscreen) : base()
         {
             Arguments = args;
             GraphicsDeviceManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = ContentDirectory;
             IsMouseVisible = true;
             Instance = this;
+
+            GraphicsDeviceManager.PreferredBackBufferWidth = windowWidth;
+            GraphicsDeviceManager.PreferredBackBufferHeight = windowHeight;
+            GraphicsDeviceManager.IsFullScreen = fullscreen;
+            GraphicsDeviceManager.ApplyChanges();
+
+            RenderTargetWidth = targetWidth;
+            RenderTargetHeight = targetHeight;
+
+            IsFullscreen = fullscreen;
         }
+        #endregion
+
+        #region Setup
 
         /// <summary>
         /// Setup the game window.
@@ -160,11 +210,19 @@ namespace Mechanical
             // center
             WindowPosition = Window.Position.ToVector2();
 
-            GraphicsDeviceManager.PreferredBackBufferWidth = Width;
-            GraphicsDeviceManager.PreferredBackBufferHeight = Height;
+            GraphicsDeviceManager.PreferredBackBufferWidth = WindowWidth;
+            GraphicsDeviceManager.PreferredBackBufferHeight = WindowHeight;
             GraphicsDeviceManager.IsFullScreen = IsFullscreen;
             GraphicsDeviceManager.ApplyChanges();
-            GameRenderTarget = new RenderTarget2D(GraphicsDevice, GameWidth, GameHeight);
+            
+            IsMouseVisible = false;
+
+            // make the screen.
+            Screen = new Screen(RenderTargetWidth, RenderTargetHeight);
+
+#if DEBUG
+            Window.AllowUserResizing = true;
+#endif
         }
 
         /// <summary>
@@ -187,25 +245,11 @@ namespace Mechanical
 
             MechController.Initialize();
 
-            GraphicsDeviceManager.DeviceCreated += OnGraphicsDeviceCreated;
-            GraphicsDeviceManager.DeviceReset += OnGraphicsDeviceReset;
+            //GraphicsDeviceManager.DeviceCreated += OnGraphicsDeviceCreated;
+            //GraphicsDeviceManager.DeviceReset += OnGraphicsDeviceReset;
+
 
             base.Initialize();
-        }
-
-        protected virtual void OnGraphicsDeviceReset(object sender, System.EventArgs e)
-        {
-            CreateRenderTarget();
-        }
-
-        protected virtual void OnGraphicsDeviceCreated(object sender, System.EventArgs e)
-        {
-            CreateRenderTarget();
-        }
-
-        protected virtual void CreateRenderTarget()
-        {
-            GameRenderTarget = new RenderTarget2D(GraphicsDevice, GameWidth, GameHeight);
         }
 
         protected override void LoadContent()
@@ -218,6 +262,9 @@ namespace Mechanical
             base.LoadContent();
         }
 
+        #endregion
+
+        #region Frame-By-Frame
         protected override void Update(GameTime gameTime)
         {
             RawDeltaTime = gameTime.ElapsedGameTime.TotalSeconds;
@@ -238,7 +285,8 @@ namespace Mechanical
 
         protected override bool BeginDraw()
         {
-            GraphicsDevice.SetRenderTarget(GameRenderTarget);
+            // draw using the target.
+            GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
             GraphicsDevice.Clear(ClearColor);
 
             DefaultBeginBatch();
@@ -256,22 +304,20 @@ namespace Mechanical
             SpriteBatch.End();
             GraphicsDevice.SetRenderTarget(null);
 
-            // clear the back buffer.
-            GraphicsDevice.Clear(Color.Black);
-            // start render target rendering to back buffer.
-            SpriteBatch.Begin();
-            // draw render target to screen. TODO: scale to fit screen.
-            SpriteBatch.Draw(GameRenderTarget, new Rectangle(0, 0, GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight), Color.White);
-            // final end
-            SpriteBatch.End();
+            // draw the screen.
+            Screen.Draw(this);
+
             base.EndDraw();
         }
 
+        #endregion
+
+        #region Finished
         protected override void UnloadContent()
         {
             base.UnloadContent();
-            GameRenderTarget.Dispose();
         }
+        #endregion
 
     }
 }
