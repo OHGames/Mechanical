@@ -66,7 +66,7 @@ namespace Mechanical
         /// The height of the application's window.
         /// </summary>
         public int WindowHeight { 
-            get => (int)WindowSize.Y;              
+            get => (int)WindowSize.Y;
             set
             {
                 GraphicsDeviceManager.PreferredBackBufferHeight = value;
