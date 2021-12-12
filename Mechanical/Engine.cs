@@ -319,5 +319,50 @@ namespace Mechanical
         }
         #endregion
 
+        #region Misc
+
+        /// <summary>
+        /// This function will toggle fullscreen.
+        /// 
+        /// <para>
+        /// Internally calls <see cref="SetFullscreen(bool)"/>
+        /// </para>
+        /// </summary>
+        public void ToggleFullscreen()
+        {
+            SetFullscreen(!IsFullscreen);
+        }
+
+        /// <summary>
+        /// Set the game to be fullscreen.
+        /// </summary>
+        /// <param name="fullscreen">If the game is fullscreen or not.</param>
+        /// <param name="windowWidth">The width to set the window to if the window is not fullscreen.</param>
+        /// <param name="windowHeight">The width to set the window to if the window is not fullscreen.</param>
+        public void SetFullscreen(bool fullscreen, int windowWidth = 1280, int windowHeight = 720)
+        {
+            IsFullscreen = fullscreen;
+
+            if (IsFullscreen)
+            {
+                //https://stackoverflow.com/a/4149170
+                // https://creativecommons.org/licenses/by-sa/3.0/ 
+                GraphicsDeviceManager.PreferredBackBufferWidth = GraphicsDevice.Viewport.Width;
+                GraphicsDeviceManager.PreferredBackBufferHeight = GraphicsDevice.Viewport.Height;
+                // end license
+                GraphicsDeviceManager.IsFullScreen = true;
+                GraphicsDeviceManager.ApplyChanges();
+            }
+            else
+            {
+                GraphicsDeviceManager.IsFullScreen = false;
+                GraphicsDeviceManager.PreferredBackBufferWidth = windowWidth;
+                GraphicsDeviceManager.PreferredBackBufferHeight = windowHeight;
+                GraphicsDeviceManager.ApplyChanges();
+            }
+        }
+
+        #endregion
+
     }
 }

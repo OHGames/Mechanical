@@ -22,6 +22,9 @@ namespace Mechanical
     [AttributeUsage(AttributeTargets.Class)]
     public class NeedsComponentAttribute : Attribute
     {
+        /// <summary>
+        /// A list of types that are needed.
+        /// </summary>
         public Type[] TypesNeeded { get; set; }
 
         public NeedsComponentAttribute(params Type[] components)
