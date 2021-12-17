@@ -66,12 +66,12 @@ namespace Mechanical
         /// </summary>
         public Color ClearColor { get; set; }
 
-        public SceneTransition(TransitionType type, TimeSpan time, Color color)
+        public SceneTransition(TransitionType type, TimeSpan time, Color clearColor)
         {
             Type = type;
             TimeLeft = TransitionTime = time;
 
-            ClearColor = color;
+            ClearColor = clearColor;
         }
 
         /// <summary>

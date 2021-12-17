@@ -98,7 +98,7 @@ namespace Mechanical
             for (int i = 0; i < tileCount; i++)
             {
                 // set rectangle to empty because the tilemap will set it.
-                tiles[i] = new Tile(new Rectangle(x, y, TileWidth, TileHeight), true, TilesetImage, Rectangle.Empty);
+                tiles[i] = new Tile(new Rectangle(x, y, TileWidth, TileHeight), TilesetImage, Rectangle.Empty);
                 x += TileWidth;
 
                 if (x >= TilesetImage.Width)

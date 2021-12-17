@@ -16,13 +16,13 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
-    [KnownType(typeof(Transform))]
     /// <summary>
     /// The Transform component is required on all entities. It has data on the size, position, and origin of the entity.
     /// 
     /// This whole class is pretty much from https://github.com/Yeti47/Yetibyte.Himalaya slight tweaks made and variables added.
     /// </summary>
+    [DataContract]
+    [KnownType(typeof(Transform))]
     public sealed class Transform : Component, IParentChildHierarchy<Transform>
     {
         [DataMember]

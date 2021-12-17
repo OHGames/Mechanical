@@ -220,7 +220,7 @@ namespace Mechanical
         {
             for (int i = 0; i < items.Count; i++)
             {
-                items[i].Initalize();
+                items[i].Initialize();
             }
         }
 

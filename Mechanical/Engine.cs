@@ -241,13 +241,13 @@ namespace Mechanical
         protected override void Initialize()
         {
             SetupWindow();
-            Camera = new Camera(GraphicsDevice.Viewport);
 
             MechController.Initialize();
 
-            //GraphicsDeviceManager.DeviceCreated += OnGraphicsDeviceCreated;
-            //GraphicsDeviceManager.DeviceReset += OnGraphicsDeviceReset;
+            //GraphicsDeviceManager.DeviceCreated += SceneManager.GraphicsDeviceCreated;
+            //GraphicsDeviceManager.DeviceReset += SceneManager.GraphicsDeviceReset;
 
+            //SceneManager.Initialize();
 
             base.Initialize();
         }
@@ -259,6 +259,9 @@ namespace Mechanical
 
             Drawing.LoadContent(Content, this);
 
+            //SceneManager.LoadContent(Content);
+
+            Camera = new Camera(new Viewport(0, 0, GameWidth, GameHeight));
             base.LoadContent();
         }
 
@@ -280,6 +283,8 @@ namespace Mechanical
             if (MechKeyboard.IsKeyDown(Keys.Escape) && ExitOnEscape) Exit();
 #endif
 
+            //SceneManager.Update((float)DeltaTime);
+
             base.Update(gameTime);
         }
 
@@ -295,6 +300,9 @@ namespace Mechanical
 
         protected override void Draw(GameTime gameTime)
         {
+
+            //SceneManager.Draw();
+
             base.Draw(gameTime);
         }
 
@@ -303,6 +311,15 @@ namespace Mechanical
             // stop game rendering.
             SpriteBatch.End();
             GraphicsDevice.SetRenderTarget(null);
+
+            // draw the screen
+            //GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
+            GraphicsDevice.Clear(Color.Black);
+
+
+            //SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            //SpriteBatch.Draw(SceneManager.CurrentScene.RenderTarget, Screen.RenderTarget.Bounds, Color.White);
+            //SpriteBatch.End();
 
             // draw the screen.
             Screen.Draw(this);

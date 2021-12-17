@@ -31,7 +31,7 @@ namespace Mechanical
         /// <summary>
         /// A list of the elements in this canvas.
         /// </summary>
-        public GUIElementList Elements { get; set; }
+        public EntityList Elements { get; set; } = new EntityList();
 
         /// <summary>
         /// The scene that will be updating the UI.

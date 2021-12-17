@@ -19,215 +19,46 @@ namespace Mechanical
     /// <summary>
     /// A GUI Element is anything that will be updated by the <see cref="GUICanvas"/>.
     /// </summary>
-    public class GUIElement : IParentChildHierarchy<GUIElement>
+    public class GUIElement : Entity
     {
-        #region Variables
         /// <summary>
         /// The canvas that the element is tied to.
         /// </summary>
         public GUICanvas Canvas { get; }
 
         /// <summary>
-        /// The parent.
-        /// </summary>
-        private GUIElement parent;
-
-        /// <summary>
-        /// The name of the element.
-        /// </summary>
-        public string Name { get; set; }
-
-        public GUIElement Parent { get => parent; set => SetParent(value); }
-
-        public List<GUIElement> Children { get; set; } = new List<GUIElement>();
-
-        public string HierarchyPath => HasParent ? $"{Parent.HierarchyPath}/{Name}" : Name;
-
-        public bool HasParent => Parent != null;
-
-        /// <summary>
         /// If the mouse in in the <see cref="Bounds"/>.
         /// </summary>
         public bool IsMouseIn { get; private set; }
-
-        #region Transform
-
-        /// <summary>
-        /// The position of the element.
-        /// </summary>
-        public Vector2 Position
-        {
-            get => position;
-            set
-            {
-                Vector2 delta = value - position;
-                for (int i = 0; i < Children.Count; i++)
-                {
-                    Children[i].Position += delta;
-                }
-                position = value;
-            }
-        }
-
-        /// <summary>
-        /// The position.
-        /// </summary>
-        private Vector2 position;
-
-        /// <summary>
-        /// The local position of element.
-        /// </summary>
-        public Vector2 LocalPosition
-        {
-            get
-            {
-                Vector2 relaton = HasParent ? Parent.LocalPosition : Vector2.Zero;
-                return Position - relaton;
-            }
-            set
-            {
-                Vector2 relaton = HasParent ? Parent.LocalPosition : Vector2.Zero;
-                Position = value + relaton;
-            }
-        }
-
-        /// <summary>
-        /// The rotation of the element.
-        /// </summary>
-        public float Rotation
-        {
-            get
-            {
-                float relation = HasParent ? Parent.Rotation : 0;
-                return LocalRotation + relation;
-            }
-        }
-
-        /// <summary>
-        /// The local rotation of the element.
-        /// </summary>
-        public float LocalRotation { get; set; }
-
-        /// <summary>
-        /// The scale of the element.
-        /// </summary>
-        public Vector2 Scale
-        {
-            get
-            {
-                Vector2 relation = HasParent ? Parent.Scale : Vector2.One;
-                return LocalScale * relation;
-            }
-        }
-
-        /// <summary>
-        /// The local scale of the element.
-        /// </summary>
-        public Vector2 LocalScale { get; set; }
-
-        /// <summary>
-        /// The origin of the element.
-        /// </summary>
-        public Vector2 Origin { get; set; } = Vector2.Zero;
-
-        /// <summary>
-        /// The bounds of the element.
-        /// </summary>
-        public Rectangle Bounds { get; set; } = Rectangle.Empty;
-
-        #endregion
-
-        #region Renderer
-
-        /// <summary>
-        /// The order in which the element will draw.
-        /// </summary>
-        public int RenderOrder { get; set; }
 
         /// <summary>
         /// The transparency of the element.
         /// </summary>
         public float Transparency { get; set; }
 
-        /// <summary>
-        /// The tint of the element.
-        /// </summary>
-        public Color Color { get; set; }
 
-        #endregion
-
-        #endregion
-
-        public GUIElement(GUICanvas canvas, string name)
+        public GUIElement(string name, GUICanvas canvas, Scene scene) : base(name, scene)
         {
-            Canvas = canvas;
-            Name = name;
-        }
-
-        public virtual void Initialize()
-        {
-
-        }
-
-        public virtual void LoadContent(ContentManager content)
-        {
-
-        }
-
-        public virtual void Update(float deltaTime)
-        {
-
-        }
-
-        public virtual void Draw()
-        {
-
-        }
-
-        public virtual void DebugDraw(bool editor)
-        {
-
-        }
-
-        /// <summary>
-        /// When the element is added to a canvas.
-        /// </summary>
-        public virtual void OnAdded()
-        {
-
-        }
-
-        /// <summary>
-        /// When the element is removed from the canvas.
-        /// </summary>
-        public virtual void OnRemoved() 
-        {
-
-        }
-
-        /// <summary>
-        /// This happens after all the elements have been added.
-        /// </summary>
-        public virtual void Awake()
-        {
-
         }
 
         /// <summary>
         /// Makes a copy of this element.
         /// </summary>
         /// <returns>A copy of the element.</returns>
-        public virtual GUIElement Clone()
+        public override Entity Clone()
         {
-            GUIElement e = new GUIElement(Canvas, Name + " Copy")
+            GUIElement e = new GUIElement(Name + " Clone", Canvas, Scene)
             {
-                Bounds = Bounds,
-                Children = Children,
-                LocalPosition = LocalPosition,
-                Position = Position,
-                LocalRotation = LocalRotation,
-                LocalScale = LocalScale,
-                Origin = Origin
+                Active = Active,
+                Children = new List<Entity>(Children),
+                HasDebugDraw = HasDebugDraw,
+                ID = IDManager.GetId(),
+                IsMouseIn = IsMouseIn,
+                Parent = Parent,
+                Paused = Paused,
+                Tags = Tags,
+                Transparency = Transparency,
+                Visible = Visible
             };
             return e;
         }
@@ -256,70 +87,5 @@ namespace Mechanical
             IsMouseIn = false;
         }
 
-        #region Parenting
-
-        public void AddChild(GUIElement child)
-        {
-            if (!IsParentOf(child))
-            {
-                Children.Add(child);
-                child.Parent = this;
-                // call event
-                child.OnParentAdded(this);
-            }
-        }
-
-        public GUIElement GetAncestor()
-        {
-            GUIElement currentChild = this;
-            while (currentChild.HasParent)
-            {
-                currentChild = currentChild.Parent;
-            }
-            return currentChild;
-        }
-
-        public bool IsParentOf(GUIElement child)
-        {
-            return Children.Contains(child);
-        }
-
-        public void RemoveChild(GUIElement child)
-        {
-            if (Children.Contains(child))
-            {
-                Children.Remove(child);
-                child.SetParent(null);
-                child.OnParentRemoved(this);
-            }
-        }
-
-        public void SetParent(GUIElement parent)
-        {
-            if (HasParent)
-            {
-                // remove this component has the child.
-                this.parent.RemoveChild(this);
-            }
-
-            // set this as child of new parent.
-            parent?.AddChild(this);
-
-            // add new parent.
-            this.parent = parent;
-        }
-
-
-        public virtual void OnParentRemoved(GUIElement parent)
-        {
-            
-        }
-
-        public virtual void OnParentAdded(GUIElement parent)
-        {
-            
-        }
-
-        #endregion
     }
 }

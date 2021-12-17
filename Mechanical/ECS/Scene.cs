@@ -19,7 +19,6 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// The scene is a container for <see cref="Entity"/>s.
     /// 
@@ -27,6 +26,7 @@ namespace Mechanical
     /// The scene is responsible for updating and drawing the entities.
     /// </para>
     /// </summary>
+    [DataContract]
     public class Scene : IEnumerable<Entity>, IDisposable
     {
         [DataMember]
@@ -57,7 +57,7 @@ namespace Mechanical
         /// <summary>
         /// If the scene is active. It is active it updates and draws.
         /// </summary>
-        public bool IsActiveScene { get; set; }
+        public bool IsActiveScene { get; set; } = true;
 
         [DataMember]
         /// <summary>
@@ -126,21 +126,17 @@ namespace Mechanical
         /// </summary>
         public virtual void Draw()
         {
-            // todo
-            //engine.GraphicsDevice.SetRenderTarget(null);
             //engine.GraphicsDevice.SetRenderTarget(RenderTarget);
             //engine.GraphicsDevice.Clear(ClearColor);
-
 
             if (IsActiveScene)
             {
                 Entities.Draw();
-                // add render target.
-                GUI.Draw();
+
+                // This will set a new target and then set to null. 
+                //GUI.Draw();
             }
 
-
-            //engine.GraphicsDevice.SetRenderTarget(null);
         }
 
         /// <summary>
@@ -148,19 +144,16 @@ namespace Mechanical
         /// </summary>
         public virtual void DebugDraw(bool editorRender)
         {
-            //engine.GraphicsDevice.SetRenderTarget(null);
             //engine.GraphicsDevice.SetRenderTarget(RenderTarget);
             //engine.GraphicsDevice.Clear(ClearColor);
-
 
             if (IsActiveScene)
             {
                 Entities.DebugDraw(editorRender);
-                GUI.DebugDraw(editorRender);
-            }
-            
 
-            //engine.GraphicsDevice.SetRenderTarget(null);
+                // This will set a new target and then set to null. 
+                //GUI.DebugDraw(editorRender);
+            }
         }
 
         /// <summary>

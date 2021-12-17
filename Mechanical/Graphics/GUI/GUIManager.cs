@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Mechanical
 {
@@ -90,12 +91,21 @@ namespace Mechanical
 
         public void Draw()
         {
-
-            for (int i = 0; i < Canvases.Count; i++)
+            if (Canvases.Count > 0)
             {
-                Canvases[i].Draw();
-            }
+                GraphicsDevice d = Engine.Instance.GraphicsDevice;
 
+                d.SetRenderTarget(RenderTarget);
+                d.Clear(Color.Transparent);
+
+                for (int i = 0; i < Canvases.Count; i++)
+                {
+                    Canvases[i].Draw();
+                }
+
+                d.SetRenderTarget(null);
+
+            }
         }
 
         public void LoadContent(ContentManager content)

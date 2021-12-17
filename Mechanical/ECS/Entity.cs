@@ -133,7 +133,7 @@ namespace Mechanical
 
         #region Main Functions
 
-        public virtual void Initalize()
+        public virtual void Initialize()
         {
             Components.Initialize();
         }
