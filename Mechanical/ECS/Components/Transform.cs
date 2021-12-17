@@ -195,7 +195,7 @@ namespace Mechanical
         /// Set the parent. Set to null to remove parent.
         /// </summary>
         /// <param name="parent">The parent to set.</param>
-        private void SetParent(Transform parent)
+        public void SetParent(Transform parent)
         {
             if (HasParent)
             {
@@ -223,6 +223,16 @@ namespace Mechanical
                 currentChild = currentChild.Parent;
             }
             return currentChild;
+        }
+
+        public void OnParentRemoved(Transform parent)
+        {
+            
+        }
+
+        public void OnParentAdded(Transform parent)
+        {
+            
         }
 
         #endregion

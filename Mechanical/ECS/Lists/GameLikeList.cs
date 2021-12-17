@@ -65,6 +65,8 @@ namespace Mechanical
 
         public abstract List<T> GetAll();
 
+        public abstract void Add(params T[] items);
+
         public IEnumerator<T> GetEnumerator()
         {
             return items.GetEnumerator();

@@ -85,6 +85,10 @@ namespace Mechanical
         /// </summary>
         public int TargetHeight { get; set; }
 
+        /// <summary>
+        /// This handles the GUI for this scene.
+        /// </summary>
+        public GUIManager GUI { get; set; } = new GUIManager();
 
         public Scene(string name)
         {
@@ -97,16 +101,24 @@ namespace Mechanical
         {
             RenderTarget = new RenderTarget2D(engine.GraphicsDevice, TargetWitdh, TargetHeight);
             Entities.Initialize();
+            GUI.Initialize();
         }
 
         public virtual void LoadContent(ContentManager content)
         {
             Entities.LoadContent(content);
+            GUI.LoadContent(content);
         }
 
         public virtual void Update(float deltaTime)
         {
-            Entities.Update(deltaTime);
+
+            if (IsActiveScene && !Paused)
+            {
+                Entities.Update(deltaTime);
+                GUI.Update(deltaTime);
+            }
+
         }
 
         /// <summary>
@@ -114,7 +126,21 @@ namespace Mechanical
         /// </summary>
         public virtual void Draw()
         {
-            Entities.Draw();
+            // todo
+            //engine.GraphicsDevice.SetRenderTarget(null);
+            //engine.GraphicsDevice.SetRenderTarget(RenderTarget);
+            //engine.GraphicsDevice.Clear(ClearColor);
+
+
+            if (IsActiveScene)
+            {
+                Entities.Draw();
+                // add render target.
+                GUI.Draw();
+            }
+
+
+            //engine.GraphicsDevice.SetRenderTarget(null);
         }
 
         /// <summary>
@@ -125,7 +151,15 @@ namespace Mechanical
             //engine.GraphicsDevice.SetRenderTarget(null);
             //engine.GraphicsDevice.SetRenderTarget(RenderTarget);
             //engine.GraphicsDevice.Clear(ClearColor);
-            Entities.DebugDraw(editorRender);
+
+
+            if (IsActiveScene)
+            {
+                Entities.DebugDraw(editorRender);
+                GUI.DebugDraw(editorRender);
+            }
+            
+
             //engine.GraphicsDevice.SetRenderTarget(null);
         }
 
@@ -159,11 +193,13 @@ namespace Mechanical
         public virtual void OnGraphicsDeviceCreated(object sender, System.EventArgs e)
         {
             RenderTarget = new RenderTarget2D(engine.GraphicsDevice, TargetWitdh, TargetHeight);
+            GUI.OnGraphicsDeviceCreated(sender, e);
         }
 
         public virtual void OnGraphicsDeviceReset(object sender, System.EventArgs e)
         {
             RenderTarget = new RenderTarget2D(engine.GraphicsDevice, TargetWitdh, TargetHeight);
+            GUI.OnGraphicsDeviceReset(sender, e);
         }
 
     }

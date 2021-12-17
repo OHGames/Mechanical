@@ -58,7 +58,7 @@ namespace Mechanical
         public override void Add(Component item)
         {
             // if it is allowed to be added
-            if (!items.Contains(item) || item.AllowMultiple)
+            if (!Contains(item) || item.AllowMultiple)
             {
                 if (safeToChange) 
                 { 
@@ -137,7 +137,7 @@ namespace Mechanical
         /// <exception cref="Exception">Throws exception if component cannot be removed or component is not in list.</exception>
         public override void Remove(Component item)
         {
-            if (!item.CanBeRemoved || !items.Contains(item)) throw new Exception($"The component, {item.GetType().Name}, cannot be removed or is not in the list!");
+            if (!item.CanBeRemoved || !Contains(item)) throw new Exception($"The component, {item.GetType().Name}, cannot be removed or is not in the list!");
             else
             {
                 if (safeToChange) items.Remove(item);
@@ -276,5 +276,12 @@ namespace Mechanical
             }
         }
 
+        public override void Add(params Component[] items)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                Add(items[i]);
+            }
+        }
     }
 }

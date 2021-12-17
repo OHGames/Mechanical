@@ -57,7 +57,7 @@ namespace Mechanical
         /// Set the parent. Set to null to remove parent.
         /// </summary>
         /// <param name="parent">The parent to set.</param>
-        //void SetParent(T parent);
+        void SetParent(T parent);
 
         /// <summary>
         /// If the object is the parent of the child.
@@ -71,6 +71,18 @@ namespace Mechanical
         /// </summary>
         /// <returns>The top-most parent of the hierarchy.</returns>
         T GetAncestor();
+
+        /// <summary>
+        /// When a parent is removed.
+        /// </summary>
+        /// <param name="parent">The parent that was removed.</param>
+        void OnParentRemoved(T parent);
+
+        /// <summary>
+        /// When the parent has been added.
+        /// </summary>
+        /// <param name="parent">The new parent.</param>
+        void OnParentAdded(T parent);
 
     }
 }

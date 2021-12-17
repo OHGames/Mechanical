@@ -85,7 +85,7 @@ namespace Mechanical
         /// <exception cref="Exception">Throws exception when there is an entity already added.</exception>
         public override void Add(Entity entity)
         {
-            if (!items.Contains(entity))
+            if (!Contains(entity))
             {
                 if (safeToChange)
                 {
@@ -111,7 +111,7 @@ namespace Mechanical
         /// <exception cref="Exception">Throws exception when the is entity is not in the list.</exception>
         public override void Remove(Entity entity)
         {
-            if (items.Contains(entity))
+            if (Contains(entity))
             {
                 if (safeToChange) items.Remove(entity);
                 else toRemove.Enqueue(entity);
@@ -264,6 +264,14 @@ namespace Mechanical
                     fg[i].DebugDraw(editorRender);
                 }
 
+            }
+        }
+
+        public override void Add(params Entity[] items)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                Add(items[i]);
             }
         }
     }

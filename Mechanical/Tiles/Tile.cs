@@ -32,11 +32,6 @@ namespace Mechanical
         public Rectangle Rectangle { get; set; }
 
         /// <summary>
-        /// If this tile can collide.
-        /// </summary>
-        public bool CanCollide { get; set; }
-
-        /// <summary>
         /// The texture that will be used to draw.
         /// </summary>
         public Texture2D Tilesheet { get; set; }
@@ -44,24 +39,23 @@ namespace Mechanical
         /// <summary>
         /// A null tile.
         /// </summary>
-        public static Tile NULL = new Tile(null, false, null, Rectangle.Empty);
+        public static Tile NULL = new Tile(null, null, Rectangle.Empty);
 
-        public Tile(Rectangle? sourceRectangle, bool collidable, Texture2D texture, Rectangle rectangle)
+        public Tile(Rectangle? sourceRectangle, Texture2D texture, Rectangle rectangle)
         {
             SourceRectangle = sourceRectangle;
-            CanCollide = collidable;
             Tilesheet = texture;
             Rectangle = rectangle;
         }
 
         public object Clone()
         {
-            return new Tile(SourceRectangle, CanCollide, Tilesheet, Rectangle);
+            return new Tile(SourceRectangle, Tilesheet, Rectangle);
         }
 
         public static bool operator ==(Tile t1, Tile t2)
         {
-            return t1.SourceRectangle == t2.SourceRectangle && t1.CanCollide == t2.CanCollide && t1.Tilesheet == t2.Tilesheet && t1.Rectangle == t2.Rectangle;
+            return t1.SourceRectangle == t2.SourceRectangle && t1.Tilesheet == t2.Tilesheet && t1.Rectangle == t2.Rectangle;
         }
 
         public static bool operator !=(Tile t1, Tile t2)

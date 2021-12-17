@@ -22,8 +22,6 @@ namespace Mechanical
     [DataContract]
     /// <summary>
     /// The entity class is anything that can be draw or updated in a <see cref="Scene"/> 
-    /// 
-    /// TODO: add parents and decide wither enmtities should draw themselves.
     /// </summary>
     public class Entity : IParentChildHierarchy<Entity>, IEnumerable<Component>
     {
