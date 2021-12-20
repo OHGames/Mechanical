@@ -8,42 +8,54 @@
  * Note: some files contain code from other sources so see https://github.com/OHGames/Mechanical/blob/main/USED_CODE_LICENSES.txt for more info.
  */
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
-using Microsoft.Xna.Framework;
 
 namespace Mechanical
 {
     /// <summary>
-    /// The Sprite Animator Component is used to animate the see <see cref="SpriteComponent"/>
+    /// An animated UI image.
     /// </summary>
-    [NeedsComponent(typeof(SpriteComponent))]
-    [DataContract]
-    public sealed class SpriteAnimatorComponent : Component
+    public class GUIAnimatedImage : GUIElement
     {
 
         /// <summary>
-        /// A reference to the sprite.
+        /// The texture to render.
         /// </summary>
-        [DataMember]
-        private SpriteComponent sprite;
+        public Texture2D Texture { get; set; }
+
+        /// <summary>
+        /// The rectangle of the texture 
+        /// </summary>
+        public Rectangle? SourceRectangle { get; set; }
+
+        /// <summary>
+        /// The effect to draw with.
+        /// </summary>
+        public Effect Effect { get; set; }
+
+        /// <summary>
+        /// The sprite effects to use.
+        /// </summary>
+        public SpriteEffects Effects { get; set; }
+
+        /// <summary>
+        /// A list of animations.
+        /// </summary>
+        public Dictionary<string, Animation> Animations { get; set; }
 
         /// <summary>
         /// The current animation.
         /// </summary>
-        [DataMember]
-        public Animation CurrentAnimation { get; set; }
+        public Animation CurrentAnimation { get; private set; }
 
         /// <summary>
-        /// The current animaton's name.
+        /// The current animation's name.
         /// </summary>
-        [DataMember]
-        public string CurrentAnimationName { get; set; }
-
-        [DataMember]
-        public Dictionary<string, Animation> Animations { get; set; } = new Dictionary<string, Animation>();
+        public string CurrentAnimationName { get; private set; }
 
         /// <summary>
         /// On an animation event.
@@ -72,55 +84,43 @@ namespace Mechanical
         /// </summary>
         public event Action<string> OnAnimationReachedEnd;
 
-        public SpriteAnimatorComponent(Entity entity, Animation animation, string name) : base(entity)
+        public GUIAnimatedImage(GUICanvas canvas, string name, Texture2D texture, Animation animation, string animationName, Rectangle? sourceRect = null, Effect effect = null, SpriteEffects spriteEffects = SpriteEffects.None) : base(canvas, name)
         {
-            // get the component.
-            // This will never return null because it is a required component.
-            sprite = entity.GetComponent<SpriteComponent>();
 
-            // TODO: get the rectangle data from animation and set sprite.
+            Texture = texture;
+            SourceRectangle = sourceRect;
+            Effect = effect;
+            Effects = spriteEffects;
+
             CurrentAnimation = animation;
-            CurrentAnimationName = name;
+            CurrentAnimationName = animationName;
 
-            Animations.Add(CurrentAnimationName, CurrentAnimation);
-            AllowMultiple = false;
         }
 
         public override void Update(float deltaTime)
         {
             CurrentAnimation.Update(deltaTime);
-            sprite.SourceRectangle = (Rectangle?)CurrentAnimation.GetCurrentRectangle();
+            SourceRectangle = (Rectangle?)CurrentAnimation.GetCurrentRectangle();
+        }
+
+        public override void Draw()
+        {
+            Drawing.Draw(Texture, Bounds, SourceRectangle, Color, Rotation, Origin, Effects, 0, Effect);
         }
 
         /// <summary>
         /// Add an animation.
         /// </summary>
-        /// <param name="animation"></param>
-        /// <param name="name"></param>
+        /// <param name="animation">The animation.</param>
+        /// <param name="name">The name of the animation.</param>
         public void AddAnimation(Animation animation, string name)
         {
-            if (Animations.ContainsKey(name)) throw new Exception($"The animation name, {name}, is already used");
+            if (Animations.ContainsKey(name)) throw new Exception($"The animation name, {name}, already exists.");
 
             Animations.Add(name, animation);
             animation.OnAnimationEvent += InternalOnAnimationEvent;
             animation.OnAnimationFrame += InternalOnAnimationFrame;
             animation.OnAnimationReachedEnd += InternalOnAnimationReachedEnd;
-        }
-
-        /// <summary>
-        /// This is used to invoke <see cref="OnAnimationReachedEnd"/>
-        /// </summary>
-        private void InternalOnAnimationReachedEnd()
-        {
-            OnAnimationReachedEnd.Invoke(CurrentAnimationName);
-        }
-
-        /// <summary>
-        /// This is used to invoke <see cref="OnAnimationFrame"/>
-        /// </summary>
-        private void InternalOnAnimationFrame()
-        {
-            OnAnimationFrame.Invoke(CurrentAnimationName);
         }
 
         /// <summary>
@@ -135,16 +135,6 @@ namespace Mechanical
             Animations[name].OnAnimationFrame -= InternalOnAnimationFrame;
             Animations[name].OnAnimationReachedEnd -= InternalOnAnimationReachedEnd;
             Animations.Remove(name);
-        }
-
-        /// <summary>
-        /// This is used to invoke the <see cref="OnAnimationEvent"/>
-        /// </summary>
-        /// <param name="obj"></param>
-        private void InternalOnAnimationEvent(string[] obj)
-        {
-            // the current animation name because it is the only one being updated.
-            OnAnimationEvent.Invoke(obj, CurrentAnimationName);
         }
 
         /// <summary>
@@ -198,6 +188,32 @@ namespace Mechanical
         public void Reset()
         {
             CurrentAnimation.Reset();
+        }
+
+        /// <summary>
+        /// This is used to invoke <see cref="OnAnimationReachedEnd"/>
+        /// </summary>
+        private void InternalOnAnimationReachedEnd()
+        {
+            OnAnimationReachedEnd.Invoke(CurrentAnimationName);
+        }
+
+        /// <summary>
+        /// This is used to invoke <see cref="OnAnimationFrame"/>
+        /// </summary>
+        private void InternalOnAnimationFrame()
+        {
+            OnAnimationFrame.Invoke(CurrentAnimationName);
+        }
+
+        /// <summary>
+        /// This is used to invoke the <see cref="OnAnimationEvent"/>
+        /// </summary>
+        /// <param name="obj"></param>
+        private void InternalOnAnimationEvent(string[] obj)
+        {
+            // the current animation name because it is the only one being updated.
+            OnAnimationEvent.Invoke(obj, CurrentAnimationName);
         }
 
     }

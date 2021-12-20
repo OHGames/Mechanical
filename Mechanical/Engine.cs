@@ -97,12 +97,12 @@ namespace Mechanical
         /// <summary>
         /// The time since the last frame.
         /// </summary>
-        public double DeltaTime { get; set; }
+        public float DeltaTime { get; set; }
 
         /// <summary>
         /// The raw delta time without modification from the <see cref="TimeScale"/>.
         /// </summary>
-        public double RawDeltaTime { get; set; }
+        public float RawDeltaTime { get; set; }
 
         /// <summary>
         /// The number to change the <see cref="DeltaTime"/> by.
@@ -134,8 +134,15 @@ namespace Mechanical
         /// <summary>
         /// The size of the game. This will be the size the of render targets created that will be used to draw the scene to.
         /// </summary>
-        public Vector2 GameSize { get; set; } = new Vector2(1280, 720);
-
+        public Vector2 GameSize
+        {   
+            get => new Vector2(Screen.TargetWidth, Screen.TargetHeight); 
+            set 
+            { 
+                Screen.ScreenWidth = (int)value.X;
+                Screen.ScreenHeight = (int)value.Y;
+            } 
+        }
         /// <summary>
         /// The width of the game window.
         /// </summary>
@@ -171,6 +178,21 @@ namespace Mechanical
         /// </summary>
         private int RenderTargetHeight { get; set; }
 
+        /// <summary>
+        /// If the game is in debug mode. Debug mode will allow the console to be used and other debuging tools.
+        /// </summary>
+        public bool DebugMode { get; set; }
+
+        /// <summary>
+        /// If the game will allow the console.
+        /// </summary>
+        public bool AllowConsole { get; set; } = true;
+
+        /// <summary>
+        /// If the game is paused.
+        /// </summary>
+        public bool Paused { get; set; } = false;
+
         #endregion
 
         #region Constructor
@@ -195,6 +217,9 @@ namespace Mechanical
             RenderTargetHeight = targetHeight;
 
             IsFullscreen = fullscreen;
+
+            // make the screen.
+            Screen = new Screen(RenderTargetWidth, RenderTargetHeight);
         }
         #endregion
 
@@ -217,12 +242,14 @@ namespace Mechanical
             
             IsMouseVisible = false;
 
-            // make the screen.
-            Screen = new Screen(RenderTargetWidth, RenderTargetHeight);
 
 #if DEBUG
-            Window.AllowUserResizing = true;
+            DebugMode = true;
+#else
+            DebugMode = false;
 #endif
+
+            Window.AllowUserResizing = DebugMode;
         }
 
         /// <summary>
@@ -244,10 +271,10 @@ namespace Mechanical
 
             MechController.Initialize();
 
-            //GraphicsDeviceManager.DeviceCreated += SceneManager.GraphicsDeviceCreated;
-            //GraphicsDeviceManager.DeviceReset += SceneManager.GraphicsDeviceReset;
-
-            //SceneManager.Initialize();
+            if (DebugMode && AllowConsole)
+            {
+                Console.Initialize();
+            }
 
             base.Initialize();
         }
@@ -262,29 +289,45 @@ namespace Mechanical
             //SceneManager.LoadContent(Content);
 
             Camera = new Camera(new Viewport(0, 0, GameWidth, GameHeight));
+
+            if (DebugMode && AllowConsole)
+            {
+                Console.LoadContent(Content);
+            }
+
             base.LoadContent();
         }
 
-        #endregion
+#endregion
 
-        #region Frame-By-Frame
+#region Frame-By-Frame
         protected override void Update(GameTime gameTime)
         {
-            RawDeltaTime = gameTime.ElapsedGameTime.TotalSeconds;
+            RawDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             DeltaTime = RawDeltaTime * TimeScale;
 
             // update the input system.
-            MechController.Update((float)DeltaTime);
-            MechKeyboard.Update((float)DeltaTime);
-            MechMouse.Update((float)DeltaTime);
-            Keybinds.Update((float)DeltaTime);
+            MechController.Update(DeltaTime);
+            MechKeyboard.Update(DeltaTime);
+            MechMouse.Update(DeltaTime);
+            Keybinds.Update(DeltaTime);
 
-#if DEBUG
-            if (MechKeyboard.IsKeyDown(Keys.Escape) && ExitOnEscape) Exit();
-#endif
+            if (MechKeyboard.IsKeyDown(Keys.Escape) && ExitOnEscape && DebugMode) Exit();
 
-            //SceneManager.Update((float)DeltaTime);
+            if (DebugMode)
+            {
 
+                if (Console.IsOpen)
+                {
+                    Console.Update(DeltaTime);
+                }
+
+                if (AllowConsole && MechKeyboard.WasKeyClicked(Keys.OemTilde))
+                {
+                    Console.Toggle();
+                }
+            }
+            
             base.Update(gameTime);
         }
 
@@ -300,43 +343,42 @@ namespace Mechanical
 
         protected override void Draw(GameTime gameTime)
         {
-
-            //SceneManager.Draw();
-
             base.Draw(gameTime);
         }
 
         protected override void EndDraw()
         {
+
             // stop game rendering.
             SpriteBatch.End();
             GraphicsDevice.SetRenderTarget(null);
 
             // draw the screen
-            //GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
             GraphicsDevice.Clear(Color.Black);
-
-
-            //SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            //SpriteBatch.Draw(SceneManager.CurrentScene.RenderTarget, Screen.RenderTarget.Bounds, Color.White);
-            //SpriteBatch.End();
 
             // draw the screen.
             Screen.Draw(this);
 
+            SpriteBatch.Begin();
+            if (AllowConsole && Console.IsOpen && DebugMode)
+            {
+                Console.Draw();
+            }
+            SpriteBatch.End();
+
             base.EndDraw();
         }
 
-        #endregion
+#endregion
 
-        #region Finished
+#region Finished
         protected override void UnloadContent()
         {
             base.UnloadContent();
         }
-        #endregion
+#endregion
 
-        #region Misc
+#region Misc
 
         /// <summary>
         /// This function will toggle fullscreen.
@@ -379,7 +421,7 @@ namespace Mechanical
             }
         }
 
-        #endregion
+#endregion
 
     }
 }

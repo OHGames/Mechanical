@@ -221,7 +221,12 @@ namespace Mechanical
 
                 // invoke the events.
                 if (events.Count > 0) OnAnimationEvent.Invoke(events.ToArray());
+                elapsedTime = 0;
 
+            }
+            else
+            {
+                elapsedTime += deltaTime;
             }
 
         }

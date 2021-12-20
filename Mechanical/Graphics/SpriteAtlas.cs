@@ -9,7 +9,7 @@ namespace Mechanical
     /// <summary>
     /// A sprite atlas is a class that contains a <see cref="Texture2D"/> and a <see cref="Dictionary{TKey, TValue}"/> on images inside the atlas. It basically is an image with data on it.
     /// </summary>
-    public class SpriteAtlas
+    public struct SpriteAtlas
     {
 
         /// <summary>
@@ -20,7 +20,12 @@ namespace Mechanical
         /// <summary>
         /// The list of rectangles that correspond with a rectangle.
         /// </summary>
-        public Dictionary<string, Rectangle> Subimages { get; set; } = new Dictionary<string, Rectangle>();
+        public Dictionary<string, Rectangle> Subimages { get; set; }
 
+        public SpriteAtlas(Texture2D texture, Dictionary<string, Rectangle> subimages)
+        {
+            Texture = texture;
+            Subimages = subimages;
+        }
     }
 }
