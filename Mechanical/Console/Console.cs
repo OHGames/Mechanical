@@ -31,7 +31,7 @@ namespace Mechanical
         /// <summary>
         /// The amount of time in seconds a key needs to be held in order for it to repeat.
         /// </summary>
-        public const float HOLD_TIME = 1f;
+        public const float HOLD_TIME = 0.5f;
 
         /// <summary>
         /// If the console is open.
@@ -111,6 +111,16 @@ namespace Mechanical
         /// </summary>
         private static Dictionary<string, int> OutputRepeats = new Dictionary<string, int>();
 
+        /// <summary>
+        /// If the user is typing.
+        /// </summary>
+        public static bool IsTyping { get; private set; }
+
+        /// <summary>
+        /// If the user was typing.
+        /// </summary>
+        public static bool WasTyping { get; private set; }
+
         public static void Initialize()
         {
             Window = new ConsoleWindow();
@@ -127,6 +137,8 @@ namespace Mechanical
 
             for (int i = 0; i < keys.Length; i++)
             {
+                IsTyping = true;
+
                 Keys key = keys[i];
 
                 //todo: insert text at carat
@@ -158,6 +170,7 @@ namespace Mechanical
                             if (CurrentInput != "")
                             {
                                 RunCommand(CurrentInput);
+                                commandHistory.Insert(0, CurrentInput);
                                 caretPosition = 0;
                                 CurrentInput = "";
                                 dontMoveCaret = true;
@@ -187,9 +200,9 @@ namespace Mechanical
                             break;
                         case Keys.Right:
                             caretPosition++;
-                            if (caretPosition > CurrentInput.Length + 1)
+                            if (caretPosition > CurrentInput.Length)
                             {
-                                caretPosition = CurrentInput.Length + 1;
+                                caretPosition = CurrentInput.Length;
                             }
                             dontMoveCaret = true;
                             break;
@@ -199,9 +212,16 @@ namespace Mechanical
                             if (commandHistory.Count > 0)
                             {
                                 commandHistoryIndex++;
-                                CurrentInput = commandHistory[commandHistoryIndex];
-                                dontMoveCaret = true;
-                                caretPosition = CurrentInput.Length;
+                                if (commandHistoryIndex >= commandHistory.Count)
+                                {
+                                    commandHistoryIndex--;
+                                }
+                                else
+                                {
+                                    CurrentInput = commandHistory[commandHistoryIndex];
+                                    dontMoveCaret = true;
+                                    caretPosition = CurrentInput.Length;
+                                }
                             }
                             break;
                         // cycle through history.
@@ -214,10 +234,14 @@ namespace Mechanical
                                 {
                                     commandHistoryIndex = -1;
                                     CurrentInput = "";
+                                    caretPosition = 0;
                                 }
-                                CurrentInput = commandHistory[commandHistoryIndex];
-                                dontMoveCaret = true;
-                                caretPosition = CurrentInput.Length;
+                                else
+                                {
+                                    CurrentInput = commandHistory[commandHistoryIndex];
+                                    dontMoveCaret = true;
+                                    caretPosition = CurrentInput.Length;
+                                }
                             }
                             break;
                         case Keys.Delete:
@@ -234,7 +258,7 @@ namespace Mechanical
                                 CurrentInput = CurrentInput.Insert(caretPosition, ")");
                             else
                                 CurrentInput = CurrentInput.Insert(caretPosition, "0");
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.D1:
                         case Keys.NumPad1:
@@ -242,7 +266,7 @@ namespace Mechanical
                                 CurrentInput = CurrentInput.Insert(caretPosition, "!");
                             else
                                 CurrentInput = CurrentInput.Insert(caretPosition, "1");
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.D2:
                         case Keys.NumPad2:
@@ -250,7 +274,7 @@ namespace Mechanical
                                 CurrentInput += "@";
                             else
                                 CurrentInput += "2";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.D3:
                         case Keys.NumPad3:
@@ -258,7 +282,7 @@ namespace Mechanical
                                 CurrentInput += "#";
                             else
                                 CurrentInput += "3";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.D4:
                         case Keys.NumPad4:
@@ -266,7 +290,7 @@ namespace Mechanical
                                 CurrentInput += "$";
                             else
                                 CurrentInput += "4";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.D5:
                         case Keys.NumPad5:
@@ -274,7 +298,7 @@ namespace Mechanical
                                 CurrentInput += "%";
                             else
                                 CurrentInput += "5";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.D6:
                         case Keys.NumPad6:
@@ -282,7 +306,7 @@ namespace Mechanical
                                 CurrentInput += "^";
                             else
                                 CurrentInput += "6";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.D7:
                         case Keys.NumPad7:
@@ -290,7 +314,7 @@ namespace Mechanical
                                 CurrentInput += "&";
                             else
                                 CurrentInput += "7";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.D8:
                         case Keys.NumPad8:
@@ -298,7 +322,7 @@ namespace Mechanical
                                 CurrentInput += "*";
                             else
                                 CurrentInput += "8";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.D9:
                         case Keys.NumPad9:
@@ -306,7 +330,7 @@ namespace Mechanical
                                 CurrentInput += "(";
                             else
                                 CurrentInput += "9";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.F1:
                         case Keys.F2:
@@ -338,70 +362,71 @@ namespace Mechanical
                                 CurrentInput += "+";
                             else
                                 CurrentInput += "=";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.OemComma:
                             if (IsShiftDown || capsLockOn)
                                 CurrentInput += "<";
                             else
                                 CurrentInput += ",";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.OemMinus:
                             if (IsShiftDown || capsLockOn)
                                 CurrentInput += "_";
                             else
                                 CurrentInput += "-";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.OemPeriod:
                             if (IsShiftDown || capsLockOn)
                                 CurrentInput += ">";
                             else
                                 CurrentInput += ".";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.OemQuestion:
                             if (IsShiftDown || capsLockOn)
                                 CurrentInput += "?";
                             else
                                 CurrentInput += "/";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.OemSemicolon:
                             if (IsShiftDown || capsLockOn)
                                 CurrentInput += ":";
                             else
                                 CurrentInput += ";";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.OemOpenBrackets:
                             if (IsShiftDown || capsLockOn)
                                 CurrentInput += "{";
                             else
                                 CurrentInput += "[";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.OemPipe:
                             if (IsShiftDown || capsLockOn)
                                 CurrentInput += "|";
                             else
                                 CurrentInput += "\\";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.OemCloseBrackets:
                             if (IsShiftDown || capsLockOn)
                                 CurrentInput += "}";
                             else
                                 CurrentInput += "]";
-                            caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         case Keys.OemQuotes:
                             if (IsShiftDown || capsLockOn)
                                 CurrentInput += "\"";
                             else
                                 CurrentInput += "\'";
-                            caretPosition++;
+                            //caretPosition++;
+                            dontMoveCaret = false;
                             break;
                         default:
 
@@ -428,6 +453,8 @@ namespace Mechanical
                 }
 
             }
+            WasTyping = IsTyping;
+            IsTyping = false;
 
             Window.Update(deltaTime);
         }
@@ -696,6 +723,7 @@ namespace Mechanical
                 return false;
             }
         }
+
         #endregion
 
         /// <summary>

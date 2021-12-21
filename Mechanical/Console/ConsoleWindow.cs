@@ -119,12 +119,6 @@ namespace Mechanical
         /// </summary>
         private bool canScroll = false;
 
-        /// <summary>
-        /// How long a string can be before it is wrapped.
-        /// TODO
-        /// </summary>
-        public int MaxStringLength;
-
         public void LoadContent(ContentManager content)
         {
             font = content.Load<SpriteFont>("Mechanical/console font");
@@ -132,14 +126,22 @@ namespace Mechanical
 
         public void Update(float deltaTime)
         {
-            if (timeSinceBlink >= CursorBlinkSpeed)
+            if (!Console.IsTyping && !Console.WasTyping)
             {
-                timeSinceBlink = 0;
-                renderCursor = !renderCursor;
+                if (timeSinceBlink >= CursorBlinkSpeed)
+                {
+                    timeSinceBlink = 0;
+                    renderCursor = !renderCursor;
+                }
+                else
+                {
+                    timeSinceBlink += deltaTime;
+                }
             }
             else
             {
-                timeSinceBlink += deltaTime;
+                timeSinceBlink = 0;
+                renderCursor = true;
             }
 
             // change size with window change.
@@ -193,7 +195,15 @@ namespace Mechanical
 
             if (Console.CurrentInput != "")
             {
-                caretedText = Console.CurrentInput.Insert(Console.caretPosition, Cursor);
+                if (!renderCursor)
+                    caretedText = Console.CurrentInput.Insert(Console.caretPosition, " ");
+                else
+                    caretedText = Console.CurrentInput.Insert(Console.caretPosition, Cursor);
+            }
+            else
+            {
+                if (renderCursor)
+                    caretedText = Cursor;
             }
 
             // draw input text.
