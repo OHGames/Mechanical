@@ -193,6 +193,11 @@ namespace Mechanical
         /// </summary>
         public bool Paused { get; set; } = false;
 
+        /// <summary>
+        /// If the game should use the <see cref="Scene.DebugDraw(bool)"/> function when drawing.
+        /// </summary>
+        public bool ShouldDebugDraw { get; set; } = false;
+
         #endregion
 
         #region Constructor
@@ -271,7 +276,7 @@ namespace Mechanical
 
             MechController.Initialize();
 
-            if (DebugMode && AllowConsole)
+            if (DebugMode || AllowConsole)
             {
                 Console.Initialize();
             }
@@ -290,7 +295,7 @@ namespace Mechanical
 
             Camera = new Camera(new Viewport(0, 0, GameWidth, GameHeight));
 
-            if (DebugMode && AllowConsole)
+            if (DebugMode || AllowConsole)
             {
                 Console.LoadContent(Content);
             }
@@ -314,7 +319,7 @@ namespace Mechanical
 
             if (MechKeyboard.IsKeyDown(Keys.Escape) && ExitOnEscape && DebugMode) Exit();
 
-            if (DebugMode)
+            if (DebugMode || AllowConsole)
             {
 
                 if (Console.IsOpen)
@@ -360,7 +365,7 @@ namespace Mechanical
             Screen.Draw(this);
 
             SpriteBatch.Begin();
-            if (AllowConsole && Console.IsOpen && DebugMode)
+            if (Console.IsOpen && (AllowConsole || DebugMode))
             {
                 Console.Draw();
             }

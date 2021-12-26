@@ -119,6 +119,11 @@ namespace Mechanical
         /// </summary>
         private bool canScroll = false;
 
+        /// <summary>
+        /// The maximum length of a string before it is wrapped.
+        /// </summary>
+        public int MaxCharacterCount { get; private set; }
+
         public void LoadContent(ContentManager content)
         {
             font = content.Load<SpriteFont>("Mechanical/console font");
@@ -159,6 +164,9 @@ namespace Mechanical
                 scroll += MechMouse.ScrollDelta / 2;
                 scroll = scroll.Clamp((-Console.Output.Count * lineHeight) + lineHeight * 5 /* << this adds padding */ , 0);
             }
+
+            var charWidth = font.MeasureString("A").X;
+            MaxCharacterCount = (int)(OutputSize.X - textPadding) / (int)charWidth;
         }
 
         public void Draw()
@@ -184,8 +192,11 @@ namespace Mechanical
                 string line = cLine.Text;
                 Color color = cLine.Color;
 
+
                 // get location of bottom then subtract by the line, then offset by input, then offset by scroll, then offset by padding so scrolled text is not inside input box.
                 Vector2 pos = new Vector2(textPadding, OutputSize.Y - (i * lineHeight) - InputSize.Y - scroll - 5 /* padding */);
+                // add tab if wrapped.
+                if (cLine.IsWrappedLine) pos.X += font.MeasureString(" ").X * 4; 
 
                 if (pos.Y < OutputSize.Y)
                     Drawing.DrawString(font, line, pos, color);

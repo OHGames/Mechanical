@@ -538,10 +538,41 @@ namespace Mechanical
                     break;
             }
 
+            WrapLines(lines, c);
+            
+        }
+
+        /// <summary>
+        /// Wraps the lines of the console window based on its length. It adds the lines to output as well.
+        /// </summary>
+        /// <param name="lines">The lines.</param>
+        /// <param name="color">The color.</param>
+        private static void WrapLines(string[] lines, Color color)
+        {
             for (int i = 0; i < lines.Length; i++)
             {
                 string l = lines[i];
-                Output.Add(new ConsoleLine(l, c));
+
+                if (l.Length > Window.MaxCharacterCount)
+                {
+                    // how many lines will fit on screen.
+                    int stringCount = (int)Math.Ceiling(l.Length / (float)Window.MaxCharacterCount);
+
+                    for (int j = 0; j < stringCount; j++)
+                    {
+                        // get line.
+                        string s = l.Substring(0, Window.MaxCharacterCount > l.Length ? l.Length - 1 : Window.MaxCharacterCount);
+                        // remove previous text.
+                        l = l.Remove(0, Window.MaxCharacterCount > l.Length ? l.Length - 1 : Window.MaxCharacterCount);
+                        // add line
+                        if (!String.IsNullOrWhiteSpace(s))
+                            // if it is not the first line make it wrapped (indented).
+                            Output.Add(new ConsoleLine(s, color, j != 0));
+                    }
+                    continue;
+                }
+
+                Output.Add(new ConsoleLine(l, color));
             }
         }
 
@@ -555,8 +586,7 @@ namespace Mechanical
             string[] lines = message.Split('\n');
             for (int i = 0; i < lines.Length; i++)
             {
-                string l = lines[i];
-                Output.Add(new ConsoleLine(l, color));
+                WrapLines(lines, color);
             }
         }
 
@@ -724,6 +754,57 @@ namespace Mechanical
             }
         }
 
+        /// <summary>
+        /// Set the game to debug mode.
+        /// </summary>
+        /// <param name="arguments"></param>
+        [ConsoleCommand("debugMode", "This command toggles debug mode for the game.\nArguments:\nbool: if debug mode should be turned on (optional)")]
+        [ConsoleCommand("debug", "This command toggles debug mode for the game.\nArguments:\nbool: if debug mode should be turned on (optional)")]
+        public static void SetDebugMode(string[] arguments)
+        {
+            if (arguments.Length < 0 || arguments.Length > 1)
+            {
+                Log("There are too many arguments!", ConsoleMessageType.Error);
+                return;
+            }
+
+            if (arguments.Length == 0)
+            {
+                Engine.Instance.DebugMode = !Engine.Instance.DebugMode;
+            }
+            else
+            {
+                Engine.Instance.DebugMode = Convert.ToBoolean(arguments[0]);
+            }
+            Log($"Set debug mode to {Engine.Instance.DebugMode}.", ConsoleMessageType.Output);
+        }
+
+        /// <summary>
+        /// If the game should use the <see cref="Scene.DebugDraw(bool)"/>
+        /// </summary>
+        /// <param name="arguments"></param>
+        [ConsoleCommand("debugDraw", "Set the game so that it uses the DebugDraw(x) function when drawing.\nArguments:\nbool:If the game should use DebugDraw() (optional)")]//bool: If the game should use the editorRender feature of debug draw. (optional.)
+        public static void SetDebugDraw(string[] arguments)
+        {
+            if (arguments.Length < 0 || arguments.Length > 1)
+            {
+                Log("There are to many arguments!", ConsoleMessageType.Error);
+                return;
+            }
+
+            if (arguments.Length == 0)
+            {
+                // toggle
+                Engine.Instance.ShouldDebugDraw = !Engine.Instance.ShouldDebugDraw;
+            }
+            else 
+            {
+                Engine.Instance.ShouldDebugDraw = Convert.ToBoolean(arguments[0]);
+            }
+
+            Log($"Set the debug draw to {Engine.Instance.ShouldDebugDraw}", ConsoleMessageType.Output);
+        }
+
         #endregion
 
         /// <summary>
@@ -754,10 +835,16 @@ namespace Mechanical
         /// </summary>
         public Color Color { get; set; }
 
-        public ConsoleLine(string text, Color color)
+        /// <summary>
+        /// If the line is part of a string that has been wrapped.
+        /// </summary>
+        public bool IsWrappedLine { get; set; }
+
+        public ConsoleLine(string text, Color color, bool isWrappedLine = false)
         {
             Text = text;
             Color = color;
+            IsWrappedLine = isWrappedLine;
         }
     }
 
