@@ -34,7 +34,7 @@ namespace Mechanical
         /// The current animation.
         /// </summary>
         [DataMember]
-        public Animation CurrentAnimation { get; set; }
+        public SpriteAnimation CurrentAnimation { get; set; }
 
         /// <summary>
         /// The current animaton's name.
@@ -43,7 +43,7 @@ namespace Mechanical
         public string CurrentAnimationName { get; set; }
 
         [DataMember]
-        public Dictionary<string, Animation> Animations { get; set; } = new Dictionary<string, Animation>();
+        public Dictionary<string, SpriteAnimation> Animations { get; set; } = new Dictionary<string, SpriteAnimation>();
 
         /// <summary>
         /// On an animation event.
@@ -72,7 +72,7 @@ namespace Mechanical
         /// </summary>
         public event Action<string> OnAnimationReachedEnd;
 
-        public SpriteAnimatorComponent(Entity entity, Animation animation, string name) : base(entity)
+        public SpriteAnimatorComponent(Entity entity, SpriteAnimation animation, string name) : base(entity)
         {
             // get the component.
             // This will never return null because it is a required component.
@@ -97,7 +97,7 @@ namespace Mechanical
         /// </summary>
         /// <param name="animation"></param>
         /// <param name="name"></param>
-        public void AddAnimation(Animation animation, string name)
+        public void AddAnimation(SpriteAnimation animation, string name)
         {
             if (Animations.ContainsKey(name)) throw new Exception($"The animation name, {name}, is already used");
 

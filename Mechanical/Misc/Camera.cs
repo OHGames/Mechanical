@@ -22,6 +22,8 @@ namespace Mechanical
     /// <para>
     /// This whole class is pretty much from https://github.com/JamesMcMahon/monocle-engine/blob/master/Monocle/Util/Camera.cs and https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/Yetibyte.Himalaya/GameElements/Camera.cs slight tweaks made and variables added
     /// </para>
+    /// 
+    /// TODO: make camera move when target is not in bounds.
     /// </summary>
     public sealed class Camera
     {
@@ -210,14 +212,12 @@ namespace Mechanical
         /// </summary>
         public Rectangle CameraRectPadded
         {
-            //get => new Rectangle((int)((X - Width / 2) - Padding), (int)((Y - Height / 2) - Padding), (int)(Width + Padding), (int)(Height + Padding));
             get
             {
                 Rectangle r = CameraRect;
                 r.Inflate(Padding, Padding);
                 return r;
             }
-            
         }
 
         /// <summary>
@@ -253,13 +253,13 @@ namespace Mechanical
 
         }
 
+        [EditorFunction("Origin", "Camera")]
         /// <summary>
         /// Make the origin the center of the screen.
         /// </summary>
         public void CenterOrigin()
         {
-            origin = new Vector2(Width / 2, Height / 2);
-            UpdateMatrix();
+            Origin = new Vector2(Width / 2, Height / 2);
         }
 
 
@@ -287,8 +287,7 @@ namespace Mechanical
         /// <param name="position">Where the camera should look</param>
         public void Target(Vector2 position)
         {
-            this.position = position;
-            UpdateMatrix();
+            Position = position;
         }
 
         /// <summary>
@@ -297,8 +296,7 @@ namespace Mechanical
         /// <param name="amount"></param>
         public void MoveBy(Vector2 amount)
         {
-            position += amount;
-            UpdateMatrix();
+            Position += amount;
         }
 
     }

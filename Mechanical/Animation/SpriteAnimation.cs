@@ -23,7 +23,7 @@ namespace Mechanical
     /// Animations hold data on how the frames should be moved.
     /// </para>
     /// </summary>
-    public sealed class Animation
+    public sealed class SpriteAnimation
     {
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Mechanical
         /// <summary>
         /// The list of events.
         /// </summary>
-        public List<AnimationEvent> Events = new List<AnimationEvent>();
+        public List<SpriteAnimationEvent> Events = new List<SpriteAnimationEvent>();
 
         /// <summary>
         /// When the animation event is played. The paramerer is the name of the events triggered in this frame.
@@ -107,7 +107,7 @@ namespace Mechanical
         /// <param name="frameHeight">The height of each frame</param>
         /// <param name="textureWidth">The width of the texture.</param>
         /// <param name="textureHeight">The height of the texture.</param>
-        public Animation(int frameWidth, int frameHeight, int textureWidth, int textureHeight)
+        public SpriteAnimation(int frameWidth, int frameHeight, int textureWidth, int textureHeight)
         {
             AutoSetFrames(frameWidth, frameHeight, textureWidth, textureHeight);
             for (int i = 0; i < Frames.Count; i++)
@@ -120,7 +120,7 @@ namespace Mechanical
         /// Set the frame order for the rectangles.
         /// </summary>
         /// <param name="rects">The rectangles to be the frames.</param>
-        public Animation(params Rectangle[] rects)
+        public SpriteAnimation(params Rectangle[] rects)
         {
             Frames = rects.ToList();
             for (int i = 0; i < Frames.Count; i++)
@@ -137,7 +137,7 @@ namespace Mechanical
         /// <param name="textureWidth">The width of the texture.</param>
         /// <param name="textureHeight">The height of the texture.</param>
         /// <param name="frameOrder">The order of the frames.</param>
-        public Animation(int frameWidth, int frameHeight, int textureWidth, int textureHeight, int[] frameOrder)
+        public SpriteAnimation(int frameWidth, int frameHeight, int textureWidth, int textureHeight, int[] frameOrder)
         {
             AutoSetFrames(frameWidth, frameHeight, textureWidth, textureHeight);
             FrameOrder = frameOrder.ToList();
@@ -148,7 +148,7 @@ namespace Mechanical
         /// </summary>
         /// <param name="rectangles">The frames.</param>
         /// <param name="frameOrder">The frame order.</param>
-        public Animation(Rectangle[] rectangles, int[] frameOrder)
+        public SpriteAnimation(Rectangle[] rectangles, int[] frameOrder)
         {
             Frames = rectangles.ToList();
             FrameOrder = frameOrder.ToList();

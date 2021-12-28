@@ -45,12 +45,12 @@ namespace Mechanical
         /// <summary>
         /// A list of animations.
         /// </summary>
-        public Dictionary<string, Animation> Animations { get; set; }
+        public Dictionary<string, SpriteAnimation> Animations { get; set; }
 
         /// <summary>
         /// The current animation.
         /// </summary>
-        public Animation CurrentAnimation { get; private set; }
+        public SpriteAnimation CurrentAnimation { get; private set; }
 
         /// <summary>
         /// The current animation's name.
@@ -84,7 +84,7 @@ namespace Mechanical
         /// </summary>
         public event Action<string> OnAnimationReachedEnd;
 
-        public GUIAnimatedImage(GUICanvas canvas, string name, Texture2D texture, Animation animation, string animationName, Rectangle? sourceRect = null, Effect effect = null, SpriteEffects spriteEffects = SpriteEffects.None) : base(canvas, name)
+        public GUIAnimatedImage(GUICanvas canvas, string name, Texture2D texture, SpriteAnimation animation, string animationName, Rectangle? sourceRect = null, Effect effect = null, SpriteEffects spriteEffects = SpriteEffects.None) : base(canvas, name)
         {
 
             Texture = texture;
@@ -113,7 +113,7 @@ namespace Mechanical
         /// </summary>
         /// <param name="animation">The animation.</param>
         /// <param name="name">The name of the animation.</param>
-        public void AddAnimation(Animation animation, string name)
+        public void AddAnimation(SpriteAnimation animation, string name)
         {
             if (Animations.ContainsKey(name)) throw new Exception($"The animation name, {name}, already exists.");
 

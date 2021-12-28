@@ -17,7 +17,7 @@ namespace Mechanical
     /// <summary>
     /// The animation event is an event that will trigger when a certain frame(s) is shown.
     /// </summary>
-    public struct AnimationEvent
+    public struct SpriteAnimationEvent
     {
 
         /// <summary>
