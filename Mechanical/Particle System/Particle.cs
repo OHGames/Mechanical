@@ -176,12 +176,16 @@ namespace Mechanical
                 Y = -Speed * (float)Math.Sin(rad),
             };
 
+            Position -= system.Gravity * deltaTime;
             Position += Velocity * deltaTime;
+
 
             Color = Color.Lerp(StartColor, EndColor, TimeAlive / Life);
 
             Size = Vector2.Lerp(StartSize, EndSize, TimeAlive / Life);
             // end http://buildnewgames.com/particle-systems/
+
+            Speed -= Easing.Interpolate(TimeAlive / Life, EasingFunctions.Linear);
 
             TimeAlive++;
 

@@ -30,8 +30,6 @@ namespace Mechanical
         /// </summary>
         public Particle[] Particles { get; set; }
 
-        public List<Particle> DeadParticles { get; set; }
-
         /// <summary>
         /// The max amount of particles.
         /// </summary>
@@ -277,6 +275,8 @@ namespace Mechanical
 
         public virtual void Update(float deltaTime)
         {
+            ParticleSpawner.SystemPosition = Position;
+
             if (IsEmitting)
             {
                 // sort the particles so that the active ones come first.
@@ -294,6 +294,10 @@ namespace Mechanical
                     }
                 }
 
+            }
+
+            if (ActiveParticles > 0)
+            {
                 // update particles.
                 for (int i = 0; i < Particles.Length; i++)
                 {
@@ -309,8 +313,6 @@ namespace Mechanical
                         }
                     }
                 }
-
-
             }
 
             // only decrease life of emitter when not infinate.
