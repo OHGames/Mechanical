@@ -168,6 +168,7 @@ namespace Mechanical
             // get radians
             var rad = Angle.ToRadians();
 
+            // http://buildnewgames.com/particle-systems/
             // set velocity.
             Velocity = new Vector2()
             {
@@ -180,6 +181,7 @@ namespace Mechanical
             Color = Color.Lerp(StartColor, EndColor, TimeAlive / Life);
 
             Size = Vector2.Lerp(StartSize, EndSize, TimeAlive / Life);
+            // end http://buildnewgames.com/particle-systems/
 
             TimeAlive++;
 
