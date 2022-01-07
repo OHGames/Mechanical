@@ -1,4 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*
+ * 
+ * This file is part of the Mechanical Game Engine and is licensed under the MIT license.
+ * https://github.com/OHGames/Mechanical
+ * 
+ * By O.H. Games
+ * 
+ * Note: some files contain code from other sources so see https://github.com/OHGames/Mechanical/blob/main/USED_CODE_LICENSES.txt for more info.
+ */
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -7,68 +17,10 @@ using System.Text;
 namespace Mechanical
 {
     /// <summary>
-    /// A single particle that is part of a <see cref="ParticleSystem"/>
+    /// The particle is a single peice of a particle system.
     /// </summary>
     public struct Particle
     {
-
-        /// <summary>
-        /// How long the particle has been alive for.
-        /// </summary>
-        public float AliveTime { get; set; }
-
-        /// <summary>
-        /// The color of the particle.
-        /// </summary>
-        private Color color;
-
-        /// <summary>
-        /// The color of the particle.
-        /// </summary>
-        public Color Color
-        {
-            get { return color * Transparency; }
-            set { color = value; Transparency = value.A; }
-        }
-
-        /// <summary>
-        /// The transparency.
-        /// </summary>
-        private float transparency;
-
-        /// <summary>
-        /// The transparency.
-        /// </summary>
-        public float Transparency
-        {
-            get { return Color.A; }
-            set { transparency = value.Clamp(0, 256).Normalize(0, 256); }
-        }
-
-        /// <summary>
-        /// TTL means Time-To-Live, it is how long a particle will be alive for.
-        /// </summary>
-        public float TTL { get; set; }
-
-        /// <summary>
-        /// How much time this particle has left to live.
-        /// </summary>
-        public float TimeRemaining { get => TTL - AliveTime; }
-
-        /// <summary>
-        /// The rotation of the particle.
-        /// </summary>
-        public float Rotation { get; set; }
-
-        /// <summary>
-        /// The spin velocity is how fast the particle will spin. Set to a negative number to spin backwards and vice versa.
-        /// </summary>
-        public float SpinVelocity { get; set; }
-
-        /// <summary>
-        /// The velocity of the particle.
-        /// </summary>
-        public Vector2 Velocity { get; set; }
 
         /// <summary>
         /// The position of the particle.
@@ -76,86 +28,162 @@ namespace Mechanical
         public Vector2 Position { get; set; }
 
         /// <summary>
-        /// The system that the particle is part of.
+        /// The rotation of the particle.
         /// </summary>
-        public ParticleSystem System { get; set; }
+        public float Rotation { get; set; }
 
         /// <summary>
-        /// The scale of the particle.
+        /// The size of the particle.
         /// </summary>
-        public Vector2 Scale { get; set; }
+        public Vector2 Size { get; set; }
+
 
         /// <summary>
-        /// How much the particle will scale by.
+        /// The starting size of the particle.
         /// </summary>
-        public Vector2 ScaleVelocity { get; set; }
+        public Vector2 StartSize { get; set; }
 
         /// <summary>
-        /// The texture that the particle will use.
+        /// The end size of the particle.
+        /// </summary>
+        public Vector2 EndSize { get; set; }
+
+        /// <summary>
+        /// The texture of the particle.
         /// </summary>
         public Texture2D Texture { get; set; }
 
         /// <summary>
-        /// The origin of the particle.
+        /// The source rectangle of the <see cref="Texture"/>.
         /// </summary>
-        public Vector2 Origin { get; set; }
+        public Rectangle? SourceRectangle { get; set; }
 
         /// <summary>
-        /// The animation that the particle has. Set the animation to NULL for no animation.
+        /// The velocity of the particle.
         /// </summary>
-        public SpriteAnimation Animation { get; set; }
+        public Vector2 Velocity { get; set; }
 
         /// <summary>
-        /// If the particle is animnated.
+        /// The speed of the particle.
         /// </summary>
-        public bool IsAnimated
-        {
+        public float Speed { get; set; }
+
+        /// <summary>
+        /// The angle that the particle will move at.
+        /// </summary>
+        public float Angle { get; set; }
+
+        /// <summary>
+        /// The starting life of the particle.
+        /// </summary>
+        public float StartLife { get; set; }
+
+        /// <summary>
+        /// The current life of the particle.
+        /// </summary>
+        public float Life { get; set; }
+
+        /// <summary>
+        /// How long the particle has been alive.
+        /// </summary>
+        public float TimeAlive { get; set; }
+
+        /// <summary>
+        /// If the particle is alive.
+        /// </summary>
+        public bool IsAlive { get; set; }
+
+        /// <summary>
+        /// The color of the particle.
+        /// </summary>
+        public Color Color { get; set; }
+
+        /// <summary>
+        /// The starting color of the particle.
+        /// </summary>
+        public Color StartColor { get; set; }
+
+        /// <summary>
+        /// The end color of the particle.
+        /// </summary>
+        public Color EndColor { get; set; }
+
+        /// <summary>
+        /// The opacity of the particle.
+        /// </summary>
+        public float Opacity 
+        { 
             get
             {
-                return Animation != null;
+                return opacity;
             }
             set
             {
-                if (value == false)
-                {
-                    Animation = null;
-                }
+                opacity = value.Normalize(0, 255);
             }
         }
 
-        // thank you visual studio for generating this huge ctor :)
         /// <summary>
-        /// Makes a new particle.
+        /// The opacity of the particle.
         /// </summary>
-        /// <param name="color">The color of the particle.</param>
-        /// <param name="transparency">The transparency of the particle.</param>
-        /// <param name="tTL">The time to live.</param>
-        /// <param name="rotation">The rotation.</param>
-        /// <param name="spinVelocity">The spin velocity.</param>
-        /// <param name="velocity">The velocity.</param>
-        /// <param name="position">The psoition.</param>
-        /// <param name="system">The particle system.</param>
-        /// <param name="scale">The scale.</param>
-        /// <param name="scaleVelocity">The scale velocity.</param>
-        /// <param name="texture">The texture.</param>
-        /// <param name="origin">The origin.</param>
-        /// <param name="animation">The animation to use.</param>
-        public Particle(Color color, float tTL, float rotation, float spinVelocity, Vector2 velocity, Vector2 position, ParticleSystem system, Vector2 scale, Vector2 scaleVelocity, Texture2D texture, Vector2 origin, SpriteAnimation animation = null, float transparency = 256) : this()
+        private float opacity;
+
+        /// <summary>
+        /// The system that the particle is part of.
+        /// </summary>
+        private ParticleSystem system;
+
+        public Particle(Vector2 position, float rotation, Vector2 size, Texture2D texture, float speed, float angle, float life, Color color, ParticleSystem system, float opacity = 255, Rectangle? sourceRectangle = null) : this()
         {
-            Color = color;
-            // will normalize for us
-            Transparency = transparency;
-            TTL = tTL;
-            Rotation = rotation;
-            SpinVelocity = spinVelocity;
-            Velocity = velocity;
             Position = position;
-            System = system;
-            Scale = scale;
-            ScaleVelocity = scaleVelocity;
+            Rotation = rotation;
+            Size = size;
             Texture = texture;
-            Origin = origin;
-            Animation = animation;
+            Speed = speed;
+            Angle = angle;
+            StartLife = Life = life;
+            SourceRectangle = sourceRectangle;
+
+            var rad = angle.ToRadians();
+
+            Velocity = new Vector2()
+            {
+                X = speed * (float)Math.Cos(rad),
+                Y = -speed * (float)Math.Sin(rad),
+            };
+
+            Color = color;
+            Opacity = opacity;
+
+            this.system = system;
         }
+
+        public Particle(ParticleSystem system) : this()
+        {
+            this.system = system;
+        }
+
+        public void Update(float deltaTime)
+        {
+            // get radians
+            var rad = Angle.ToRadians();
+
+            // set velocity.
+            Velocity = new Vector2()
+            {
+                X = Speed * (float)Math.Cos(rad),
+                Y = -Speed * (float)Math.Sin(rad),
+            };
+
+            Position += Velocity * deltaTime;
+
+            Color = Color.Lerp(StartColor, EndColor, TimeAlive / Life);
+
+            Size = Vector2.Lerp(StartSize, EndSize, TimeAlive / Life);
+
+            TimeAlive++;
+
+        }
+
     }
 }
