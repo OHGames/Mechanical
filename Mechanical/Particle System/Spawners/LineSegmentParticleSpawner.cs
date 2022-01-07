@@ -8,7 +8,7 @@ namespace Mechanical
     /// <summary>
     /// The line segment particle spawner emits particles along a line with the system at the center.
     /// </summary>
-    public class LineSegmentParticleSpaner : IParticleSpawner
+    public class LineSegmentParticleSpawner : IParticleSpawner
     {
         public Vector2 SystemPosition { get; set; }
 
@@ -27,7 +27,7 @@ namespace Mechanical
         /// </summary>
         public float ExtendBy { get; set; }
 
-        public LineSegmentParticleSpaner(Vector2 systemPosition, float extendBy)
+        public LineSegmentParticleSpawner(Vector2 systemPosition, float extendBy)
         {
             SystemPosition = systemPosition;
             ExtendBy = extendBy;
