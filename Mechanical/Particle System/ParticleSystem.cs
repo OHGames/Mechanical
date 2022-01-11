@@ -55,11 +55,64 @@ namespace Mechanical
         /// </summary>
         public Vector2 Gravity { get; set; } = Vector2.Zero;
 
+        /// <summary>
+        /// The blend state to use when drawing the particles. Defaults to <see cref="BlendState.Additive"/>.
+        /// </summary>
+        public BlendState BlendState { get; set; } = BlendState.AlphaBlend;
+
+        /// <summary>
+        /// A reference to the spritebatch.
+        /// </summary>
+        private SpriteBatch spriteBatch;
+
+        /// <summary>
+        /// If the system is emitting particles.
+        /// </summary>
+        public bool IsEmitting { get; set; }
+
+        /// <summary>
+        /// How long the system should emit paticles for.
+        /// </summary>
+        private float emitFor;
+
+        /// <summary>
+        /// How many particles to emit per frame.
+        /// </summary>
+        public float PPF { get; set; }
+
+        /// <summary>
+        /// How many particles are active.
+        /// </summary>
+        public int ActiveParticles { get; set; }
+
+        ///// <summary>
+        ///// If the particles' speed should change over time. See <see cref="ShouldSpeedOverTimeDecrease"/>
+        ///// </summary>
+        //public bool SpeedOverTime { get; set; }
+
+        ///// <summary>
+        ///// If the particles' speed should decrease over time when <see cref="SpeedOverTime"/> is true.
+        ///// </summary>
+        //public bool ShouldSpeedOverTimeDecrease { get; set; } = true;
+
+        ///// <summary>
+        ///// If the particles' rotation should change over time.
+        ///// </summary>
+        //public bool RotateOverTime { get; set; }
+
+        ///// <summary>
+        ///// If the particles' rotation should decrease over time.
+        ///// </summary>
+        //public bool ShouldRotationOverTimeDecrease { get; set; } = false;
+
+
+
         /// <regionsummary>
         /// The variables here will be changed on a particle when it is emitted.
         /// </regionsummary>
         #region Particle Values And Variation
 
+        #region Speed
         /// <summary>
         /// The staring speed of the particles. When <see cref="SpeedVariability"/> is not 0, this will act as the Min in random calculations.
         /// </summary>
@@ -69,7 +122,9 @@ namespace Mechanical
         /// How much the particles' speed should vary. This will be added onto <see cref="ParticleSpeed"/> and act as the Max in random calculations. To not vary the speed, set to 0.
         /// </summary>
         public float SpeedVariability { get; set; }
+        #endregion
 
+        #region Angle
         /// <summary>
         /// The starting angle of a particles. When <see cref="AngleVariablility"/> is not 0, this will act as the Min in random calculations.
         /// </summary>
@@ -79,6 +134,9 @@ namespace Mechanical
         /// How much the particles' angle should vary. This will be added onto <see cref="ParticleAngle"/> and act as the Max in random calculations. To not vary the angle, set to 0.
         /// </summary>
         public float AngleVariablility { get; set; }
+        #endregion
+
+        #region Life
 
         /// <summary>
         /// The starting life of the particles. When <see cref="LifeVariability"/> is not 0, this will act as the Min in random calculations.
@@ -89,7 +147,9 @@ namespace Mechanical
         /// How much the particles' life should vary. This will be added onto <see cref="ParticleLife"/> and act as the Max in random calculations. To not vary the life, set to 0.
         /// </summary>
         public float LifeVariability { get; set; }
+        #endregion
 
+        #region Start Color
         /// <summary>
         /// The start color of the particles. When any of the RGBA values of the <see cref="StartColorVariability"/> is not 0, they will act as the Min in random calculations.
         /// </summary>
@@ -123,6 +183,9 @@ namespace Mechanical
         /// </code>
         /// </remarks>
         public Color StartColorVariability { get; set; }
+        #endregion
+
+        #region End Color
 
         /// <summary>
         /// The end color of the particles. When any of the RGBA values of the <see cref="EndColorVariability"/> is not 0, they will act as the Min in random calculations.
@@ -140,6 +203,10 @@ namespace Mechanical
         /// </remarks>
         public Color EndColorVariability { get; set; }
 
+        #endregion
+
+        #region Start Size
+
         /// <summary>
         /// The starting size of the particles. When any of the X or Y values of the <see cref="StartSizeVariability"/> is not 0, they will act as the Min in random calculations.
         /// </summary>
@@ -156,6 +223,10 @@ namespace Mechanical
         /// </remarks>
         public Vector2 StartSizeVariability { get; set; }
 
+        #endregion
+
+        #region End Size
+
         /// <summary>
         /// The ending size of the particles. When any of the X or Y values of the <see cref="EndSizeVariability"/> is not 0, they will act as the Min in random calculations.
         /// </summary>
@@ -171,17 +242,33 @@ namespace Mechanical
         /// See <see cref="StartColor"/> or <see cref="StartColorVariability"/> for an example on variability.
         /// </remarks>
         public Vector2 EndSizeVariability { get; set; }
+        #endregion
+
+        #region Start Rotation
+        /// <summary>
+        /// The starting rotation of a particles. When <see cref="StartRotationVariablility"/> is not 0, this will act as the Min in random calculations.
+        /// </summary>
+        public float StartParticleRotation { get; set; }
 
         /// <summary>
-        /// The starting rotation of a particles. When <see cref="RotationVariablility"/> is not 0, this will act as the Min in random calculations.
+        /// How much the particles' rotation should vary. This will be added onto <see cref="StartParticleRotation"/> and act as the Max in random calculations. To not vary the rotation, set to 0.
         /// </summary>
-        public float ParticleRotation { get; set; }
+        public float StartRotationVatiability { get; set; }
+        #endregion
+
+        #region End Rotation
+        /// <summary>
+        /// The ending rotation of a particles. When <see cref="EndRotationVariablility"/> is not 0, this will act as the Min in random calculations.
+        /// </summary>
+        public float EndParticleRotation { get; set; }
 
         /// <summary>
-        /// How much the particles' rotation should vary. This will be added onto <see cref="ParticleRotation"/> and act as the Max in random calculations. To not vary the rotation, set to 0.
+        /// How much the particles' end rotation should vary. This will be added onto <see cref="EndParticleRotation"/> and act as the Max in random calculations. To not vary the rotation, set to 0.
         /// </summary>
-        public float RotationVatiability { get; set; }
+        public float EndRotationVatiability { get; set; }
+        #endregion
 
+        #region Opacity
         /// <summary>
         /// The starting opacity of a particles. When <see cref="OpacityVariability"/> is not 0, this will act as the Min in random calculations.
         /// </summary>
@@ -191,38 +278,12 @@ namespace Mechanical
         /// How much the particles' opacity should vary. This will be added onto <see cref="ParticleOpacity"/> and act as the Max in random calculations. To not vary the opacity, set to 0.
         /// </summary>
         public float OpacityVariability { get; set; }
-
         #endregion
 
-        /// <summary>
-        /// The blend state to use when drawing the particles. Defaults to <see cref="BlendState.Additive"/>.
-        /// </summary>
-        public BlendState BlendState { get; set; } = BlendState.AlphaBlend;
+        // TODO: change the following to include a start and end: speed, opacity
+        // TODO: add more variations and modifiers
 
-        /// <summary>
-        /// A reference to the spritebatch.
-        /// </summary>
-        private SpriteBatch spriteBatch;
-
-        /// <summary>
-        /// If the system is emitting particles.
-        /// </summary>
-        public bool IsEmitting { get; set; }
-
-        /// <summary>
-        /// How long the system should emit paticles for.
-        /// </summary>
-        private float emitFor;
-
-        /// <summary>
-        /// How many particles to emit per frame.
-        /// </summary>
-        public float PPF { get; set; }
-
-        /// <summary>
-        /// How many particles are active.
-        /// </summary>
-        public int ActiveParticles { get; set; }
+        #endregion
 
         #endregion
 
@@ -413,24 +474,19 @@ namespace Mechanical
 
             particle.Angle = GetVariedValue(ParticleAngle, AngleVariablility);
             particle.Life = GetVariedValue(ParticleLife, LifeVariability);
-            particle.Rotation = GetVariedValue(ParticleRotation, RotationVatiability);
-            particle.Speed = GetVariedValue(ParticleSpeed, SpeedVariability);
+            particle.Rotation = GetVariedValue(StartParticleRotation, StartRotationVatiability);
+            particle.StartSpeed = particle.Speed = GetVariedValue(ParticleSpeed, SpeedVariability);
             particle.Texture = Texture;
             particle.Opacity = GetVariedValue(ParticleOpacity, OpacityVariability);
- 
 
-            particle.Color =
+
+            particle.StartColor = particle.Color =
                 new Color(
                    (int)GetVariedValue(StartColor.R, StartColorVariability.R),
                    (int)GetVariedValue(StartColor.G, StartColorVariability.G),
                    (int)GetVariedValue(StartColor.B, StartColorVariability.B)
                 );
-            particle.StartColor =
-                new Color(
-                   (int)GetVariedValue(StartColor.R, StartColorVariability.R),
-                   (int)GetVariedValue(StartColor.G, StartColorVariability.G),
-                   (int)GetVariedValue(StartColor.B, StartColorVariability.B)
-                );
+
             particle.EndColor =
                 new Color(
                     (int)GetVariedValue(EndColor.R, EndColorVariability.R),

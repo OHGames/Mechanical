@@ -27,10 +27,10 @@ namespace Mechanical
         /// </summary>
         public float Radius { get; set; }
 
-        public CircleParticleSpawner(Vector2 systemPosition, float raduis)
+        public CircleParticleSpawner(Vector2 systemPosition, float radius)
         {
             SystemPosition = systemPosition;
-            Radius = raduis;
+            Radius = radius;
         }
 
         public Vector2 Spawn()
@@ -40,7 +40,8 @@ namespace Mechanical
             angle = angle.ToRadians();
 
             // use math.
-            return SystemPosition + Radius * new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+            // https://gamedev.stackexchange.com/a/9610/148084
+            return SystemPosition + new Vector2((float)Math.Cos(angle) * Radius, (float)Math.Sin(angle) * Radius);
         }
     }
 }

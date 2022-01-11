@@ -91,10 +91,13 @@ namespace Mechanical
         // thanks for: = delagate { }
         public event Action KeybindUntriggered = delegate { };
 
-        public Keybind(Keys[] keys, Dictionary<Keys, Keys[]> alternate)
+        public Keybind(Keys[] keys, Dictionary<Keys, Keys[]> alternate = null)
         {
             Keys = keys.ToList();
-            AlternateKeys = alternate;
+            if (alternate != null)
+                AlternateKeys = alternate;
+            else
+                AlternateKeys = new Dictionary<Keys, Keys[]>();
             UsingKeyboard = true;
         }
 
@@ -102,10 +105,13 @@ namespace Mechanical
         {
         }
 
-        public Keybind(Buttons[] buttons, Dictionary<Buttons, Buttons[]> alternate, PlayerIndex index = PlayerIndex.One)
+        public Keybind(Buttons[] buttons, Dictionary<Buttons, Buttons[]> alternate = null, PlayerIndex index = PlayerIndex.One)
         {
             Buttons = buttons.ToList();
-            AlternateButtons = alternate;
+            if (alternate != null)
+                AlternateButtons = alternate;
+            else
+                AlternateButtons = new Dictionary<Buttons, Buttons[]>();
             PlayerIndex = index;
         }
 

@@ -37,7 +37,6 @@ namespace Mechanical
         /// </summary>
         public Vector2 Size { get; set; }
 
-
         /// <summary>
         /// The starting size of the particle.
         /// </summary>
@@ -67,6 +66,11 @@ namespace Mechanical
         /// The speed of the particle.
         /// </summary>
         public float Speed { get; set; }
+
+        /// <summary>
+        /// The speed of the particle.
+        /// </summary>
+        public float StartSpeed { get; set; }
 
         /// <summary>
         /// The angle that the particle will move at.
@@ -133,6 +137,11 @@ namespace Mechanical
         /// </summary>
         private ParticleSystem system;
 
+        /// <summary>
+        /// The life ratio.
+        /// </summary>
+        private float lifeRatio;
+
         public Particle(Vector2 position, float rotation, Vector2 size, Texture2D texture, float speed, float angle, float life, Color color, ParticleSystem system, float opacity = 255, Rectangle? sourceRectangle = null) : this()
         {
             Position = position;
@@ -179,13 +188,13 @@ namespace Mechanical
             Position -= system.Gravity * deltaTime;
             Position += Velocity * deltaTime;
 
+            lifeRatio = TimeAlive / Life;
 
-            Color = Color.Lerp(StartColor, EndColor, TimeAlive / Life);
 
-            Size = Vector2.Lerp(StartSize, EndSize, TimeAlive / Life);
+            Color = Color.Lerp(StartColor, EndColor, lifeRatio);
+
+            Size = Vector2.Lerp(StartSize, EndSize, lifeRatio);
             // end http://buildnewgames.com/particle-systems/
-
-            Speed -= Easing.Interpolate(TimeAlive / Life, EasingFunctions.Linear);
 
             TimeAlive++;
 
