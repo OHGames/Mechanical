@@ -3,7 +3,7 @@
  * This file is part of the Mechanical Game Engine and is licensed under the MIT license.
  * https://github.com/OHGames/Mechanical
  * 
- * By O.H. Games
+ * By O. H. Games
  * 
  * Note: some files contain code from other sources so see https://github.com/OHGames/Mechanical/blob/main/USED_CODE_LICENSES.txt for more info.
  */
@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Linq;
 
 namespace Mechanical
 {
@@ -177,6 +178,26 @@ namespace Mechanical
         public static Color GetColorByName(this string name)
         {
             return Colors[name.ToLower()];
+        }
+
+        /// <summary>
+        /// Returns a random color.
+        /// </summary>
+        /// <returns>A random color.</returns>
+        public static Color GetRandomColor()
+        {
+            // we use Colors.Count because max is exclusive.
+            return Colors.GetValue(new Random().Next(0, Colors.Count));
+        }
+
+        /// <summary>
+        /// Returns a random color name.
+        /// </summary>
+        /// <returns>A random color name.</returns>
+        public static string GetRandomColorName()
+        {
+            // we use Colors.Count because max is exclusive.
+            return Colors.GetKey(new Random().Next(0, Colors.Count));
         }
 
     }

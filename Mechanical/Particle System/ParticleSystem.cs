@@ -3,7 +3,7 @@
  * This file is part of the Mechanical Game Engine and is licensed under the MIT license.
  * https://github.com/OHGames/Mechanical
  * 
- * By O.H. Games
+ * By O. H. Games
  * 
  * Note: some files contain code from other sources so see https://github.com/OHGames/Mechanical/blob/main/USED_CODE_LICENSES.txt for more info.
  */
@@ -85,27 +85,10 @@ namespace Mechanical
         /// </summary>
         public int ActiveParticles { get; set; }
 
-        ///// <summary>
-        ///// If the particles' speed should change over time. See <see cref="ShouldSpeedOverTimeDecrease"/>
-        ///// </summary>
-        //public bool SpeedOverTime { get; set; }
-
-        ///// <summary>
-        ///// If the particles' speed should decrease over time when <see cref="SpeedOverTime"/> is true.
-        ///// </summary>
-        //public bool ShouldSpeedOverTimeDecrease { get; set; } = true;
-
-        ///// <summary>
-        ///// If the particles' rotation should change over time.
-        ///// </summary>
-        //public bool RotateOverTime { get; set; }
-
-        ///// <summary>
-        ///// If the particles' rotation should decrease over time.
-        ///// </summary>
-        //public bool ShouldRotationOverTimeDecrease { get; set; } = false;
-
-
+        /// <summary>
+        /// If the system is paused. When the system is paused, the time to emit will not be decremented.
+        /// </summary>
+        public bool Paused { get; set; }
 
         /// <regionsummary>
         /// The variables here will be changed on a particle when it is emitted.
@@ -311,6 +294,7 @@ namespace Mechanical
         // TODO: add more variations and modifiers
 
         #endregion
+        
 
         #endregion
 
@@ -365,6 +349,8 @@ namespace Mechanical
         public virtual void Update(float deltaTime)
         {
             ParticleSpawner.SystemPosition = Position;
+
+            if (Paused) return;
 
             if (IsEmitting)
             {
@@ -549,6 +535,23 @@ namespace Mechanical
                 );
 
             return particle;
+        }
+
+        /// <summary>
+        /// Toggle the system.
+        /// </summary>
+        public void TogglePause()
+        {
+            Paused = !Paused;
+        }
+
+        /// <summary>
+        /// Set the system to be paused or unpaused.
+        /// </summary>
+        /// <param name="pause">If the system should be paused or not.</param>
+        public void Pause(bool pause)
+        {
+            Paused = pause;
         }
 
     }
