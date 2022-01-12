@@ -33,6 +33,16 @@ namespace Mechanical
         public float Rotation { get; set; }
 
         /// <summary>
+        /// The starting rotation of the particle.
+        /// </summary>
+        public float StartRotation { get; set; }
+
+        /// <summary>
+        /// The ending rotation of the particle.
+        /// </summary>
+        public float EndRotation { get; set; }
+
+        /// <summary>
         /// The size of the particle.
         /// </summary>
         public Vector2 Size { get; set; }
@@ -68,9 +78,14 @@ namespace Mechanical
         public float Speed { get; set; }
 
         /// <summary>
-        /// The speed of the particle.
+        /// The starting speed of the particle.
         /// </summary>
         public float StartSpeed { get; set; }
+
+        /// <summary>
+        /// The ending speed of the particle.
+        /// </summary>
+        public float EndSpeed { get; set; }
 
         /// <summary>
         /// The angle that the particle will move at.
@@ -133,6 +148,34 @@ namespace Mechanical
         private float opacity;
 
         /// <summary>
+        /// The starting opacity of the particle.
+        /// </summary>
+        private float startOpacity;
+
+        /// <summary>
+        /// The starting opacity of the particle.
+        /// </summary>
+        public float StartOpacity
+        {
+            get { return startOpacity; }
+            set { startOpacity = value.Normalize(0, 255); }
+        }
+
+        /// <summary>
+        /// The ending opacity of the particle.
+        /// </summary>
+        private float endOpacity;
+
+        /// <summary>
+        /// The ending opacity of the particle.
+        /// </summary>
+        public float EndOpacity
+        {
+            get { return endOpacity; }
+            set { endOpacity = value.Normalize(0, 255); }
+        }
+
+        /// <summary>
         /// The system that the particle is part of.
         /// </summary>
         private ParticleSystem system;
@@ -185,16 +228,20 @@ namespace Mechanical
                 Y = -Speed * (float)Math.Sin(rad),
             };
 
+            // TODO: change the way gravity is implemented, add acceleration variable
+
             Position -= system.Gravity * deltaTime;
             Position += Velocity * deltaTime;
 
             lifeRatio = TimeAlive / Life;
 
-
             Color = Color.Lerp(StartColor, EndColor, lifeRatio);
-
             Size = Vector2.Lerp(StartSize, EndSize, lifeRatio);
             // end http://buildnewgames.com/particle-systems/
+            Rotation = MathHelper.Lerp(StartRotation, EndRotation, lifeRatio);
+            Speed = MathHelper.Lerp(StartSpeed, EndSpeed, lifeRatio);
+            opacity = MathHelper.Lerp(StartOpacity, EndOpacity, lifeRatio);
+            // TODO: implement more interpolation types later
 
             TimeAlive++;
 

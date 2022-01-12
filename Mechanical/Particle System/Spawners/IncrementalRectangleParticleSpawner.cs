@@ -42,9 +42,14 @@ namespace Mechanical
         /// </summary>
         private float currentSide = 1;
 
-        public IncrementalRectangleParticleSpawner(Vector2 systemPosition, float width, float height, IncrementDirection direction = IncrementDirection.Clockwise, float currentIncrement = 0, float increment = 10)
+        public IncrementalRectangleParticleSpawner ( 
+                float width, 
+                float height, 
+                IncrementDirection direction = IncrementDirection.Clockwise, 
+                float currentIncrement = 0, 
+                float increment = 10 
+            )
         {
-            SystemPosition = systemPosition;
             this.currentIncrement = currentIncrement;
             Increment = increment;
             Width = width;

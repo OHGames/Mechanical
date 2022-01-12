@@ -17,9 +17,8 @@ namespace Mechanical
         /// </summary>
         public float MaxRadius { get; set; }
 
-        public InnerCircleParticleSpawner(Vector2 systemPosition, float radius)
+        public InnerCircleParticleSpawner(float radius)
         {
-            SystemPosition = systemPosition;
             MaxRadius = radius;
         }
 

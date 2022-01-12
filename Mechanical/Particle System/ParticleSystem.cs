@@ -112,16 +112,30 @@ namespace Mechanical
         /// </regionsummary>
         #region Particle Values And Variation
 
-        #region Speed
+        #region Start Speed
         /// <summary>
-        /// The staring speed of the particles. When <see cref="SpeedVariability"/> is not 0, this will act as the Min in random calculations.
+        /// The staring speed of the particles. When <see cref="StartSpeedVariability"/> is not 0, this will act as the Min in random calculations.
         /// </summary>
-        public float ParticleSpeed { get; set; }
+        public float StartParticleSpeed { get; set; }
 
         /// <summary>
-        /// How much the particles' speed should vary. This will be added onto <see cref="ParticleSpeed"/> and act as the Max in random calculations. To not vary the speed, set to 0.
+        /// How much the particles' starting speed should vary. This will be added onto <see cref="StartParticleSpeed"/> and act as the Max in random calculations. To not vary the speed, set to 0.
         /// </summary>
-        public float SpeedVariability { get; set; }
+        public float StartSpeedVariability { get; set; }
+        #endregion
+
+        #region End Speed
+
+        /// <summary>
+        /// The ending speed of the particles. When <see cref="EndSpeedVariability"/> is not 0, this will act as the Min in random calculations.
+        /// </summary>
+        public float EndParticleSpeed { get; set; }
+
+        /// <summary>
+        /// How much the particles' end speed should vary. This will be added onto <see cref="EndParticleSpeed"/> and act as the Max in random calculations. To not vary the speed, set to 0.
+        /// </summary>
+        public float EndSpeedVariability { get; set; }
+
         #endregion
 
         #region Angle
@@ -268,19 +282,32 @@ namespace Mechanical
         public float EndRotationVatiability { get; set; }
         #endregion
 
-        #region Opacity
+        #region Start Opacity
         /// <summary>
-        /// The starting opacity of a particles. When <see cref="OpacityVariability"/> is not 0, this will act as the Min in random calculations.
+        /// The starting opacity of a particles. When <see cref="StartOpacityVariability"/> is not 0, this will act as the Min in random calculations.
         /// </summary>
-        public float ParticleOpacity { get; set; } = 255;
+        public float StartParticleOpacity { get; set; } = 255;
 
         /// <summary>
-        /// How much the particles' opacity should vary. This will be added onto <see cref="ParticleOpacity"/> and act as the Max in random calculations. To not vary the opacity, set to 0.
+        /// How much the particles' opacity should vary. This will be added onto <see cref="StartParticleOpacity"/> and act as the Max in random calculations. To not vary the opacity, set to 0.
         /// </summary>
-        public float OpacityVariability { get; set; }
+        public float StartOpacityVariability { get; set; }
         #endregion
 
-        // TODO: change the following to include a start and end: speed, opacity
+        #region End Opacity
+
+        /// <summary>
+        /// The ending opacity of a particles. When <see cref="EndOpacityVariability"/> is not 0, this will act as the Min in random calculations.
+        /// </summary>
+        public float EndParticleOpacity { get; set; } = 255;
+
+        /// <summary>
+        /// How much the particles' ending opacity should vary. This will be added onto <see cref="EndParticleOpacity"/> and act as the Max in random calculations. To not vary the opacity, set to 0.
+        /// </summary>
+        public float EndOpacityVariability { get; set; }
+
+        #endregion
+
         // TODO: add more variations and modifiers
 
         #endregion
@@ -303,7 +330,7 @@ namespace Mechanical
 
             if (spawner == null)
             {
-                ParticleSpawner = new BasicParticleSpawner(Position);
+                ParticleSpawner = new BasicParticleSpawner();
             }
             else
             {
@@ -311,6 +338,7 @@ namespace Mechanical
             }
 
 
+            ParticleSpawner.SystemPosition = Position;
         }
 
         public virtual void Initialize()
@@ -474,19 +502,32 @@ namespace Mechanical
 
             particle.Angle = GetVariedValue(ParticleAngle, AngleVariablility);
             particle.Life = GetVariedValue(ParticleLife, LifeVariability);
-            particle.Rotation = GetVariedValue(StartParticleRotation, StartRotationVatiability);
-            particle.StartSpeed = particle.Speed = GetVariedValue(ParticleSpeed, SpeedVariability);
+
+            var rotation = GetVariedValue(StartParticleRotation, StartRotationVatiability);
+            particle.StartRotation = rotation;
+            particle.Rotation = rotation;
+            particle.EndRotation = GetVariedValue(EndParticleRotation, EndRotationVatiability);
+
+            var speed = GetVariedValue(StartParticleSpeed, StartSpeedVariability);
+            particle.StartSpeed = speed;
+            particle.Speed = speed;
+            particle.EndSpeed = GetVariedValue(EndParticleSpeed, EndSpeedVariability);
+
             particle.Texture = Texture;
-            particle.Opacity = GetVariedValue(ParticleOpacity, OpacityVariability);
+
+            var opacity = GetVariedValue(StartParticleOpacity, StartOpacityVariability);
+            particle.StartOpacity = opacity;
+            particle.Opacity = opacity;
+            particle.EndOpacity = GetVariedValue(EndParticleOpacity, EndOpacityVariability);
 
 
-            particle.StartColor = particle.Color =
-                new Color(
+            var color = new Color(
                    (int)GetVariedValue(StartColor.R, StartColorVariability.R),
                    (int)GetVariedValue(StartColor.G, StartColorVariability.G),
                    (int)GetVariedValue(StartColor.B, StartColorVariability.B)
                 );
-
+            particle.Color = color;
+            particle.StartColor = color;
             particle.EndColor =
                 new Color(
                     (int)GetVariedValue(EndColor.R, EndColorVariability.R),
@@ -495,16 +536,12 @@ namespace Mechanical
                 );
 
 
-            particle.Size =
-                new Vector2(
+            var size = new Vector2(
                     GetVariedValue(StartSize.X, StartSizeVariability.X),
                     GetVariedValue(StartSize.Y, StartSizeVariability.Y)
                 );
-            particle.StartSize =
-                new Vector2(
-                    GetVariedValue(StartSize.X, StartSizeVariability.X),
-                    GetVariedValue(StartSize.Y, StartSizeVariability.Y)
-                );
+            particle.Size = size;
+            particle.StartSize = size;
             particle.EndSize =
                 new Vector2(
                     GetVariedValue(EndSize.X, EndSizeVariability.X),

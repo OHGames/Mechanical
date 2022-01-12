@@ -27,18 +27,18 @@ namespace Mechanical
         /// </summary>
         public float ExtendBy { get; set; }
 
-        public LineSegmentParticleSpawner(Vector2 systemPosition, float extendBy)
+        public LineSegmentParticleSpawner(float extendBy)
         {
-            SystemPosition = systemPosition;
             ExtendBy = extendBy;
 
             a = new Vector2(SystemPosition.X - ExtendBy, SystemPosition.Y);
             b = new Vector2(SystemPosition.X + ExtendBy, SystemPosition.Y);
-
         }
 
         public Vector2 Spawn()
         {
+            a = new Vector2(SystemPosition.X - ExtendBy, SystemPosition.Y);
+            b = new Vector2(SystemPosition.X + ExtendBy, SystemPosition.Y);
             return new Vector2(new Random().Next((int)a.X, (int)b.X), SystemPosition.Y);
         }
     }

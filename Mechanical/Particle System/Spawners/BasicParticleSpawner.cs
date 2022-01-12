@@ -22,11 +22,6 @@ namespace Mechanical
     {
         public Vector2 SystemPosition { get; set; }
 
-        public BasicParticleSpawner(Vector2 systemPos)
-        {
-            SystemPosition = systemPos;
-        }
-
         public Vector2 Spawn()
         {
             return SystemPosition;

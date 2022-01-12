@@ -29,9 +29,13 @@ namespace Mechanical
 
         public IncrementDirection Direction { get; set; }
 
-        public IncrementalCircleParticleSpawner(Vector2 systemPosition, float radius, float increment = 10, float currentIncrement = 0, IncrementDirection direction = IncrementDirection.Clockwise)
+        public IncrementalCircleParticleSpawner (
+                float radius, 
+                float increment = 10, 
+                float currentIncrement = 0, 
+                IncrementDirection direction = IncrementDirection.Clockwise
+            )
         {
-            SystemPosition = systemPosition;
             Radius = radius;
             Increment = increment;
             this.currentIncrement = currentIncrement;

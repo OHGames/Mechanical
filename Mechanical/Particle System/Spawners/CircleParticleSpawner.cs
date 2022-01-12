@@ -27,9 +27,8 @@ namespace Mechanical
         /// </summary>
         public float Radius { get; set; }
 
-        public CircleParticleSpawner(Vector2 systemPosition, float radius)
+        public CircleParticleSpawner(float radius)
         {
-            SystemPosition = systemPosition;
             Radius = radius;
         }
 
