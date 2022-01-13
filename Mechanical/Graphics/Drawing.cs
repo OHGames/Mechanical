@@ -380,6 +380,16 @@ namespace Mechanical
         public static void DrawLine(float x1, float y1, float x2, float y2, Color color, float width, Effect effect = null) => DrawLine(new Vector2(x1, y1), new Vector2(x2, y2), color, width, effect);
 
         /// <summary>
+        /// Draw a <see cref="LineSegment"/>.
+        /// </summary>
+        /// <param name="line">The line segment to draw.</param>
+        /// <param name="color">The color to draw.</param>
+        /// <param name="width">How thick the line is.</param>
+        /// <param name="effect">An effect to apply.</param>
+        public static void DrawLine(LineSegment line, Color color, float width, Effect effect = null) =>
+            DrawLine(line.A, line.B, color, width, effect);
+
+        /// <summary>
         /// Draw a polygon.
         /// </summary>
         /// <param name="verticies">The verticies of the shape.</param>
@@ -448,6 +458,17 @@ namespace Mechanical
             DrawPolygon(verticies, color, lineWidth, effect);
 
         }
+
+        /// <summary>
+        /// Draw a circle.
+        /// </summary>
+        /// <param name="circle">The circle to draw.</param>
+        /// <param name="color">The color of the circle.</param>
+        /// <param name="lineWidth">How thick the line is.</param>
+        /// <param name="segments">The amount of segments in the circle. You can specify as many as posible 3 or more.</param>
+        /// <param name="effect">The effect to apply.</param>
+        public static void DrawCircle(Circle circle, Color color, float lineWidth, int segments = 16, Effect effect = null) =>
+            DrawCircle(circle.Center, circle.Radius, color, lineWidth, segments, effect);
 
         #endregion
 
