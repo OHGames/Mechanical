@@ -411,6 +411,16 @@ namespace Mechanical
         }
 
         /// <summary>
+        /// Draw a polygon.
+        /// </summary>
+        /// <param name="polygon">The polygon to use.</param>
+        /// <param name="color">The color.</param>
+        /// <param name="width">The thickness of each line.</param>
+        /// <param name="effect">An effect to apply.</param>
+        public static void DrawPolygon(Polygon polygon, Color color, float width, Effect effect = null) =>
+            DrawPolygon(polygon.Verticies, color, width, effect);
+
+        /// <summary>
         /// Draw a rectangle.
         /// </summary>
         /// <param name="rectangle">The rectangle to draw.</param>

@@ -67,6 +67,17 @@ namespace Mechanical
             Direction = direction;
         }
 
+        public IncrementalRectangleParticleSpawner(
+                Rectangle rectangle,
+                IncrementDirection direction = IncrementDirection.Clockwise,
+                float currentIncrement = 0,
+                float increment = 10
+            ) 
+            : this(rectangle.Width, rectangle.Height, direction, currentIncrement, increment)
+        {
+
+        }
+
         public Vector2 Spawn()
         {
             // the dir multiplies the min and max so that the direction changes based on rotation direction.

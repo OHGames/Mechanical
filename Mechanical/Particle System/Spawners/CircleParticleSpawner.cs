@@ -32,6 +32,11 @@ namespace Mechanical
             Radius = radius;
         }
 
+        public CircleParticleSpawner(Circle circle)
+        {
+            Radius = circle.Radius;
+        }
+
         public Vector2 Spawn()
         {
             // get random angle.

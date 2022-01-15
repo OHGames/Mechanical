@@ -22,6 +22,11 @@ namespace Mechanical
     {
 
         /// <summary>
+        /// An empty circle.
+        /// </summary>
+        public static readonly Circle Empty = new Circle(Vector2.Zero, 0);
+
+        /// <summary>
         /// The position of the circle. (It's center)
         /// </summary>
         public Vector2 Center { get; set; }
@@ -74,6 +79,11 @@ namespace Mechanical
             }
         }
 
+        public Circle(Vector2 center, float radius) : this()
+        {
+            Center = center;
+            Radius = radius;
+        }
 
         public static bool operator ==(Circle a, Circle b)
         {

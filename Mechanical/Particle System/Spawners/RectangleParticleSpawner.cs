@@ -32,11 +32,15 @@ namespace Mechanical
         /// </summary>
         public float Height { get; set; }
 
-        public RectangleParticleSpawner(Vector2 systemPosition, float width, float height)
+        public RectangleParticleSpawner(float width, float height)
         {
-            SystemPosition = systemPosition;
             Width = width;
             Height = height;
+        }
+
+        public RectangleParticleSpawner(Rectangle rectangle) : this(rectangle.Width, rectangle.Height)
+        {
+
         }
 
         public Vector2 Spawn()

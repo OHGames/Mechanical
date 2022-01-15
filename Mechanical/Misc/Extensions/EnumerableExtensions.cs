@@ -16,9 +16,9 @@ using System.Text;
 namespace Mechanical
 {
     /// <summary>
-    /// A collection of extension methods for lists.
+    /// A collection of extension methods for <see cref="IEnumerable{T}"/>.
     /// </summary>
-    public static class ListExtensions
+    public static class EnumerableExtensions
     {
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Mechanical
         /// <param name="list">The list of items.</param>
         /// <param name="items">The list of items to check.</param>
         /// <returns>True if the list contains at least one item.</returns>
-        public static bool ContainsAny<T>(this List<T> list, T[] items)
+        public static bool ContainsAny<T>(this IEnumerable<T> list, T[] items)
         {
             for (int i = 0; i < items.Length; i++)
             {
@@ -45,7 +45,7 @@ namespace Mechanical
         /// <param name="list">The list of items.</param>
         /// <param name="items">The list of items to check.</param>
         /// <returns>True if the list contains at least one item.</returns>
-        public static bool ContainsAny<T>(this List<T> list, List<T> items) => ContainsAny<T>(list, items);
+        public static bool ContainsAny<T>(this IEnumerable<T> list, IEnumerable<T> items) => ContainsAny<T>(list, items);
 
         /// <summary>
         /// This function checks to see if a list contains all the elements of a second list.
@@ -54,7 +54,7 @@ namespace Mechanical
         /// <param name="list">The list of items.</param>
         /// <param name="items">The list of items to check.</param>
         /// <returns>True if all items in the second parameter are present in the list.</returns>
-        public static bool ContainsAll<T>(this List<T> list, T[] items)
+        public static bool ContainsAll<T>(this IEnumerable<T> list, T[] items)
         {
             for (int i = 0; i < items.Length; i++)
             {
@@ -72,7 +72,7 @@ namespace Mechanical
         /// <param name="list">The list of items.</param>
         /// <param name="items">The list of items to check.</param>
         /// <returns>True if all items in the second parameter are present in the list.</returns>
-        public static bool ContainsAll<T>(this List<T> list, List<T> items) => ContainsAll<T>(list, items);
+        public static bool ContainsAll<T>(this IEnumerable<T> list, IEnumerable<T> items) => ContainsAll<T>(list, items);
 
         /// <summary>
         /// This function checks to see if a list contains any items of the specified type list.
@@ -81,13 +81,13 @@ namespace Mechanical
         /// <param name="list">The list of items.</param>
         /// <param name="types">The list of types to check.</param>
         /// <returns>True if the list contains an item that has a type defined in the types parameter.</returns>
-        public static bool ContainsAnyOfType<T>(this List<T> list, Type[] types)
+        public static bool ContainsAnyOfType<T>(this IEnumerable<T> list, Type[] types)
         {
             // loop through list.
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count(); i++)
             {
                 // if the type is in the types list.
-                if (types.Contains(list[i].GetType())) return true;
+                if (types.Contains(list.ElementAt(i).GetType())) return true;
             }
             return false;
         }
@@ -99,7 +99,7 @@ namespace Mechanical
         /// <param name="list">The list of items.</param>
         /// <param name="types">The list of types to check.</param>
         /// <returns>True if the list contains an item that has a type defined in the types parameter.</returns>
-        public static bool ContainsAnyOfType<T>(this List<T> list, List<Type> types) => ContainsAnyOfType<T>(list, types.ToArray());
+        public static bool ContainsAnyOfType<T>(this IEnumerable<T> list, IEnumerable<Type> types) => ContainsAnyOfType<T>(list, types.ToArray());
 
         /// <summary>
         /// This function checks to see if a list contains all of the types in the specified type list.
@@ -108,7 +108,7 @@ namespace Mechanical
         /// <param name="list">The list to check.</param>
         /// <param name="types">The list of types.</param>
         /// <returns>True if the list contains all items that have a type defined in the types parameter.</returns>
-        public static bool ContainsAllOfType<T>(this List<T> list, Type[] types)
+        public static bool ContainsAllOfType<T>(this IEnumerable<T> list, Type[] types)
         {
             for (int i = 0; i < types.Length; i++)
             {
@@ -128,7 +128,20 @@ namespace Mechanical
         /// <param name="list">The list to check.</param>
         /// <param name="types">The list of types.</param>
         /// <returns>True if the list contains all items that have a type defined in the types parameter.</returns>
-        public static bool ContainsAllOfType<T>(this List<T> list, List<Type> types) => ContainsAllOfType<T>(list, types.ToArray());
+        public static bool ContainsAllOfType<T>(this IEnumerable<T> list, IEnumerable<Type> types) => ContainsAllOfType<T>(list, types.ToArray());
+
+        /// <summary>
+        /// Wrap an index so it is never out of bounds. Special use case only.
+        /// </summary>
+        /// <typeparam name="T">The type of list.</typeparam>
+        /// <param name="list">The list to use.</param>
+        /// <param name="index">The index to possibly wrap.</param>
+        /// <returns>The element of the list at the wrapped index.</returns>
+        public static T WrapIndex<T>(this IEnumerable<T> list, int index)
+        {
+            // https://youtu.be/Zgf1DYrmSnk?t=693 code under MIT license
+            return list.ElementAt((index + 1) % list.Count());
+        }
 
     }
 }

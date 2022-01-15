@@ -45,6 +45,14 @@ namespace Mechanical
             b = new Vector2(SystemPosition.X + ExtendBy, SystemPosition.Y);
         }
 
+        public LineSegmentParticleSpawner(LineSegment segment)
+        {
+            ExtendBy = segment.Distance / 2;
+
+            a = segment.A;
+            b = segment.B;
+        }
+
         public Vector2 Spawn()
         {
             a = new Vector2(SystemPosition.X - ExtendBy, SystemPosition.Y);

@@ -16,20 +16,20 @@ using System.Text;
 namespace Mechanical
 {
     /// <summary>
-    /// The collision class contains lots of functions to detect collisions between shapes.
+    /// The collision class contains lots of functions to detect collisions between shapes. This only detects intercections.
     /// </summary>
     public static class Collision
     {
 
         #region AABB vs AABB
-        // http://web.archive.org/web/20201128223427/https://github.com/noonat/intersect This function here. This function is licensed under the Zlib-Libpng License (Zlib).
+        // https://github.com/noonat/intersect This function here. This function is licensed under the Zlib-Libpng License (Zlib).
         /// <summary>
         /// Checks if 2 <see cref="Rectangle"/>s are colliding.
         /// </summary>
         /// <param name="a">The first rectangle.</param>
         /// <param name="b">The second rectangle</param>
-        /// <returns>A <see cref="CollisionResponse"/> for <paramref name="a"/>. If there is no collision, it returns <see cref="CollisionResponse.NoCollision"/></returns>
-        public static CollisionResponse IsColliding(Rectangle a, Rectangle b)
+        /// <returns>A <see cref="RectangleCollisionResponse"/> for <paramref name="a"/>. If there is no collision, it returns <see cref="RectangleCollisionResponse.NoCollision"/></returns>
+        public static RectangleCollisionResponse IsColliding(Rectangle a, Rectangle b)
         {
             float dx = b.Center.X - a.Center.X;
             float px = ((b.Width / 2) + (a.Width / 2)) - (float)Math.Abs(dx);
@@ -37,7 +37,7 @@ namespace Mechanical
             // there is no overlap.
             if (px <= 0)
             {
-                return CollisionResponse.NoCollision;
+                return RectangleCollisionResponse.NoCollision;
             }
 
             float dy = b.Center.Y - a.Center.Y;
@@ -46,160 +46,152 @@ namespace Mechanical
             // there is no overlap.
             if (py <= 0)
             {
-                return CollisionResponse.NoCollision;
+                return RectangleCollisionResponse.NoCollision;
             }
 
             if (px < py)
             {
                 float sx = Math.Sign(dx);
-                Vector2 intercect = new Vector2(px * sx, 0);
 
                 Vector2 pos = new Vector2(a.X + (a.Width / 2) * sx, b.Y);
 
-                return new CollisionResponse(true, intercect, pos, new Vector2(sx, 0));
+                return new RectangleCollisionResponse(true, px * sx, pos, new Vector2(sx, 0), b);
             }
             else
             {
                 float sy = Math.Sign(dy);
-                Vector2 intercect = new Vector2(0, py * sy);
 
                 Vector2 pos = new Vector2(b.X, a.Y + (a.Width / 2) * sy);
 
-                return new CollisionResponse(true, intercect, pos, new Vector2(0, sy));
+                return new RectangleCollisionResponse(true, py * sy, pos, new Vector2(0, sy), b);
             }
         }
 
         #endregion
 
-        #region AABB vs Point
-
-        // http://web.archive.org/web/20201128223427/https://github.com/noonat/intersect This function here. This function is licensed under the Zlib-Libpng License (Zlib).
+        #region Circle vs Circle
+        // https://github.com/twobitcoder101/FlatPhysics this function here. Licensed under the MIT license.
         /// <summary>
-        /// Checks if a <see cref="Rectangle"/> and a <see cref="Vector2"/> (point) are colliding.
+        /// Checks if 2 <see cref="Circle"/>s are colliding.
         /// </summary>
-        /// <param name="rect">The rectangle to check.</param>
-        /// <param name="point">The point.</param>
-        /// <returns>
-        /// A <see cref="CollisionResponse"/> with collision data and <see cref="CollisionResponse.NoCollision"/> 
-        /// when there is no collision.
-        /// </returns>
-        public static CollisionResponse IsColliding(Rectangle rect, Vector2 point)
+        /// <param name="a">The circle to check.</param>
+        /// <param name="b">The other circle to check.</param>
+        /// <returns><see cref="CircleCollisionResponse.NoCollision"/> when there is no collision, and
+        /// <see cref="CircleCollisionResponse"/> when there is a collision.</returns>
+        public static CircleCollisionResponse IsColliding(Circle a, Circle b)
         {
-            float dx = point.X - rect.Center.X;
-            float px = rect.Half().X - Math.Abs(dx);
+            // get the distance of the 2 centers
+            float distance = Vector2.Distance(a.Center, b.Center);
 
-            if (px <= 0)
+            // add the radii
+            float radii = a.Radius + b.Radius;
+
+            // no collision, they are far apart.
+            if (distance >= radii)
             {
-                return CollisionResponse.NoCollision;
+                return CircleCollisionResponse.NoCollision;
             }
 
-            float dy = point.Y - rect.Center.Y;
-            float py = rect.Half().Y - Math.Abs(dy);
+            Vector2 normal = Vector2.Normalize(b.Center - a.Center);
+            float intercect = radii - distance;
 
-            if (py <= 0)
-            {
-                return CollisionResponse.NoCollision;
-            }
+            // TODO: change normal to a normalized vector and change intercectDistance to a float
+            // to apply the resolution multiply the distance and the normal and add onto location.
 
-            if (px < py)
-            {
-                float sx = Math.Sign(dx);
-                Vector2 intercect = new Vector2(px * sx, 0);
-
-                Vector2 pos = new Vector2(rect.Center.X + (rect.Half().X * sx), point.Y);
-
-                return new CollisionResponse(true, intercect, pos, new Vector2(sx, 0));
-            }
-            else
-            {
-                float sy = Math.Sign(dy);
-                Vector2 intercect = new Vector2(0, py * sy);
-
-                Vector2 pos = new Vector2(point.X, rect.Center.Y + (rect.Half().Y * sy));
-                return new CollisionResponse(true, intercect, pos, new Vector2(0, sy));
-            }
+            return new CircleCollisionResponse(true, intercect, normal, b);
 
         }
-
-        /// <summary>
-        /// Checks if a <see cref="Rectangle"/> and a <see cref="Point"/> are colliding.
-        /// </summary>
-        /// <param name="rect">The rectangle to check.</param>
-        /// <param name="point">The point.</param>
-        /// <returns>
-        /// A <see cref="CollisionResponse"/> with collision data and <see cref="CollisionResponse.NoCollision"/> 
-        /// when there is no collision.
-        /// </returns>
-        public static CollisionResponse IsColliding(Rectangle rect, Point point) => IsColliding(rect, point.ToVector2());
 
         #endregion
 
-        #region AABB vs Line Segment
-
-        // http://web.archive.org/web/20201128223427/https://github.com/noonat/intersect This function here. This function is licensed under the Zlib-Libpng License (Zlib).
+        #region SAT (Polygon vs Polygon)
+        //https://github.com/twobitcoder101/FlatPhysics this function here. Licensed under the MIT license.
         /// <summary>
-        /// Checks if a <see cref="LineSegment"/> and a <see cref="Rectangle"/> are colliding.
+        /// Checks if 2 <see cref="Polygon"/>s are colliding.
         /// </summary>
-        /// <param name="rect">The rectangle to check.</param>
-        /// <param name="segment">The segment to use.</param>
-        /// <returns>A <see cref="CollisionResponse"/> with the collision data 
-        /// and <see cref="CollisionResponse.NoCollision"/> when there is no collision.</returns>
-        public static CollisionResponse IsColliding(Rectangle rect, LineSegment segment)
+        /// <param name="a">The polygon to check.</param>
+        /// <param name="b">The other polygon.</param>
+        /// <returns><see cref="PolygonCollisionResponse.NoCollision"/> if there is no collision, 
+        /// and a <see cref="PolygonCollisionResponse"/> when there is a collision.</returns>
+        public static PolygonCollisionResponse IsColliding(Polygon a, Polygon b)
         {
-            Vector2 a = segment.A;
-            Vector2 b = segment.B;
-            Vector2 delta = b - a;
-
-            float scaleX = 1 / delta.X;
-            float scaleY = 1 / delta.Y;
-            float signX = Math.Sign(scaleX);
-            float signY = Math.Sign(scaleY);
-
-            float nearTimeX = (rect.Center.X - signX * (rect.Half().X) - a.X) * scaleX;
-            float nearTimeY = (rect.Center.Y - signY * (rect.Half().Y) - a.Y) * scaleY;
-
-            float farTimeX = (rect.Center.X + signX * (rect.Half().X) - a.X) * scaleX;
-            float farTimeY = (rect.Center.Y + signY * (rect.Half().Y) - a.Y) * scaleY;
-
-            if (nearTimeX > farTimeY || nearTimeY > farTimeX)
+            // loop through A.
+            for (int i = 0; i < a.VertexCount; i++)
             {
-                return CollisionResponse.NoCollision;
+                Vector2 va = a.Verticies[i];
+                // get next vertex.
+                Vector2 vb = a.Verticies.WrapIndex(i + 1);
+
+                Vector2 edge = vb - va;
+                // get the normal.
+                Vector2 normal = new Vector2(-edge.Y, edge.X);
+
+                ProjectVerticies(a.Verticies, normal, out float minA, out float maxA);
+                ProjectVerticies(b.Verticies, normal, out float minB, out float maxB);
+
+                if (minA >= maxB || minB >= maxA)
+                {
+                    // no collision.
+                    return PolygonCollisionResponse.NoCollision;
+                }
+
             }
 
-            float nearTime = nearTimeX > nearTimeY ? nearTimeX : nearTimeY;
-            float farTime = farTimeX < farTimeY ? farTimeX : farTimeY;
-
-            if (nearTime >= 1 || farTime <= 0)
+            // loop through B.
+            for (int i = 0; i < b.VertexCount; i++)
             {
-                return CollisionResponse.NoCollision;
+                Vector2 va = b.Verticies[i];
+                // get next vertex.
+                Vector2 vb = b.Verticies.WrapIndex(i + 1);
+
+                Vector2 edge = vb - va;
+                // get the normal.
+                Vector2 normal = new Vector2(-edge.Y, edge.X);
+
+                ProjectVerticies(a.Verticies, normal, out float minA, out float maxA);
+                ProjectVerticies(b.Verticies, normal, out float minB, out float maxB);
+
+                if (minA >= maxB || minB >= maxA)
+                {
+                    // no collision.
+                    return PolygonCollisionResponse.NoCollision;
+                }
+
             }
 
-            CollisionResponse response = new CollisionResponse();
-            response.LineIntercectDistance = nearTime.Clamp(0, 1);
-
-            if (nearTimeX > nearTimeY)
-            {
-                response.Normal = new Vector2(-signX, 0);
-            }
-            else
-            {
-                response.Normal = new Vector2(0, -signY);
-            }
-
-            response.IntercectDistance = new Vector2(
-                (1 - response.LineIntercectDistance) * -delta.X,
-                (1 - response.LineIntercectDistance) * -delta.X);
-
-            response.Position = new Vector2(
-                a.X + delta.X * response.LineIntercectDistance,
-                a.Y + delta.Y * response.LineIntercectDistance);
-
-            response.Colliding = true;
-
-            return response;
-
+            // if we are here there are no gaps so there is a collision.
+            return new PolygonCollisionResponse(true, b);
         }
 
+        /// <summary>
+        /// Projects a list of verticies to an axis for SAT collision detection. 
+        /// This is used in <see cref="IsColliding(Polygon, Polygon)"/>.
+        /// </summary>
+        /// <param name="verticies">The verticies to project.</param>
+        /// <param name="axis">The axis to project to.</param>
+        /// <param name="min">The min of the projection.</param>
+        /// <param name="max">The max of the projection.</param>
+        private static void ProjectVerticies(Vector2[] verticies, Vector2 axis, out float min, out float max)
+        {
+            min = float.MaxValue;
+            max = float.MinValue;
+
+            for (int i = 0; i < verticies.Length; i++)
+            {
+                Vector2 v = verticies[i];
+                float proj = Vector2.Dot(v, axis);
+
+                if (proj < min)
+                {
+                    min = proj;
+                }
+
+                if (proj > max)
+                {
+                    max = proj;
+                }
+            }
+        }
         #endregion
 
         /// <summary>

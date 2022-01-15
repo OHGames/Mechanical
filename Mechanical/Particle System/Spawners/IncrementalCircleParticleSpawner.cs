@@ -52,6 +52,16 @@ namespace Mechanical
             Direction = direction;
         }
 
+        public IncrementalCircleParticleSpawner(
+                Circle circle, 
+                float increment = 10, 
+                float currentIncrement = 0, 
+                IncrementDirection direction = IncrementDirection.Clockwise) 
+            : this(circle.Radius, increment, currentIncrement, direction)
+        {
+            
+        }
+
         public Vector2 Spawn()
         {
             float rad = currentIncrement.ToRadians();
