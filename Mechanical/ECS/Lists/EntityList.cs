@@ -35,6 +35,26 @@ namespace Mechanical
 
         private bool safeToChange = true;
 
+        /// <summary>
+        /// The entities in the background.
+        /// </summary>
+        private IDrawable[] bg;
+
+        /// <summary>
+        /// Entities in the mid ground.
+        /// </summary>
+        private IDrawable[] mg;
+
+        /// <summary>
+        /// Entities in the foreground.
+        /// </summary>
+        private IDrawable[] fg;
+
+        /// <summary>
+        /// If the list is dirty and we need to resort.
+        /// </summary>
+        private bool isDirty = true;
+
         #region Indexors
         /// <summary>
         /// This returns an entity from the specified index. Or returns the entity with the id.
@@ -102,6 +122,7 @@ namespace Mechanical
             {
                 throw new Exception($"The entity, {entity.Name} id: {entity.ID}, is already added!");
             }
+            isDirty = true;
         }
 
         /// <summary>
@@ -120,6 +141,7 @@ namespace Mechanical
             {
                 throw new Exception($"The entity, {entity.Name} id: {entity.ID}, is not in the list!");
             }
+            isDirty = true;
         }
 
         /// <summary>
@@ -175,13 +197,18 @@ namespace Mechanical
             if (drawable.Count > 0)
             {
 
-                IDrawable[] bg = drawable.Where(e => e.RenderLayer == RenderLayer.Background).ToArray();
-                IDrawable[] mg = drawable.Where(e => e.RenderLayer == RenderLayer.Midground).ToArray();
-                IDrawable[] fg = drawable.Where(e => e.RenderLayer == RenderLayer.Foreground).ToArray();
+                if (isDirty)
+                {
+                    bg = drawable.Where(e => e.RenderLayer == RenderLayer.Background).ToArray();
+                    mg = drawable.Where(e => e.RenderLayer == RenderLayer.Midground).ToArray();
+                    fg = drawable.Where(e => e.RenderLayer == RenderLayer.Foreground).ToArray();
 
-                bg = bg.OrderBy(e => e.RenderOrder).ToArray();
-                mg = mg.OrderBy(e => e.RenderOrder).ToArray();
-                fg = fg.OrderBy(e => e.RenderOrder).ToArray();
+                    bg = bg.OrderBy(e => e.RenderOrder).ToArray();
+                    mg = mg.OrderBy(e => e.RenderOrder).ToArray();
+                    fg = fg.OrderBy(e => e.RenderOrder).ToArray();
+
+                    isDirty = false;
+                }
 
                 for (int i = 0; i < bg.Count(); i++)
                 {
@@ -240,14 +267,18 @@ namespace Mechanical
         {
             if (drawable.Count > 0)
             {
+                if (isDirty)
+                {
+                    bg = drawable.Where(e => e.RenderLayer == RenderLayer.Background).ToArray();
+                    mg = drawable.Where(e => e.RenderLayer == RenderLayer.Midground).ToArray();
+                    fg = drawable.Where(e => e.RenderLayer == RenderLayer.Foreground).ToArray();
 
-                IDrawable[] bg = drawable.Where(e => e.RenderLayer == RenderLayer.Background).ToArray();
-                IDrawable[] mg = drawable.Where(e => e.RenderLayer == RenderLayer.Midground).ToArray();
-                IDrawable[] fg = drawable.Where(e => e.RenderLayer == RenderLayer.Foreground).ToArray();
+                    bg = bg.OrderBy(e => e.RenderOrder).ToArray();
+                    mg = mg.OrderBy(e => e.RenderOrder).ToArray();
+                    fg = fg.OrderBy(e => e.RenderOrder).ToArray();
 
-                bg = bg.OrderBy(e => e.RenderOrder).ToArray();
-                mg = mg.OrderBy(e => e.RenderOrder).ToArray();
-                fg = fg.OrderBy(e => e.RenderOrder).ToArray();
+                    isDirty = false;
+                }
 
                 for (int i = 0; i < bg.Count(); i++)
                 {

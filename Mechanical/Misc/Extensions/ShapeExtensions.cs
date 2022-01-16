@@ -20,7 +20,7 @@ namespace Mechanical
         {
             Vector2[] verticies = new Vector2[segments];
 
-            float inc = MathHelper.PiOver2 / segments;
+            float inc = MathHelper.TwoPi / segments;
             float currentInc = 0;
 
             for (int i = 0; i < segments; i++)

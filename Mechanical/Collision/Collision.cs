@@ -111,10 +111,13 @@ namespace Mechanical
         /// </summary>
         /// <param name="a">The polygon to check.</param>
         /// <param name="b">The other polygon.</param>
-        /// <returns><see cref="PolygonCollisionResponse.NoCollision"/> if there is no collision, 
+        /// <returns><see cref="PolygonCollisionResponse.NoCollision"/> if there is no collision 
         /// and a <see cref="PolygonCollisionResponse"/> when there is a collision.</returns>
         public static PolygonCollisionResponse IsColliding(Polygon a, Polygon b)
         {
+            float intercect = float.MaxValue;
+            Vector2 intercectNormal = Vector2.Zero;
+
             // loop through A.
             for (int i = 0; i < a.VertexCount; i++)
             {
@@ -123,7 +126,7 @@ namespace Mechanical
                 Vector2 vb = a.Verticies.WrapIndex(i + 1);
 
                 Vector2 edge = vb - va;
-                // get the normal.
+                // get the normal (axis).
                 Vector2 normal = new Vector2(-edge.Y, edge.X);
 
                 ProjectVerticies(a.Verticies, normal, out float minA, out float maxA);
@@ -135,6 +138,12 @@ namespace Mechanical
                     return PolygonCollisionResponse.NoCollision;
                 }
 
+                float axisDepth = Math.Min(minA - maxB, minB - maxA);
+                if (axisDepth < intercect)
+                {
+                    intercect = axisDepth;
+                    intercectNormal = normal;
+                }
             }
 
             // loop through B.
@@ -157,12 +166,60 @@ namespace Mechanical
                     return PolygonCollisionResponse.NoCollision;
                 }
 
+                if (minA >= maxB || minB >= maxA)
+                {
+                    // no collision.
+                    return PolygonCollisionResponse.NoCollision;
+                }
+
+                float axisDepth = Math.Min(minA - maxB, minB - maxA);
+                if (axisDepth < intercect)
+                {
+                    intercect = axisDepth;
+                    intercectNormal = normal;
+                }
+
+            }
+
+            intercect /= intercectNormal.Length();
+            intercectNormal.Normalize();
+
+            Vector2 centerA = FindArtithmaticMean(a.Verticies);
+            Vector2 centerB = FindArtithmaticMean(b.Verticies);
+
+            Vector2 direction = centerB - centerA;
+
+            if (Vector2.Dot(direction, intercectNormal) < 0)
+            {
+                intercectNormal = -intercectNormal;
             }
 
             // if we are here there are no gaps so there is a collision.
-            return new PolygonCollisionResponse(true, b);
+            return new PolygonCollisionResponse(true, b, intercect, intercectNormal);
         }
 
+        //https://github.com/twobitcoder101/FlatPhysics this function here. Licensed under the MIT license.
+        /// <summary>
+        /// Finds the "center" of the verticies.
+        /// </summary>
+        /// <param name="verticies">The verticies to use.</param>
+        /// <returns>The "center" of the verticies.</returns>
+        private static Vector2 FindArtithmaticMean(Vector2[] verticies)
+        {
+            float sumX = 0;
+            float sumY = 0;
+
+            for (int i = 0; i < verticies.Length; i++)
+            {
+                Vector2 v = verticies[i];
+                sumX += v.X;
+                sumY += v.Y;
+            }
+
+            return new Vector2(sumX / verticies.Length, sumY / verticies.Length);
+        }
+
+        //https://github.com/twobitcoder101/FlatPhysics this function here. Licensed under the MIT license.
         /// <summary>
         /// Projects a list of verticies to an axis for SAT collision detection. 
         /// This is used in <see cref="IsColliding(Polygon, Polygon)"/>.
@@ -192,6 +249,160 @@ namespace Mechanical
                 }
             }
         }
+        #endregion
+
+        #region Circle vs Polygon
+
+        //https://github.com/twobitcoder101/FlatPhysics this function here. Licensed under the MIT license.
+        /// <summary>
+        /// Checks if a <see cref="Circle"/> and a <see cref="Polygon"/> are colliding.
+        /// </summary>
+        /// <param name="circle">The circle to check.</param>
+        /// <param name="polygon">The polygon to check.</param>
+        /// <returns><see cref="PolygonCollisionResponse.NoCollision"/> if there is no collision
+        /// and a <see cref="PolygonCollisionResponse"/> when there is a collision.</returns>
+        public static PolygonCollisionResponse IsColliding(Circle circle, Polygon polygon)
+        {
+            float intercect = float.MaxValue;
+            Vector2 intercectNormal = Vector2.Zero;
+
+            // loop through polygon.
+            for (int i = 0; i < polygon.VertexCount; i++)
+            {
+                Vector2 va = polygon.Verticies[i];
+                // get next vertex.
+                Vector2 vb = polygon.Verticies.WrapIndex(i + 1);
+
+                Vector2 edge = vb - va;
+                // get the normal.
+                Vector2 normal = new Vector2(-edge.Y, edge.X);
+                normal.Normalize();
+
+                ProjectVerticies(polygon.Verticies, normal, out float minA, out float maxA);
+                ProjectCircle(circle, normal, out float minB, out float maxB);
+
+                if (minA >= maxB || minB >= maxA)
+                {
+                    // no collision.
+                    return PolygonCollisionResponse.NoCollision;
+                }
+
+                float axisDepthPoly = Math.Min(maxB - minA, maxA - minB);
+                if (axisDepthPoly < intercect)
+                {
+                    intercect = axisDepthPoly;
+                    intercectNormal = normal;
+                }
+
+            }
+            // project circle.
+
+            int closestVertexIndex = FindClosestPointOnPolygon(circle, polygon);
+            Vector2 closest = polygon.Verticies[closestVertexIndex];
+
+            Vector2 axis = closest - circle.Center;
+            axis.Normalize();
+
+            ProjectVerticies(polygon.Verticies, axis, out float minAC, out float maxAC);
+            ProjectCircle(circle, axis, out float minBC, out float maxBC);
+
+            if (minAC >= maxBC || minBC >= maxAC)
+            {
+                // no collision.
+                return PolygonCollisionResponse.NoCollision;
+            }
+
+
+            float axisDepth = Math.Min(maxBC - minAC, maxAC - minBC);
+
+            if (axisDepth < intercect)
+            {
+                intercect = axisDepth;
+                intercectNormal = axis;
+            }
+
+
+            Vector2 centerB = FindArtithmaticMean(polygon.Verticies);
+
+            Vector2 direction = centerB - circle.Center;
+
+            if (Vector2.Dot(direction, intercectNormal) < 0)
+            {
+                intercectNormal = -intercectNormal;
+            }
+
+            return new PolygonCollisionResponse(true, polygon, intercect, intercectNormal);
+        }
+
+        //https://github.com/twobitcoder101/FlatPhysics this function here. Licensed under the MIT license.
+        /// <summary>
+        /// This finds the closest point on a polygon to a circle.
+        /// </summary>
+        /// <param name="circle">The circle.</param>
+        /// <param name="polygon">The polygon.</param>
+        /// <returns>The index of the closest point to the circle.</returns>
+        private static int FindClosestPointOnPolygon(Circle circle, Polygon polygon)
+        {
+            int result = -1;
+            float min = float.MaxValue;
+
+            for (int i = 0; i < polygon.VertexCount; i++)
+            {
+                Vector2 vertex = polygon.Verticies[i];
+                float distance = Vector2.Distance(vertex, circle.Center);
+
+                if (distance < min)
+                {
+                    min = distance;
+                    result = i;
+                }
+            }
+
+            return result;
+        }
+
+        //https://github.com/twobitcoder101/FlatPhysics this function here. Licensed under the MIT license.
+        /// <summary>
+        /// Projects a circle onto an axis.
+        /// </summary>
+        /// <param name="circle">The circle.</param>
+        /// <param name="axis">The axis.</param>
+        /// <param name="min">The min of the projection.</param>
+        /// <param name="max">The max of the projection.</param>
+        private static void ProjectCircle(Circle circle, Vector2 axis, out float min, out float max)
+        {
+            Vector2 direction = Vector2.Normalize(axis);
+            Vector2 directionAndRaduis = direction * circle.Radius;
+
+            Vector2 a = circle.Center + directionAndRaduis;
+            Vector2 b = circle.Center - directionAndRaduis;
+
+            min = Vector2.Dot(a, axis);
+            max = Vector2.Dot(b, axis);
+
+            if (min > max)
+            {
+                // swap.
+                float temp = min;
+                min = max;
+                max = temp;
+            }
+        }
+
+        #endregion
+
+        #region Rectangle vs Circle
+
+        /// <summary>
+        /// Checks if a <see cref="Rectangle"/> and a <see cref="Circle"/> are colliding.
+        /// </summary>
+        /// <param name="circle">The circle to check.</param>
+        /// <param name="rectangle">The rectangle to check.</param>
+        /// <returns><see cref="PolygonCollisionResponse.NoCollision"/> if there is no collision 
+        /// and a <see cref="PolygonCollisionResponse"/> when there is a collision.</returns>
+        public static PolygonCollisionResponse IsColliding(Circle circle, Rectangle rectangle) =>
+            IsColliding(circle, rectangle.ToPolygon());
+
         #endregion
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,16 +14,28 @@ namespace Mechanical
         public Polygon Other { get; set; }
 
         /// <summary>
+        /// How much the 2 polygons intercect.
+        /// </summary>
+        public float IntercectDistance { get; set; }
+
+        /// <summary>
+        /// The normal to move in to get out of the shape.
+        /// </summary>
+        public Vector2 Normal { get; set; }
+
+        /// <summary>
         /// Represents no collision detected.
         /// </summary>
         public static readonly PolygonCollisionResponse NoCollision = new PolygonCollisionResponse(
-            false, Polygon.Empty);
+            false, Polygon.Empty, 0, Vector2.Zero);
 
         public PolygonCollisionResponse(
-            bool colliding, Polygon other)
+            bool colliding, Polygon other, float intercectDistance, Vector2 normal)
         {
             Colliding = colliding;
             Other = other;
+            IntercectDistance = intercectDistance;
+            Normal = normal;
         }
 
         public static bool operator ==(PolygonCollisionResponse a, PolygonCollisionResponse b)

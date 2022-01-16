@@ -140,7 +140,7 @@ namespace Mechanical
         public static T WrapIndex<T>(this IEnumerable<T> list, int index)
         {
             // https://youtu.be/Zgf1DYrmSnk?t=693 code under MIT license
-            return list.ElementAt((index + 1) % list.Count());
+            return list.ElementAt(index % list.Count());
         }
 
     }

@@ -19,7 +19,6 @@ namespace Mechanical
         /// </summary>
         public float IntercectDistance { get; set; }
 
-
         /// <summary>
         /// The normal of the side of the collision.
         /// </summary>

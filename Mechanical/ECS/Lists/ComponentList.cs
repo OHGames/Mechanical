@@ -36,6 +36,11 @@ namespace Mechanical
         private bool safeToChange = true;
 
         /// <summary>
+        /// If we need to resort the components.
+        /// </summary>
+        private bool isDirty = true;
+
+        /// <summary>
         /// Get component from list.
         /// </summary>
         /// <param name="index">The index</param>
@@ -75,6 +80,7 @@ namespace Mechanical
             {
                 throw new Exception($"The component, {item.GetType().Name}, is already in the list.");
             }
+            isDirty = true;
         }
 
         /// <summary>
@@ -95,8 +101,11 @@ namespace Mechanical
             // sort by render order.
             if (drawables.Count > 0)
             {
-
-                drawables.OrderBy(c => c.RenderOrder);
+                if (isDirty)
+                {
+                    drawables = drawables.OrderBy(c => c.RenderOrder).ToList();
+                    isDirty = false;
+                }
 
                 for (int i = 0; i < drawables.Count(); i++)
                 {
@@ -222,8 +231,11 @@ namespace Mechanical
             // sort by render order.
             if (drawables.Count > 0)
             {
-
-                drawables.OrderBy(c => c.RenderOrder);
+                if (isDirty)
+                {
+                    drawables = drawables.OrderBy(c => c.RenderOrder).ToList();
+                    isDirty = false;
+                }
 
                 for (int i = 0; i < drawables.Count(); i++)
                 {
