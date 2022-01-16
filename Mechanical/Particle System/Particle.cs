@@ -68,6 +68,11 @@ namespace Mechanical
         public Rectangle? SourceRectangle { get; set; }
 
         /// <summary>
+        /// The animation.
+        /// </summary>
+        public SpriteAnimation Animation { get; set; }
+
+        /// <summary>
         /// The velocity of the particle.
         /// </summary>
         public Vector2 Velocity { get; set; }
@@ -242,6 +247,13 @@ namespace Mechanical
             Speed = MathHelper.Lerp(StartSpeed, EndSpeed, lifeRatio);
             opacity = MathHelper.Lerp(StartOpacity, EndOpacity, lifeRatio);
             // TODO: implement more interpolation types later
+
+            if (Animation != null)
+            {
+                Animation.Update(deltaTime);
+
+                SourceRectangle = Animation.GetCurrentRectangle();
+            }
 
             TimeAlive++;
 

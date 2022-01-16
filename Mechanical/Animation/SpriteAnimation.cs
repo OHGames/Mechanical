@@ -78,12 +78,12 @@ namespace Mechanical
         /// <summary>
         /// When the animation ends.
         /// </summary>
-        public event Action OnAnimationReachedEnd;
+        public event Action OnAnimationReachedEnd = delegate { };
 
         /// <summary>
         /// When the frame changes.
         /// </summary>
-        public event Action OnAnimationFrame;
+        public event Action OnAnimationFrame = delegate { };
 
         /// <summary>
         /// The list of events.
@@ -93,7 +93,7 @@ namespace Mechanical
         /// <summary>
         /// When the animation event is played. The paramerer is the name of the events triggered in this frame.
         /// </summary>
-        public event Action<string[]> OnAnimationEvent;
+        public event Action<string[]> OnAnimationEvent = delegate { };
 
         /// <summary>
         /// How much time passed since the last animation frame was shown.
@@ -154,6 +154,11 @@ namespace Mechanical
             FrameOrder = frameOrder.ToList();
         }
 
+        public SpriteAnimation()
+        {
+
+        }
+
         /// <summary>
         /// Automatically make the frames.
         /// </summary>
@@ -196,7 +201,7 @@ namespace Mechanical
             {
                 int nextFrame = CurrentFrameIndex + 1;
                 // reached end of animation.
-                if (nextFrame >= FrameOrder.Count - 1)
+                if (nextFrame >= FrameOrder.Count)
                 {
                     OnAnimationReachedEnd.Invoke();
                     if (!Loops) Paused = true;
@@ -270,6 +275,5 @@ namespace Mechanical
         /// <returns>A rectangle of the current frame.</returns>
         // We use the frame order because it contains the indexes for the frames.
         public Rectangle GetCurrentRectangle() => Frames[FrameOrder[CurrentFrameIndex]];
-
     }
 }

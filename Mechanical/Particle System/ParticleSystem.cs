@@ -90,6 +90,16 @@ namespace Mechanical
         /// </summary>
         public bool Paused { get; set; }
 
+        /// <summary>
+        /// If the particles are animated.
+        /// </summary>
+        public bool AnimatedParticles { get; set; }
+
+        /// <summary>
+        /// The animations to give the particles when <see cref="AnimatedParticles"/> is <c>true</c>.
+        /// </summary>
+        public WeightedList<SpriteAnimation> Animations { get; set; } = new WeightedList<SpriteAnimation>();
+
         /// <regionsummary>
         /// The variables here will be changed on a particle when it is emitted.
         /// </regionsummary>
@@ -421,7 +431,8 @@ namespace Mechanical
                 if (p.IsAlive)
                 {
                     // change origin based on texture.
-                    var origin = p.SourceRectangle == null ? new Vector2(p.Texture.Width / 2, p.Texture.Height / 2) : new Vector2((float)(p.SourceRectangle?.Width / 2), (float)(p.SourceRectangle?.Height / 2));
+                    var origin = Vector2.Zero;
+                    //p.SourceRectangle == null ? new Vector2(p.Texture.Width / 2, p.Texture.Height / 2) : new Vector2((float)(p.SourceRectangle?.Width / 2), (float)(p.SourceRectangle?.Height / 2));
 
                     Drawing.Draw(p.Texture, 
                                  p.Position, 
@@ -533,6 +544,13 @@ namespace Mechanical
                     GetVariedValue(EndSize.X, EndSizeVariability.X),
                     GetVariedValue(EndSize.Y, EndSizeVariability.Y)
                 );
+
+            if (AnimatedParticles)
+            {
+                particle.Animation = Animations.Get();
+                particle.SourceRectangle = particle.Animation.GetCurrentRectangle();
+                particle.Animation.Play();
+            }
 
             return particle;
         }

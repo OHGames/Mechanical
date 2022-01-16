@@ -24,7 +24,7 @@ namespace Mechanical
     /// This class essencially is just a list 
     /// </remarks>
     /// <typeparam name="T">The type of item.</typeparam>
-    public class WeightedList<T> : IList<T>, IEnumerable<T>
+    public class WeightedList<T> : IList<T>, IEnumerable<T> where T : new()
     {
         /// <summary>
         /// Get the weight of an item.
@@ -89,7 +89,7 @@ namespace Mechanical
             // make a new random for new seed.
             Random random = new Random();
 
-            return weightedList[random.Next(0, Count - 1)];
+            return weightedList[random.Next(0, Count - 1)].DeepClone<T>();
         }
 
         private void SetList()
