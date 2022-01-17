@@ -1,12 +1,14 @@
-This file contains the licesenses for code refrenced and tutorials used.
+# This file contains the Licenses for code referenced and tutorials used.
 
-========== Monocle Engine ==========
-https://github.com/JamesMcMahon/monocle-engine/blob/master/License.txt
-Some code in engine is referenced and tweaked from this repo^^^
+Thank you to everyone out there who contributes and creates open source software for people like me to use! This engine would not be here if it weren't for people like you.
+
+###  Monocle Engine
+[Monocle Repository](https://github.com/JamesMcMahon/monocle-engine)
+**Some code in engine is referenced and tweaked from this repo^^^**
+```
  m o n O c l e
 
    e n g i n e
-
 
 Copyright (c) 2012-2014 Matt Thorson
 
@@ -27,11 +29,13 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+```
+---
 
-=========== Yetibyte.Himalaya ==================
-https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/LICENSE
-Some code in engine is referenced and tweaked from this repo^^^
-
+### Yetibyte.Himalaya
+[Yetibyte.Himalaya Repository](https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/LICENSE)
+**Some code in engine is referenced and tweaked from this repo^^^**
+```
 MIT License
 
 Copyright (c) 2017 Alexander Herrfurth
@@ -53,10 +57,13 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
+---
 
-================ How To Draw Lines, Circles and Polygons Using Spritebatch In XNA ========
-https://bayinx.wordpress.com/2011/11/07/how-to-draw-lines-circles-and-polygons-using-spritebatch-in-xna/
-Some code in this engine was tweaked from this article ^^^
+### How To Draw Lines, Circles and Polygons Using Spritebatch In XNA
+[Article Link](https://bayinx.wordpress.com/2011/11/07/how-to-draw-lines-circles-and-polygons-using-spritebatch-in-xna/)
+**Some code in this engine was tweaked from this article ^^^**
+```
 Microsoft Public License (MS-PL)
 
 This license governs use of the accompanying software. If you use the software, you accept this license. If you do not accept the license, do not use the software.
@@ -88,10 +95,13 @@ A "contributor" is any person that distributes its contribution under this licen
 (D) If you distribute any portion of the software in source code form, you may do so only under this license by including a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or object code form, you may only do so under a license that complies with this license.
 
 (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
+```
+---
 
-============= Stack overflow question ===========================
-The code in some of this engine is adapted from this answer on stack overflow.
-https://stackoverflow.com/a/5010491
+### Data Contract Serializer Class Stackoverflow question
+[Answer Link](https://stackoverflow.com/a/5010491)
+**The code in some of this engine is adapted from this answer on stack overflow.**
+```
 Attribution-ShareAlike 2.5
 
 CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE LEGAL SERVICES. DISTRIBUTION OF THIS LICENSE DOES NOT CREATE AN ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES REGARDING THE INFORMATION PROVIDED, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM ITS USE.
@@ -152,21 +162,29 @@ Creative Commons is not a party to this License, and makes no warranty whatsoeve
 Except for the limited purpose of indicating to the public that the Work is licensed under the CCPL, neither party will use the trademark "Creative Commons" or any related trademark or logo of Creative Commons without the prior written consent of Creative Commons. Any permitted use will be in compliance with Creative Commons' then-current trademark usage guidelines, as may be published on its website or otherwise made available upon request from time to time.
 
 Creative Commons may be contacted at https://creativecommons.org/.
+```
 
-==================== Easing ==========================
-This code was copied and pasted from this repo: https://github.com/acron0/Easings
-Minor changes made
-//  Copyright (c) 2013, Antony Woods (teamwoods.org)
-//
-//  This program is free software. It comes without any warranty, to
-//  the extent permitted by applicable law. You can redistribute it
-//  and/or modify it under the terms of the Do What The Fuck You Want
-//  To Public License, Version 2, as published by Sam Hocevar. See
-//  http://sam.zoy.org/wtfpl/COPYING for more details.
+---
 
-=================== Render Target Scaling ==================
-https://github.com/twobitcoder101/Flat
+### Easing
+This code was copied and pasted from [this repo](https://github.com/acron0/Easings)
+**Minor changes made**
+```
+Copyright (c) 2013, Antony Woods (teamwoods.org)
+
+This program is free software. It comes without any warranty, to
+the extent permitted by applicable law. You can redistribute it
+and/or modify it under the terms of the Do What The Fuck You Want
+To Public License, Version 2, as published by Sam Hocevar. See
+http://sam.zoy.org/wtfpl/COPYING for more details.
+```
+
+---
+
+### Render Target Scaling
+[Code Repository](https://github.com/twobitcoder101/Flat)
 license:
+```
 MIT License
 
 Copyright (c) 2021 twobitcoder101
@@ -188,10 +206,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
 
-=============== Particle System Reference =====================
-https://nintervik.github.io/2D-Particle-System/
-Some code in engine is referenced and tweaked from this article^^^
+---
+
+### Particle System Reference
+[Link To Article](https://nintervik.github.io/2D-Particle-System/)
+**Some code in engine is referenced and tweaked from this article^^^**
+```
 MIT License
 
 Copyright (c) 2018 nintervik
@@ -201,14 +223,16 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
 
+---
 
-=============== Particle System Reference ===============
-http://buildnewgames.com/particle-systems/
-Some concepts and math and code were referenced and tweaked from this article ^^^
+### Particle System Reference
+[Link To Article](http://buildnewgames.com/particle-systems/)
+**Some concepts and math and code were referenced and tweaked from this article ^^^**
 
-Changes made: changed code to be C# conpatable, changed some variables and added some property filters to them
-
+**Changes made: changed code to be C# conpatable, changed some variables and added some property filters to them**
+```
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -410,12 +434,15 @@ Changes made: changed code to be C# conpatable, changed some variables and added
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+```
 
-============================ AABB vs AABB Collision =====================
-Pretty much all of the AABB vs AABB code is from this repo: https://github.com/noonat/intersect
+---
 
-Changes made: made it C# compatable, changed the way the collision check is returned, changed name, made it MonoGame compatable, and ommited some code.
+### AABB vs AABB Collision
+Pretty much all of the AABB vs AABB code is from [this repo](https://github.com/noonat/intersect)
 
+**Changes made: made it C# compatable, changed the way the collision check is returned, changed name, made it MonoGame compatable, and ommited some code.**
+```
 Copyright (c) 2011 Nathan Ostgard http://nathanostgard.com
 
 This software is provided 'as-is', without any express or implied
@@ -435,10 +462,14 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 
 3. This notice may not be removed or altered from any source distribution.
+```
 
-============================ Circle vs Circle and SAT (Polygon vs Polygon) collision detection ==============================
-The implementation and math and code come from this guy^^^ 
-repo here: https://github.com/twobitcoder101/FlatPhysics
+---
+
+### Circle vs Circle, SAT (Polygon vs Polygon), and Circle vs Polygon collision detection
+**The implementation and math and code come from this guy^^^** 
+[repo here](https://github.com/twobitcoder101/FlatPhysics)
+```
 MIT License
 
 Copyright (c) 2021 twobitcoder101
@@ -460,10 +491,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
 
-================================== Wrap Index of Array (EnumerableExtensions.WrapIndex<T>(...) ======================================
-The cool remainder operator math ((i + 1) % list.Length) comes from this guy^^^ 
-repo here: https://github.com/twobitcoder101/FlatPhysics
+---
+
+### Wrap Index of Array (in  EnumerableExtensions.WrapIndex\<T>(...) )
+**The cool remainder operator math (i % list.Length) comes from this guy^^^ Also used code in other places** 
+[repo here](https://github.com/twobitcoder101/FlatPhysics)
+```
 MIT License
 
 Copyright (c) 2021 twobitcoder101
@@ -485,3 +520,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
