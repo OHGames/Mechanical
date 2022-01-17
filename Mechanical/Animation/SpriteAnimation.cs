@@ -47,10 +47,10 @@ namespace Mechanical
         public float FrameSpeed { get; set; } = 0.1f;
 
         /// <summary>
-        /// The frame order will allow a user to change the order in whitch frames are shown in.
+        /// The frame order will allow a user to change the order in which frames are shown in.
         /// 
         /// <para>
-        /// The index of a rectangle is it's psoition in the <see cref="Frames"/> list.
+        /// The index of a rectangle is it's position in the <see cref="Frames"/> list.
         /// So a rectangle at index 4 would be the 5th in the list.
         /// </para>
         /// </summary>
@@ -91,7 +91,7 @@ namespace Mechanical
         public List<SpriteAnimationEvent> Events = new List<SpriteAnimationEvent>();
 
         /// <summary>
-        /// When the animation event is played. The paramerer is the name of the events triggered in this frame.
+        /// When the animation event is played. The parameter is the name of the events triggered in this frame.
         /// </summary>
         public event Action<string[]> OnAnimationEvent = delegate { };
 
@@ -130,7 +130,7 @@ namespace Mechanical
         }
 
         /// <summary>
-        /// Make a new animation with automatic frames and frame order. (recomended)
+        /// Make a new animation with automatic frames and frame order. (recommended)
         /// </summary>
         /// <param name="frameWidth">The width of each frame.</param>
         /// <param name="frameHeight">The height of each frame</param>
@@ -144,7 +144,7 @@ namespace Mechanical
         }
 
         /// <summary>
-        /// Create a new animation with preset frames and order. (recomended)
+        /// Create a new animation with preset frames and order. (recommended)
         /// </summary>
         /// <param name="rectangles">The frames.</param>
         /// <param name="frameOrder">The frame order.</param>
@@ -275,5 +275,6 @@ namespace Mechanical
         /// <returns>A rectangle of the current frame.</returns>
         // We use the frame order because it contains the indexes for the frames.
         public Rectangle GetCurrentRectangle() => Frames[FrameOrder[CurrentFrameIndex]];
+
     }
 }

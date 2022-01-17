@@ -90,7 +90,7 @@ namespace Mechanical
         public float timeSinceBlink = 0;
 
         /// <summary>
-        /// The psoition of the input text.
+        /// The position of the input text.
         /// </summary>
         private Vector2 inputPosition;
 

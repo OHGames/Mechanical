@@ -762,7 +762,7 @@ namespace Mechanical
         [ConsoleCommand("debug", "This command toggles debug mode for the game.\nArguments:\nbool: if debug mode should be turned on (optional)")]
         public static void SetDebugMode(string[] arguments)
         {
-            if (arguments.Length < 0 || arguments.Length > 1)
+            if (arguments.Length > 1)
             {
                 Log("There are too many arguments!", ConsoleMessageType.Error);
                 return;
@@ -786,7 +786,7 @@ namespace Mechanical
         [ConsoleCommand("debugDraw", "Set the game so that it uses the DebugDraw(x) function when drawing.\nArguments:\nbool:If the game should use DebugDraw() (optional)")]//bool: If the game should use the editorRender feature of debug draw. (optional.)
         public static void SetDebugDraw(string[] arguments)
         {
-            if (arguments.Length < 0 || arguments.Length > 1)
+            if (arguments.Length > 1)
             {
                 Log("There are to many arguments!", ConsoleMessageType.Error);
                 return;

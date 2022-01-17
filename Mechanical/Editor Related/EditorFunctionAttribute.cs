@@ -15,7 +15,7 @@ using System.Text;
 namespace Mechanical
 {
     /// <summary>
-    /// Put this attribute on a function so that a button appers next to the variable value to run that function. This is like a command.
+    /// Put this attribute on a function so that a button appears next to the variable value to run that function. This is like a command.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class EditorFunctionAttribute : Attribute

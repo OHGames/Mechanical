@@ -412,7 +412,7 @@ namespace Mechanical
         /// <returns>Half of the width.</returns>
         public static Vector2 Half(this Rectangle rect)
         {
-            return new Vector2(rect.Width / 2, rect.Height / 2);
+            return new Vector2(rect.Width / 2f, rect.Height / 2f);
         }
 
     }

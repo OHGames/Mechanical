@@ -305,7 +305,7 @@ namespace Mechanical
 
 #endregion
 
-#region Frame-By-Frame
+        #region Frame-By-Frame
         protected override void Update(GameTime gameTime)
         {
             RawDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -374,22 +374,22 @@ namespace Mechanical
             base.EndDraw();
         }
 
-#endregion
+        #endregion
 
-#region Finished
+        #region Finished
         protected override void UnloadContent()
         {
             base.UnloadContent();
         }
-#endregion
+        #endregion
 
-#region Misc
+        #region Misc
 
         /// <summary>
         /// This function will toggle fullscreen.
         /// 
         /// <para>
-        /// Internally calls <see cref="SetFullscreen(bool)"/>
+        /// Internally calls <see cref="SetFullscreen"/>
         /// </para>
         /// </summary>
         public void ToggleFullscreen()
@@ -426,7 +426,7 @@ namespace Mechanical
             }
         }
 
-#endregion
+        #endregion
 
     }
 }
