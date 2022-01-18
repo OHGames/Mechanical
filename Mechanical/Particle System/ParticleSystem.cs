@@ -431,8 +431,9 @@ namespace Mechanical
                 if (p.IsAlive)
                 {
                     // change origin based on texture.
-                    var origin = Vector2.Zero;
-                    //p.SourceRectangle == null ? new Vector2(p.Texture.Width / 2, p.Texture.Height / 2) : new Vector2((float)(p.SourceRectangle?.Width / 2), (float)(p.SourceRectangle?.Height / 2));
+                    var origin = p.SourceRectangle == null 
+                        ? new Vector2(p.Texture.Width / 2, p.Texture.Height / 2) 
+                        : new Vector2((float)(p.SourceRectangle?.Width / 2), (float)(p.SourceRectangle?.Height / 2));
 
                     Drawing.Draw(p.Texture, 
                                  p.Position, 

@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
@@ -41,7 +42,7 @@ namespace Mechanical
         /// <param name="obj">The object to serialize.</param>
         /// <param name="settings">The Data Contract settings.</param>
         /// <returns>A string with the serialized object.</returns>
-        //https://stackoverflow.com/a/5010491
+        //https://stackoverflow.com/a/5010491 credit
         public static string Serialize<T>(T obj, DataContractSerializerSettings settings = null)
         {
             Type t = typeof(T);
@@ -73,6 +74,7 @@ namespace Mechanical
         /// <param name="data">The serialized data.</param>
         /// <param name="settings">The Data Contract settings.</param>
         /// <returns>The deserialized object.</returns>
+        //https://stackoverflow.com/a/5010491 credit
         public static T Deserialize<T>(string data, DataContractSerializerSettings settings = null)
         {
             Type t = typeof(T);
@@ -127,6 +129,8 @@ namespace Mechanical
         /// <param name="assemblies">The list of assembalies that will be added to the typelist.</param>
         public static void GrabTypes(Assembly[] assemblies)
         {
+            assemblies.Concat(new Assembly[] { Assembly.GetExecutingAssembly() });
+
             // loop through assembalies.
             for (int i = 0; i < assemblies.Length; i++)
             {
