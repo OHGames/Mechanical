@@ -12,31 +12,36 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// The screen is a class used to handle scaling and rendering of the game's render target.
     /// </summary>
     public class Screen
     {
-
+        [DataMember]
         /// <summary>
         /// The width of the render target.
         /// </summary>
         public int TargetWidth { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The height of the render target.
         /// </summary>
         public int TargetHeight { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The width of the render target when it is being drawn onto the screen.
         /// </summary>
         public int ScreenWidth { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The height of the render target when it is being drawn onto the screen.
         /// </summary>
@@ -47,6 +52,7 @@ namespace Mechanical
         /// </summary>
         public RenderTarget2D RenderTarget { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The color to clear the back buffer to when drawing the screen.
         /// </summary>

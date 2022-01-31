@@ -12,10 +12,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// A basic image element. It just has a sprite component.
     /// </summary>
@@ -27,6 +29,7 @@ namespace Mechanical
         /// </summary>
         public Texture2D Texture { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The rectangle of the texture 
         /// </summary>
@@ -37,6 +40,7 @@ namespace Mechanical
         /// </summary>
         public Effect Effect { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The sprite effects to use.
         /// </summary>

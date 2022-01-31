@@ -19,12 +19,13 @@ namespace Mechanical
     /// </summary>
     public interface IDrawable
     {
-
+        [DataMember]
         /// <summary>
         /// The render layer.
         /// </summary>
         RenderLayer RenderLayer { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The order for rendering. Lower number renders first.
         /// </summary>

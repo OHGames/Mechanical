@@ -53,6 +53,8 @@ namespace Mechanical
         public ComponentList(Entity entity)
         {
             attached = entity;
+            justAdded = new List<Component>();
+            drawables = new List<IDrawableComponent>();
         }
 
         /// <summary>

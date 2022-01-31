@@ -11,10 +11,12 @@
 using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// A list to handle GUI Elements
     /// </summary>

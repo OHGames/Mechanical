@@ -11,10 +11,12 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// Represents a convex polygon.
     /// </summary>
@@ -25,6 +27,7 @@ namespace Mechanical
         /// </summary>
         public static readonly Polygon Empty = new Polygon(new Vector2[] {});
 
+        [DataMember]
         /// <summary>
         /// All of the verticies in this polygon.
         /// </summary>

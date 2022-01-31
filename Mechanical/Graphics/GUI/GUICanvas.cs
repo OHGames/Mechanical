@@ -14,10 +14,12 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// The GUI Canvas is the manager for all things UI.
     /// 
@@ -27,7 +29,7 @@ namespace Mechanical
     /// </summary>
     public class GUICanvas
     {
-
+        [DataMember]
         /// <summary>
         /// A list of the elements in this canvas.
         /// </summary>
@@ -43,31 +45,36 @@ namespace Mechanical
         /// </summary>
         public RenderTarget2D RenderTarget { get; private set; }
 
+        [DataMember]
         /// <summary>
         /// If the canvas is visible.
         /// </summary>
         public bool Visible { get; set; } = true;
 
+        [DataMember]
         /// <summary>
         /// If the canvas is updating.
         /// </summary>
         public bool Paused { get; set; } = false;
 
+        [DataMember]
         /// <summary>
         /// If the canvas will draw or update.
         /// </summary>
         public bool Active { get; set; } = true;
 
+        [DataMember]
         /// <summary>
         /// The transparency of the canvas. This will be changed when the render target is drawn.
         /// </summary>
-        public float Transparency { get => transparency; set => transparency = value.Clamp(0, 256); }
+        public float Transparency { get => transparency; set => transparency = value.Clamp(0, 255); }
 
         /// <summary>
         /// The transparency.
         /// </summary>
         private float transparency = 256;
 
+        [DataMember]
         /// <summary>
         /// The render order of the canvas.
         /// </summary>

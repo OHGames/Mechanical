@@ -10,21 +10,25 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// The animation event is an event that will trigger when a certain frame(s) is shown.
     /// </summary>
     public struct SpriteAnimationEvent
     {
 
+        [DataMember]
         /// <summary>
         /// The frames. NULL by default!
         /// </summary>
         public int[] FramesToHook { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The name of the event.
         /// </summary>

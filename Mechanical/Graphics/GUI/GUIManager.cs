@@ -5,15 +5,19 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// The GUI Manager handles updating and drawing <see cref="GUICanvas"/>es.
+    /// 
+    /// TODO: make a IGameLikeList
     /// </summary>
     public class GUIManager : IGameFunctions
     {
-
+        [DataMember]
         /// <summary>
         /// The canvases that are currently being updated. When the list is added or removed from, the list os reordered by render order, making sure that the higher numbers render last.
         /// </summary>

@@ -12,10 +12,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// An animated UI image.
     /// </summary>
@@ -27,6 +29,7 @@ namespace Mechanical
         /// </summary>
         public Texture2D Texture { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The rectangle of the texture 
         /// </summary>
@@ -37,21 +40,25 @@ namespace Mechanical
         /// </summary>
         public Effect Effect { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The sprite effects to use.
         /// </summary>
         public SpriteEffects Effects { get; set; }
 
+        [DataMember]
         /// <summary>
         /// A list of animations.
         /// </summary>
         public Dictionary<string, SpriteAnimation> Animations { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The current animation.
         /// </summary>
         public SpriteAnimation CurrentAnimation { get; private set; }
 
+        [DataMember]
         /// <summary>
         /// The current animation's name.
         /// </summary>

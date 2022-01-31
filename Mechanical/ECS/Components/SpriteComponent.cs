@@ -62,7 +62,6 @@ namespace Mechanical
         /// </summary>
         public Rectangle? SourceRectangle { get; set; } = null;
 
-        //[DataMember]
         /// <summary>
         /// The effect to draw.
         /// </summary>

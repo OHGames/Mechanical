@@ -12,10 +12,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// The tilemap is an entity that will render <see cref="Tile"/>s
     /// 
@@ -23,26 +25,31 @@ namespace Mechanical
     /// </summary>
     public class Tilemap : Entity, IDrawable
     {
+        
         /// <summary>
         /// The list of tiles.
         /// </summary>
         public Tile[,] Tiles { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The width of each tile.
         /// </summary>
         public int TileWidth { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The height of each tile.
         /// </summary>
         public int TileHeight { get; set; }
 
+        [DataMember]
         /// <summary>
         /// How many tiles there are on the x-axis.
         /// </summary>
         public int Width { get; set; }
 
+        [DataMember]
         /// <summary>
         /// How many tiles there are on the y-axis.
         /// </summary>
@@ -53,16 +60,19 @@ namespace Mechanical
         /// </summary>
         public Effect Effect { get; set; } = null;
 
+        [DataMember]
         /// <summary>
         /// The tint.
         /// </summary>
         public Color Tint { get; set; } = Color.White;
 
+        [DataMember]
         /// <summary>
         /// The render layer.
         /// </summary>
         public RenderLayer RenderLayer { get; set; } = RenderLayer.Background;
 
+        [DataMember]
         /// <summary>
         /// The render order.
         /// </summary>

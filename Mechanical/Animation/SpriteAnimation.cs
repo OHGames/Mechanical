@@ -11,11 +11,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// This is a class that will store data on animations.
     /// 
@@ -25,27 +27,31 @@ namespace Mechanical
     /// </summary>
     public sealed class SpriteAnimation
     {
-
+        [DataMember]
         /// <summary>
         /// The frames.
         /// </summary>
         public List<Rectangle> Frames { get; set; } = new List<Rectangle>();
 
+        [DataMember]
         /// <summary>
         /// The width of each frame.
         /// </summary>
         public int FrameWidth { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The height of each frame.
         /// </summary>
         public int FrameHeight { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The length of time a frame is shown on screen.
         /// </summary>
         public float FrameSpeed { get; set; } = 0.1f;
 
+        [DataMember]
         /// <summary>
         /// The frame order will allow a user to change the order in which frames are shown in.
         /// 
@@ -56,16 +62,19 @@ namespace Mechanical
         /// </summary>
         public List<int> FrameOrder { get; set; } = new List<int>();
 
+        [DataMember]
         /// <summary>
         /// The current frame (the index for the <see cref="FrameOrder"/>).
         /// </summary>
         public int CurrentFrameIndex { get; set; }
 
+        [DataMember]
         /// <summary>
         /// If the animation loops.
         /// </summary>
         public bool Loops { get; set; } = true;
 
+        [DataMember]
         /// <summary>
         /// If the animation is paused.
         /// 
@@ -85,6 +94,7 @@ namespace Mechanical
         /// </summary>
         public event Action OnAnimationFrame = delegate { };
 
+        [DataMember]
         /// <summary>
         /// The list of events.
         /// </summary>

@@ -11,16 +11,18 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// A simple GUI element that will render text.
     /// </summary>
     public class GUIText : GUIElement
     {
-
+        [DataMember]
         /// <summary>
         /// The text to render.
         /// </summary>
@@ -31,6 +33,7 @@ namespace Mechanical
         /// </summary>
         public SpriteFont Font { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The effects to apply.
         /// </summary>

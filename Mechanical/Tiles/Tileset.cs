@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// A tileset holds a list of <see cref="Tile"/>s that are created from an image.
     /// </summary>
@@ -17,16 +19,19 @@ namespace Mechanical
         /// </summary>
         public Texture2D TilesetImage { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The list of tiles in the tilemap.
         /// </summary>
         public Tile[] Tiles { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The width of the tiles.
         /// </summary>
         public int TileWidth { get; private set; }
 
+        [DataMember]
         /// <summary>
         /// The height of the tiles.
         /// </summary>

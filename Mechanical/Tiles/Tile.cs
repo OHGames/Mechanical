@@ -12,20 +12,24 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// A tile is a 2d object that will be rendered on a <see cref="Tilemap"/>
     /// </summary>
     public struct Tile : ICloneable
     {
+        [DataMember]
         /// <summary>
         /// The rectangle that will be used to draw the texture. Source rectangle.
         /// </summary>
         public Rectangle? SourceRectangle { get; set; }
 
+        [DataMember]
         /// <summary>
         /// This rectangle is the tile on-screen.
         /// </summary>

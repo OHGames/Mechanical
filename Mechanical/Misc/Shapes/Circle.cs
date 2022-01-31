@@ -11,10 +11,12 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// Represents a circle.
     /// </summary>
@@ -26,11 +28,13 @@ namespace Mechanical
         /// </summary>
         public static readonly Circle Empty = new Circle(Vector2.Zero, 0);
 
+        [DataMember]
         /// <summary>
         /// The position of the circle. (It's center)
         /// </summary>
         public Vector2 Center { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The radius of the circle.
         /// </summary>
@@ -54,6 +58,7 @@ namespace Mechanical
         /// </summary>
         private float diameter;
 
+        [DataMember]
         /// <summary>
         /// The diameter.
         /// </summary>

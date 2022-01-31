@@ -13,26 +13,31 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
 {
+    [DataContract]
     /// <summary>
     /// A GUI Element is anything that will be updated by the <see cref="GUICanvas"/>.
     /// </summary>
     public class GUIElement : IParentChildHierarchy<GUIElement>
     {
         #region Variables
+        [DataMember]
         /// <summary>
         /// The canvas that the element is tied to.
         /// </summary>
         public GUICanvas Canvas { get; }
 
+        [DataMember]
         /// <summary>
         /// The parent.
         /// </summary>
         private GUIElement parent;
 
+        [DataMember]
         /// <summary>
         /// The name of the element.
         /// </summary>
@@ -40,6 +45,7 @@ namespace Mechanical
 
         public GUIElement Parent { get => parent; set => SetParent(value); }
 
+        [DataMember]
         public List<GUIElement> Children { get; set; } = new List<GUIElement>();
 
         public string HierarchyPath => HasParent ? $"{Parent.HierarchyPath}/{Name}" : Name;
@@ -70,11 +76,13 @@ namespace Mechanical
             }
         }
 
+        [DataMember]
         /// <summary>
         /// The position.
         /// </summary>
         private Vector2 position;
 
+        [DataMember]
         /// <summary>
         /// The local position of element.
         /// </summary>
@@ -92,6 +100,7 @@ namespace Mechanical
             }
         }
 
+        [DataMember]
         /// <summary>
         /// The rotation of the element.
         /// </summary>
@@ -104,11 +113,13 @@ namespace Mechanical
             }
         }
 
+        [DataMember]
         /// <summary>
         /// The local rotation of the element.
         /// </summary>
         public float LocalRotation { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The scale of the element.
         /// </summary>
@@ -121,16 +132,19 @@ namespace Mechanical
             }
         }
 
+        [DataMember]
         /// <summary>
         /// The local scale of the element.
         /// </summary>
         public Vector2 LocalScale { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The origin of the element.
         /// </summary>
         public Vector2 Origin { get; set; } = Vector2.Zero;
 
+        [DataMember]
         /// <summary>
         /// The bounds of the element.
         /// </summary>
@@ -140,16 +154,19 @@ namespace Mechanical
 
         #region Renderer
 
+        [DataMember]
         /// <summary>
         /// The order in which the element will draw.
         /// </summary>
         public int RenderOrder { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The transparency of the element.
         /// </summary>
         public float Transparency { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The tint of the element.
         /// </summary>

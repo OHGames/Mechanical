@@ -46,13 +46,18 @@ namespace Mechanical
         public static string Serialize<T>(T obj, DataContractSerializerSettings settings = null)
         {
             Type t = typeof(T);
-            if (settings != null)
+            if (settings == null)
             {
-                DataContractSerializer = new DataContractSerializer(t, settings);
+                DataContractSerializer = new DataContractSerializer(t, new DataContractSerializerSettings()
+                {
+                    PreserveObjectReferences = true,
+                    KnownTypes = KnownTypes
+                });
             }
             else
             {
-                DataContractSerializer = new DataContractSerializer(t, new DataContractSerializerSettings() { PreserveObjectReferences = true, KnownTypes = KnownTypes });
+                settings.KnownTypes = settings.KnownTypes.Concat(KnownTypes);
+                DataContractSerializer = new DataContractSerializer(t, settings);
             }
 
             string serialized;
@@ -127,9 +132,9 @@ namespace Mechanical
         /// Get all of the types in the assemblies that inherit <see cref="DataContractAttribute"/> and add them to the list of types to serialize. 
         /// </summary>
         /// <param name="assemblies">The list of assembalies that will be added to the typelist.</param>
-        public static void GrabTypes(Assembly[] assemblies)
+        public static void GrabTypes(params Assembly[] assemblies)
         {
-            assemblies.Concat(new Assembly[] { Assembly.GetExecutingAssembly() });
+            assemblies = assemblies.Concat(new Assembly[] { Assembly.GetAssembly(typeof(Engine)) }).ToArray();
 
             // loop through assembalies.
             for (int i = 0; i < assemblies.Length; i++)

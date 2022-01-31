@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Mechanical
@@ -11,7 +12,6 @@ namespace Mechanical
     /// </summary>
     public struct SpriteAtlas
     {
-
         /// <summary>
         /// The texture of the atlas.
         /// </summary>
