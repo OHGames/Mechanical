@@ -114,12 +114,10 @@ namespace Mechanical
         /// </summary>
         public SpriteBatch SpriteBatch { get; private set; }
 
-#if DEBUG
         /// <summary>
-        /// If the game should exit when the ESC key is pressed. DEBUG only.
+        /// If the game should exit when the ESC key is pressed.
         /// </summary>
         public bool ExitOnEscape { get; set; } = true;
-#endif
 
         /// <summary>
         /// The camera of the game.
@@ -374,16 +372,16 @@ namespace Mechanical
             base.EndDraw();
         }
 
-        #endregion
+#endregion
 
-        #region Finished
+#region Finished
         protected override void UnloadContent()
         {
             base.UnloadContent();
         }
-        #endregion
+#endregion
 
-        #region Misc
+#region Misc
 
         /// <summary>
         /// This function will toggle fullscreen.
@@ -426,7 +424,7 @@ namespace Mechanical
             }
         }
 
-        #endregion
+#endregion
 
     }
 }
