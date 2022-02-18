@@ -85,6 +85,7 @@ namespace Mechanical
         /// </summary>
         public int TargetHeight { get; set; }
 
+        [DataMember]
         /// <summary>
         /// This handles the GUI for this scene.
         /// </summary>

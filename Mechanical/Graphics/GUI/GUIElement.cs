@@ -29,7 +29,7 @@ namespace Mechanical
         /// <summary>
         /// The canvas that the element is tied to.
         /// </summary>
-        public GUICanvas Canvas { get; }
+        public GUICanvas Canvas { get; set; }
 
         [DataMember]
         /// <summary>
@@ -100,7 +100,6 @@ namespace Mechanical
             }
         }
 
-        [DataMember]
         /// <summary>
         /// The rotation of the element.
         /// </summary>
@@ -119,7 +118,6 @@ namespace Mechanical
         /// </summary>
         public float LocalRotation { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The scale of the element.
         /// </summary>
