@@ -24,10 +24,10 @@ namespace Mechanical
         [DataMember]
         private List<Component> justAdded = new List<Component>();
 
-        [DataMember]
         /// <summary>
         /// The drawable components.
         /// </summary>
+        [DataMember]
         private List<IDrawableComponent> drawables = new List<IDrawableComponent>();
 
         [DataMember]

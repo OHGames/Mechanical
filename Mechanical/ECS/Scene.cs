@@ -29,40 +29,40 @@ namespace Mechanical
     [DataContract]
     public class Scene : IEnumerable<Entity>, IDisposable
     {
-        [DataMember]
         /// <summary>
         /// The list of entities in the scene.
         /// </summary>
+        [DataMember]
         public EntityList Entities { get; set; } = new EntityList();
 
-        [DataMember]
         /// <summary>
         /// The name of the scene.
         /// </summary>
+        [DataMember]
         public string Name { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The index of the scene.
         /// </summary>
+        [DataMember]
         public int SceneIndex { get; set; }
 
-        [DataMember]
         /// <summary>
         /// If the scene will update.
         /// </summary>
+        [DataMember]
         public bool Paused { get; set; }
 
-        [DataMember]
         /// <summary>
         /// If the scene is active. It is active it updates and draws.
         /// </summary>
+        [DataMember]
         public bool IsActiveScene { get; set; } = true;
 
-        [DataMember]
         /// <summary>
         /// The color to clear the render target to.
         /// </summary>
+        [DataMember]
         public Color ClearColor { get; set; } = Color.CornflowerBlue;
 
         /// <summary>
@@ -85,10 +85,10 @@ namespace Mechanical
         /// </summary>
         public int TargetHeight { get; set; }
 
-        [DataMember]
         /// <summary>
         /// This handles the GUI for this scene.
         /// </summary>
+        [DataMember]
         public GUIManager GUI { get; set; } = new GUIManager();
 
         public Scene(string name)

@@ -18,29 +18,29 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// A GUI Element is anything that will be updated by the <see cref="GUICanvas"/>.
     /// </summary>
+    [DataContract]
     public class GUIElement : IParentChildHierarchy<GUIElement>
     {
         #region Variables
-        [DataMember]
         /// <summary>
         /// The canvas that the element is tied to.
         /// </summary>
+        [DataMember]
         public GUICanvas Canvas { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The parent.
         /// </summary>
+        [DataMember]
         private GUIElement parent;
 
-        [DataMember]
         /// <summary>
         /// The name of the element.
         /// </summary>
+        [DataMember]
         public string Name { get; set; }
 
         public GUIElement Parent { get => parent; set => SetParent(value); }
@@ -76,16 +76,16 @@ namespace Mechanical
             }
         }
 
-        [DataMember]
         /// <summary>
         /// The position.
         /// </summary>
+        [DataMember]
         private Vector2 position;
 
-        [DataMember]
         /// <summary>
         /// The local position of element.
         /// </summary>
+        [DataMember]
         public Vector2 LocalPosition
         {
             get
@@ -112,10 +112,10 @@ namespace Mechanical
             }
         }
 
-        [DataMember]
         /// <summary>
         /// The local rotation of the element.
         /// </summary>
+        [DataMember]
         public float LocalRotation { get; set; }
 
         /// <summary>
@@ -130,44 +130,44 @@ namespace Mechanical
             }
         }
 
-        [DataMember]
         /// <summary>
         /// The local scale of the element.
         /// </summary>
+        [DataMember]
         public Vector2 LocalScale { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The origin of the element.
         /// </summary>
+        [DataMember]
         public Vector2 Origin { get; set; } = Vector2.Zero;
 
-        [DataMember]
         /// <summary>
         /// The bounds of the element.
         /// </summary>
+        [DataMember]
         public Rectangle Bounds { get; set; } = Rectangle.Empty;
 
         #endregion
 
         #region Renderer
 
-        [DataMember]
         /// <summary>
         /// The order in which the element will draw.
         /// </summary>
+        [DataMember]
         public int RenderOrder { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The transparency of the element.
         /// </summary>
+        [DataMember]
         public float Transparency { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The tint of the element.
         /// </summary>
+        [DataMember]
         public Color Color { get; set; }
 
         #endregion

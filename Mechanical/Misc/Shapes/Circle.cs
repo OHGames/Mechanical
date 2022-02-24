@@ -16,10 +16,10 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// Represents a circle.
     /// </summary>
+    [DataContract]
     public struct Circle
     {
 
@@ -28,16 +28,16 @@ namespace Mechanical
         /// </summary>
         public static readonly Circle Empty = new Circle(Vector2.Zero, 0);
 
-        [DataMember]
         /// <summary>
         /// The position of the circle. (It's center)
         /// </summary>
+        [DataMember]
         public Vector2 Center { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The radius of the circle.
         /// </summary>
+        [DataMember]
         public float Radius
         {
             get => radius;
@@ -58,10 +58,10 @@ namespace Mechanical
         /// </summary>
         private float diameter;
 
-        [DataMember]
         /// <summary>
         /// The diameter.
         /// </summary>
+        [DataMember]
         public float Diameter
         {
             get { return diameter; }

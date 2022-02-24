@@ -17,9 +17,7 @@ using Microsoft.Xna.Framework;
 namespace Mechanical
 {
     /// <summary>
-    /// A wrapper for the <see cref="Controller"/>
-    /// 
-    /// TODO: Add time held property.
+    /// A wrapper for the <see cref="GamePad"/>
     /// </summary>
     public static class MechController
     {

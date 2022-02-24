@@ -16,10 +16,10 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// A list to handle GUI Elements
     /// </summary>
+    [DataContract]
     public class GUIElementList : GameLikeList<GUIElement>
     {
         /// <summary>

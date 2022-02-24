@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ElectricalMechanicalBridge;
+//using ElectricalMechanicalBridge;
 
 namespace Mechanical
 {
@@ -254,7 +254,7 @@ namespace Mechanical
 
         }
 
-        [EditorFunction("Origin", "Camera")]
+        //[EditorFunction("Origin", "Camera")]
         /// <summary>
         /// Make the origin the center of the screen.
         /// </summary>

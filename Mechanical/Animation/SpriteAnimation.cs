@@ -17,7 +17,6 @@ using Microsoft.Xna.Framework;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// This is a class that will store data on animations.
     /// 
@@ -25,33 +24,33 @@ namespace Mechanical
     /// Animations hold data on how the frames should be moved.
     /// </para>
     /// </summary>
+    [DataContract]
     public sealed class SpriteAnimation
     {
-        [DataMember]
         /// <summary>
         /// The frames.
         /// </summary>
+        [DataMember]
         public List<Rectangle> Frames { get; set; } = new List<Rectangle>();
 
-        [DataMember]
         /// <summary>
         /// The width of each frame.
         /// </summary>
+        [DataMember]
         public int FrameWidth { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The height of each frame.
         /// </summary>
+        [DataMember]
         public int FrameHeight { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The length of time a frame is shown on screen.
         /// </summary>
+        [DataMember]
         public float FrameSpeed { get; set; } = 0.1f;
 
-        [DataMember]
         /// <summary>
         /// The frame order will allow a user to change the order in which frames are shown in.
         /// 
@@ -60,21 +59,21 @@ namespace Mechanical
         /// So a rectangle at index 4 would be the 5th in the list.
         /// </para>
         /// </summary>
+        [DataMember]
         public List<int> FrameOrder { get; set; } = new List<int>();
 
-        [DataMember]
         /// <summary>
         /// The current frame (the index for the <see cref="FrameOrder"/>).
         /// </summary>
+        [DataMember]
         public int CurrentFrameIndex { get; set; }
 
-        [DataMember]
         /// <summary>
         /// If the animation loops.
         /// </summary>
+        [DataMember]
         public bool Loops { get; set; } = true;
 
-        [DataMember]
         /// <summary>
         /// If the animation is paused.
         /// 
@@ -82,6 +81,7 @@ namespace Mechanical
         /// This is by default true because you need to run <see cref="Play"/> first.
         /// </para>
         /// </summary>
+        [DataMember]
         public bool Paused { get; set; } = true;
 
         /// <summary>
@@ -94,10 +94,10 @@ namespace Mechanical
         /// </summary>
         public event Action OnAnimationFrame = delegate { };
 
-        [DataMember]
         /// <summary>
         /// The list of events.
         /// </summary>
+        [DataMember]
         public List<SpriteAnimationEvent> Events = new List<SpriteAnimationEvent>();
 
         /// <summary>

@@ -19,10 +19,10 @@ namespace Mechanical
     /// </summary>
     public interface IDrawableComponent
     {
-        [DataMember]
         /// <summary>
         /// The order for rendering. Lower number renders first.
         /// </summary>
+        [DataMember]
         int RenderOrder { get; set; }
 
         void Draw();

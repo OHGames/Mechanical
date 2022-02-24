@@ -203,6 +203,11 @@ namespace Mechanical
         /// The main constructor for the Engine.
         /// </summary>
         /// <param name="args">The arguments passed into the game.</param>
+        /// <param name="fullscreen">If the game should start in fullscreen.</param>
+        /// <param name="targetHeight">The height of the game's render target.</param>
+        /// <param name="targetWidth">The wdith of the game's render target.</param>
+        /// <param name="windowHeight">The height of the window.</param>
+        /// <param name="windowWidth">The width of the window.</param>
         public Engine(string[] args, int targetWidth, int targetHeight, int windowWidth, int windowHeight, bool fullscreen) : base()
         {
             Arguments = args;
@@ -262,7 +267,6 @@ namespace Mechanical
         /// Change this when the camera class and draw class is set up.
         /// </remarks>
         /// <param name="effect"></param>
-        /// <param name="transformMatrix"></param>
         public virtual void DefaultBeginBatch(Effect effect = null)
         {
             SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, effect: effect, transformMatrix: Camera.TransformationMatrix);

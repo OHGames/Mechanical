@@ -7,10 +7,10 @@ using System.Runtime.Serialization;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// A tileset holds a list of <see cref="Tile"/>s that are created from an image.
     /// </summary>
+    [DataContract]
     public class Tileset
     {
 
@@ -19,22 +19,22 @@ namespace Mechanical
         /// </summary>
         public Texture2D TilesetImage { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The list of tiles in the tilemap.
         /// </summary>
+        [DataMember]
         public Tile[] Tiles { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The width of the tiles.
         /// </summary>
+        [DataMember]
         public int TileWidth { get; private set; }
 
-        [DataMember]
         /// <summary>
         /// The height of the tiles.
         /// </summary>
+        [DataMember]
         public int TileHeight { get; private set; }
 
         /// <summary>

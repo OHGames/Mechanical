@@ -18,16 +18,16 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// The EntityList is a convenient method to store and update entities. This should only be used for scenes.
     /// </summary>
+    [DataContract]
     public class EntityList : GameLikeList<Entity>
     {
-        [DataMember]
         /// <summary>
         /// Just added items.
         /// </summary>
+        [DataMember]
         private List<Entity> justAdded = new List<Entity>();
 
         [DataMember]

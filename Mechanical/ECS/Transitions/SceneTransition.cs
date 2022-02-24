@@ -111,7 +111,6 @@ namespace Mechanical
         /// <summary>
         /// Start the drawing of the batch.
         /// </summary>
-        /// <param name="color">The clear color.</param>
         public virtual void BeginDraw()
         {
             Engine.Instance.GraphicsDevice.SetRenderTarget(RenderTarget);
@@ -121,7 +120,6 @@ namespace Mechanical
         /// <summary>
         /// Draw the transition.
         /// </summary>
-        /// <param name="color">The clear color.</param>
         public virtual void Draw()
         {
             BeginDraw();

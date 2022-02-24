@@ -30,10 +30,10 @@ namespace Mechanical
         /// </summary>
         public Texture2D Texture { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The color to draw with.
         /// </summary>
+        [DataMember]
         public Color RenderColor { get; set; } = Color.White;
 
         //[DataMember]
@@ -56,10 +56,10 @@ namespace Mechanical
 
         private Rectangle destinationRectangle;
 
-        [DataMember]
         /// <summary>
         /// The rectangle that will be used to render a portion of a texture.
         /// </summary>
+        [DataMember]
         public Rectangle? SourceRectangle { get; set; } = null;
 
         /// <summary>
@@ -67,16 +67,16 @@ namespace Mechanical
         /// </summary>
         public Effect Effect { get; set; } = null;
 
-        [DataMember]
         /// <summary>
         /// The sprite effects.
         /// </summary>
+        [DataMember]
         public SpriteEffects Effects { get; set; } = SpriteEffects.None;
 
-        [DataMember]
         /// <summary>
         /// The render order of the component.
         /// </summary>
+        [DataMember]
         public int RenderOrder { get; set; }
         
         //[DataMember]

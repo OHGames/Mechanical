@@ -16,10 +16,10 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// Represents a convex polygon.
     /// </summary>
+    [DataContract]
     public struct Polygon
     {
         /// <summary>
@@ -27,10 +27,10 @@ namespace Mechanical
         /// </summary>
         public static readonly Polygon Empty = new Polygon(new Vector2[] {});
 
-        [DataMember]
         /// <summary>
         /// All of the verticies in this polygon.
         /// </summary>
+        [DataMember]
         public Vector2[] Verticies { get; set; }
 
         /// <summary>

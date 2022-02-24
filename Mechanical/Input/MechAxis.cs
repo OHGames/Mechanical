@@ -115,6 +115,8 @@ namespace Mechanical
         /// <param name="positive">The positive button.</param>
         /// <param name="altNeg">The alternate negative button.</param>
         /// <param name="altPos">The alternate positive button.</param>
+        ///<param name="axes">The type of thumbstick or trigger to use.</param>
+        /// <param name="direction">The direction of the controller to use as the axis.</param>
         public MechAxis(Buttons negative, Buttons positive, Buttons altNeg, Buttons altPos, MechControllerAxisDirection direction, MechControllerAxes axes)
         {
             NegativeButton = negative;
@@ -137,6 +139,8 @@ namespace Mechanical
         /// <param name="positiveB">The positive button.</param>
         /// <param name="altNegB">The alternate negative button.</param>
         /// <param name="altPosB">The alternate positive button.</param>
+        /// <param name="axes">The type of thumbstick or trigger to use.</param>
+        /// <param name="direction">The direction of the controller to use as the axis.</param>
         public MechAxis(Keys negative, Keys positive, Keys altNeg, Keys altPos, Buttons negativeB, Buttons positiveB, Buttons altNegB, Buttons altPosB, MechControllerAxisDirection direction, MechControllerAxes axes) : this(negative, positive, altNeg, altPos)
         {
             NegativeButton = negativeB;

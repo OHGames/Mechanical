@@ -29,8 +29,8 @@ namespace Mechanical
         /// <summary>
         /// Get the weight of an item.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns>The item at the index.</returns>
+        /// <param name="item">The item to check the weight of.</param>
+        /// <returns>The weight of the item.</returns>
         /// <exception cref="NotImplementedException">When trying to set a value, use <see cref="Add(T, int)"/></exception>
         public int this[T item] { get => Items[item]; set => throw new NotImplementedException(); }
 

@@ -17,42 +17,42 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// The tilemap is an entity that will render <see cref="Tile"/>s
     /// 
     /// TODO: refactor
     /// </summary>
+    [DataContract]
     public class Tilemap : Entity, IDrawable
     {
-        
         /// <summary>
         /// The list of tiles.
         /// </summary>
+        [DataMember]
         public Tile[,] Tiles { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The width of each tile.
         /// </summary>
+        [DataMember]
         public int TileWidth { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The height of each tile.
         /// </summary>
+        [DataMember]
         public int TileHeight { get; set; }
 
-        [DataMember]
         /// <summary>
         /// How many tiles there are on the x-axis.
         /// </summary>
+        [DataMember]
         public int Width { get; set; }
 
-        [DataMember]
         /// <summary>
         /// How many tiles there are on the y-axis.
         /// </summary>
+        [DataMember]
         public int Height { get; set; }
 
         /// <summary>
@@ -60,22 +60,22 @@ namespace Mechanical
         /// </summary>
         public Effect Effect { get; set; } = null;
 
-        [DataMember]
         /// <summary>
         /// The tint.
         /// </summary>
+        [DataMember]
         public Color Tint { get; set; } = Color.White;
 
-        [DataMember]
         /// <summary>
         /// The render layer.
         /// </summary>
+        [DataMember]
         public RenderLayer RenderLayer { get; set; } = RenderLayer.Background;
 
-        [DataMember]
         /// <summary>
         /// The render order.
         /// </summary>
+        [DataMember]
         public int RenderOrder { get; set; } = 0;
 
         /// <summary>

@@ -15,23 +15,23 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// The animation event is an event that will trigger when a certain frame(s) is shown.
     /// </summary>
+    [DataContract]
     public struct SpriteAnimationEvent
     {
 
-        [DataMember]
         /// <summary>
         /// The frames. NULL by default!
         /// </summary>
+        [DataMember]
         public int[] FramesToHook { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The name of the event.
         /// </summary>
+        [DataMember]
         public string Name { get; set; }
 
     }

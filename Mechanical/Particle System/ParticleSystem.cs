@@ -253,26 +253,26 @@ namespace Mechanical
 
         #region Start Rotation
         /// <summary>
-        /// The starting rotation of a particles. When <see cref="StartRotationVariablility"/> is not 0, this will act as the Min in random calculations.
+        /// The starting rotation of a particles. When <see cref="StartRotationVariability"/> is not 0, this will act as the Min in random calculations.
         /// </summary>
         public float StartParticleRotation { get; set; }
 
         /// <summary>
         /// How much the particles' rotation should vary. This will be added onto <see cref="StartParticleRotation"/> and act as the Max in random calculations. To not vary the rotation, set to 0.
         /// </summary>
-        public float StartRotationVatiability { get; set; }
+        public float StartRotationVariability { get; set; }
         #endregion
 
         #region End Rotation
         /// <summary>
-        /// The ending rotation of a particles. When <see cref="EndRotationVariablility"/> is not 0, this will act as the Min in random calculations.
+        /// The ending rotation of a particles. When <see cref="EndRotationVariability"/> is not 0, this will act as the Min in random calculations.
         /// </summary>
         public float EndParticleRotation { get; set; }
 
         /// <summary>
         /// How much the particles' end rotation should vary. This will be added onto <see cref="EndParticleRotation"/> and act as the Max in random calculations. To not vary the rotation, set to 0.
         /// </summary>
-        public float EndRotationVatiability { get; set; }
+        public float EndRotationVariability { get; set; }
         #endregion
 
         #region Start Opacity
@@ -501,10 +501,10 @@ namespace Mechanical
             particle.Angle = GetVariedValue(ParticleAngle, AngleVariablility);
             particle.Life = GetVariedValue(ParticleLife, LifeVariability);
 
-            var rotation = GetVariedValue(StartParticleRotation, StartRotationVatiability);
+            var rotation = GetVariedValue(StartParticleRotation, StartRotationVariability);
             particle.StartRotation = rotation;
             particle.Rotation = rotation;
-            particle.EndRotation = GetVariedValue(EndParticleRotation, EndRotationVatiability);
+            particle.EndRotation = GetVariedValue(EndParticleRotation, EndRotationVariability);
 
             var speed = GetVariedValue(StartParticleSpeed, StartSpeedVariability);
             particle.StartSpeed = speed;

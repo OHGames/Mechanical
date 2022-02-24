@@ -19,7 +19,6 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// The GUI Canvas is the manager for all things UI.
     /// 
@@ -27,12 +26,13 @@ namespace Mechanical
     /// The Canvas is updated and connected to the current scene. All of the UI in the canvas are similar to entities, due to the similarities in rendering, animating, and positioning.
     /// </para>
     /// </summary>
+    [DataContract]
     public class GUICanvas
     {
-        [DataMember]
         /// <summary>
         /// A list of the elements in this canvas.
         /// </summary>
+        [DataMember]
         public GUIElementList Elements { get; set; } = new GUIElementList();
 
         /// <summary>
@@ -45,28 +45,28 @@ namespace Mechanical
         /// </summary>
         public RenderTarget2D RenderTarget { get; private set; }
 
-        [DataMember]
         /// <summary>
         /// If the canvas is visible.
         /// </summary>
+        [DataMember]
         public bool Visible { get; set; } = true;
 
-        [DataMember]
         /// <summary>
         /// If the canvas is updating.
         /// </summary>
+        [DataMember]
         public bool Paused { get; set; } = false;
 
-        [DataMember]
         /// <summary>
         /// If the canvas will draw or update.
         /// </summary>
+        [DataMember]
         public bool Active { get; set; } = true;
 
-        [DataMember]
         /// <summary>
         /// The transparency of the canvas. This will be changed when the render target is drawn.
         /// </summary>
+        [DataMember]
         public float Transparency { get => transparency; set => transparency = value.Clamp(0, 255); }
 
         /// <summary>
@@ -74,10 +74,10 @@ namespace Mechanical
         /// </summary>
         private float transparency = 256;
 
-        [DataMember]
         /// <summary>
         /// The render order of the canvas.
         /// </summary>
+        [DataMember]
         public int RenderOrder { get; set; }
 
         public GUICanvas(Scene scene)

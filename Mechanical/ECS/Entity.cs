@@ -19,20 +19,19 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// The entity class is anything that can be draw or updated in a <see cref="Scene"/> 
     /// </summary>
+    [DataContract]
     public class Entity : IParentChildHierarchy<Entity>, IEnumerable<Component>
     {
         #region Variables
-        [DataMember]
         /// <summary>
         /// The name of the entity.
         /// </summary>
+        [DataMember]
         public string Name { get; set; } = "Entity";
 
-        [DataMember]
         /// <summary>
         /// The static, nonchanging ID of the entity.
         /// 
@@ -40,18 +39,19 @@ namespace Mechanical
         /// This can be used for grabbing an entity from the scene.
         /// </para>
         /// </summary>
+        [DataMember]
         public int ID { get; set; } = IDManager.GetId();
 
-        [DataMember]
         /// <summary>
         /// A list of strings used to group entities.
         /// </summary>
+        [DataMember]
         public List<string> Tags = new List<string>();
         
-        [DataMember]
         /// <summary>
         /// The list of components attached to this entity.
         /// </summary>
+        [DataMember]
         public ComponentList Components { get; private set; }
 
         /// <summary>
@@ -60,43 +60,43 @@ namespace Mechanical
         // This is the first index because it should always be the first component. 
         public Transform Transform { get => (Transform)Components[0]; }
 
-        [DataMember]
         /// <summary>
         /// If the entity will update or draw.
         /// </summary>
+        [DataMember]
         public bool Active { get; set; }
         
-        [DataMember]
         /// <summary>
         /// If the entity will be drawn.
         /// </summary>
+        [DataMember]
         public bool Visible { get; set; }
 
-        [DataMember]
         /// <summary>
         /// If the entity will update.
         /// </summary>
+        [DataMember]
         public bool Paused
         {
             get; set;
         }
 
-        [DataMember]
         /// <summary>
         /// If the entity has an override for the <see cref="DebugDraw"/> function
         /// </summary>
+        [DataMember]
         public bool HasDebugDraw { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The scene that the entity is in.
         /// </summary>
+        [DataMember]
         public Scene Scene { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The parent, but private.
         /// </summary>
+        [DataMember]
         private Entity parent;
 
         public Entity Parent { get => parent; set => SetParent(value); }

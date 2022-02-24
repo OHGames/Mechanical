@@ -25,10 +25,10 @@ namespace Mechanical
     [KnownType(typeof(Transform))]
     public sealed class Transform : Component, IParentChildHierarchy<Transform>
     {
-        [DataMember]
         /// <summary>
         /// The position in world space.
         /// </summary>
+        [DataMember]
         public Vector2 Position 
         {
             get => position; 
@@ -43,10 +43,10 @@ namespace Mechanical
             }
         }
 
-        [DataMember]
         /// <summary>
         /// The position, but private.
         /// </summary>
+        [DataMember]
         private Vector2 position = Vector2.Zero;
 
         /// <summary>
@@ -73,10 +73,10 @@ namespace Mechanical
             }
         }
 
-        [DataMember]
         /// <summary>
         /// The local position of the tranform.
         /// </summary>
+        [DataMember]
         public Vector2 LocalPosition 
         {
             get
@@ -91,34 +91,34 @@ namespace Mechanical
             } 
         }
 
-        [DataMember]
         /// <summary>
         /// The scale relative to the parent.
         /// </summary>
+        [DataMember]
         public Vector2 LocalScale { get; set; } = Vector2.One;
 
-        [DataMember]
         /// <summary>
         /// The rotation relative to the parent.
         /// </summary>
+        [DataMember]
         public float LocalRotation { get; set; } = 0;
 
-        [DataMember]
         /// <summary>
         /// The point to render the entity at.
         /// </summary>
+        [DataMember]
         public Vector2 Origin { get; set; } = Vector2.Zero;
 
-        [DataMember]
         /// <summary>
         /// The bounds of the transform.
         /// </summary>
+        [DataMember]
         public Rectangle Bounds { get; set; } = Rectangle.Empty;
 
-        [DataMember]
         /// <summary>
         /// The private version of the parent.
         /// </summary>
+        [DataMember]
         private Transform parent;
         
         public Transform Parent { get => parent; set => SetParent(value); }

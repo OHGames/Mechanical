@@ -9,18 +9,18 @@ using System.Runtime.Serialization;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// The GUI Manager handles updating and drawing <see cref="GUICanvas"/>es.
     /// 
     /// TODO: make a IGameLikeList
     /// </summary>
+    [DataContract]
     public class GUIManager : IGameFunctions
     {
-        [DataMember]
         /// <summary>
         /// The canvases that are currently being updated. When the list is added or removed from, the list os reordered by render order, making sure that the higher numbers render last.
         /// </summary>
+        [DataMember]
         public List<GUICanvas> Canvases { get; set; } = new List<GUICanvas>();
 
         /// <summary>

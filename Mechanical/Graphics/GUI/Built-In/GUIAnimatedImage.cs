@@ -17,10 +17,10 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// An animated UI image.
     /// </summary>
+    [DataContract]
     public class GUIAnimatedImage : GUIElement
     {
 
@@ -29,10 +29,10 @@ namespace Mechanical
         /// </summary>
         public Texture2D Texture { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The rectangle of the texture 
         /// </summary>
+        [DataMember]
         public Rectangle? SourceRectangle { get; set; }
 
         /// <summary>
@@ -40,28 +40,28 @@ namespace Mechanical
         /// </summary>
         public Effect Effect { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The sprite effects to use.
         /// </summary>
+        [DataMember]
         public SpriteEffects Effects { get; set; }
 
-        [DataMember]
         /// <summary>
         /// A list of animations.
         /// </summary>
+        [DataMember]
         public Dictionary<string, SpriteAnimation> Animations { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The current animation.
         /// </summary>
+        [DataMember]
         public SpriteAnimation CurrentAnimation { get; private set; }
 
-        [DataMember]
         /// <summary>
         /// The current animation's name.
         /// </summary>
+        [DataMember]
         public string CurrentAnimationName { get; private set; }
 
         /// <summary>

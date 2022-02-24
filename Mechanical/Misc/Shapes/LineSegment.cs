@@ -16,22 +16,22 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// Represents a line segment.
     /// </summary>
+    [DataContract]
     public struct LineSegment
     {
-        [DataMember]
         /// <summary>
         /// The left point of the segment.
         /// </summary>
+        [DataMember]
         public Vector2 A { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The right point of the segment.
         /// </summary>
+        [DataMember]
         public Vector2 B { get; set; }
 
         /// <summary>

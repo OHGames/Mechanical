@@ -17,10 +17,10 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// A basic image element. It just has a sprite component.
     /// </summary>
+    [DataContract]
     public class GUIImage : GUIElement
     {
 
@@ -29,10 +29,10 @@ namespace Mechanical
         /// </summary>
         public Texture2D Texture { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The rectangle of the texture 
         /// </summary>
+        [DataMember]
         public Rectangle? SourceRectangle { get; set; }
 
         /// <summary>
@@ -40,10 +40,10 @@ namespace Mechanical
         /// </summary>
         public Effect Effect { get; set; }
 
-        [DataMember]
         /// <summary>
         /// The sprite effects to use.
         /// </summary>
+        [DataMember]
         public SpriteEffects Effects { get; set; }
 
         public GUIImage(GUICanvas canvas, string name, Texture2D texture, Rectangle? sourceRect = null, Effect effect = null, SpriteEffects spriteEffects = SpriteEffects.None) : base(canvas, name)

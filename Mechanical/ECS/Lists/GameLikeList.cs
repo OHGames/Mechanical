@@ -17,29 +17,29 @@ using System.Text;
 
 namespace Mechanical
 {
-    [DataContract]
     /// <summary>
     /// The Game-Like List is a class that can be used to update items like the <see cref="Engine"/> class.
     /// </summary>
     /// <typeparam name="T">The type for the list.</typeparam>
+    [DataContract]
     public abstract class GameLikeList<T> : IEnumerable<T>
     {
-        [DataMember]
         /// <summary>
         /// The items in the list
         /// </summary>
+        [DataMember]
         protected List<T> items = new List<T>();
 
-        [DataMember]
         /// <summary>
         /// A queue of items to add next update.
         /// </summary>
+        [DataMember]
         protected Queue<T> toAdd = new Queue<T>();
 
-        [DataMember]
         /// <summary>
         /// A queue of items to remove next update.
         /// </summary>
+        [DataMember]
         protected Queue<T> toRemove = new Queue<T>();
 
         /// <summary>
