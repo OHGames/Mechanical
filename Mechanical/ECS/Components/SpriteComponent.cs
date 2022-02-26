@@ -44,17 +44,15 @@ namespace Mechanical
         {
             get
             {
-                destinationRectangle = new Rectangle((int)Attached.Transform.Position.X, (int)Attached.Transform.Position.Y, (int)Attached.Transform.Scale.X * Texture.Width, (int)Attached.Transform.Scale.Y * Texture.Height);
                 return destinationRectangle;
             }
-            //set
-            //{
-            //    destinationRectangle = value;
-
-            //}
+            set
+            {
+                destinationRectangle = value;
+            }
         }
 
-        private Rectangle destinationRectangle;
+        private Rectangle destinationRectangle = Rectangle.Empty;
 
         /// <summary>
         /// The rectangle that will be used to render a portion of a texture.
@@ -78,12 +76,6 @@ namespace Mechanical
         /// </summary>
         [DataMember]
         public int RenderOrder { get; set; }
-        
-        //[DataMember]
-        ///// <summary>
-        ///// The render layer to render to.
-        ///// </summary>
-        //public RenderLayer RenderLayer { get; set; } = RenderLayer.Midground;
 
         public SpriteComponent(Entity entity, Texture2D texture) : base(entity)
         {
@@ -93,7 +85,11 @@ namespace Mechanical
 
         public override void Draw()
         {
-            Drawing.Draw(Texture, DestinationRectangle, SourceRectangle, RenderColor, Attached.Transform.Rotation, Attached.Transform.Origin, Effects, 0, Effect);
+
+            Drawing.Draw(Texture, Attached.Transform.Position, SourceRectangle, RenderColor, 
+                Attached.Transform.Rotation, Attached.Transform.Origin, 
+                Attached.Transform.Scale,
+                Effects, 0, Effect);
         }
 
     }

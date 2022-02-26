@@ -166,7 +166,7 @@ namespace Mechanical
 
         public SpriteAnimation()
         {
-
+            
         }
 
         /// <summary>

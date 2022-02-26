@@ -366,7 +366,7 @@ namespace Mechanical
             // draw the screen.
             Screen.Draw(this);
 
-            SpriteBatch.Begin();
+            StartRenderTargetDraw();
             if (Console.IsOpen && (AllowConsole || DebugMode))
             {
                 Console.Draw();
@@ -374,6 +374,14 @@ namespace Mechanical
             SpriteBatch.End();
 
             base.EndDraw();
+        }
+
+        /// <summary>
+        /// This function is called when the game's render target is about to be drawn to the back buffer.
+        /// </summary>
+        protected virtual void StartRenderTargetDraw()
+        {
+            SpriteBatch.Begin();
         }
 
 #endregion

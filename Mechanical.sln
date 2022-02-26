@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mechanical", "Mechanical/Mechanical.csproj", "{905879B5-6B38-4115-AE1C-8A522D584BA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mechanical", "Mechanical\Mechanical.csproj", "{905879B5-6B38-4115-AE1C-8A522D584BA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

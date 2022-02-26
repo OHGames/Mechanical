@@ -52,7 +52,7 @@ namespace Mechanical
         /// The first string is the names of the events, the second string is the animation name. You can use this event, or have a reference to the animation that you want to use and hook onto that.
         /// </para>
         /// </summary>
-        public event Action<string[], string> OnAnimationEvent;
+        public event Action<string[], string> OnAnimationEvent = delegate { };
 
         /// <summary>
         /// On an animation frame.
@@ -61,7 +61,7 @@ namespace Mechanical
         /// The first string is the animation name. You can use this event, or have a reference to the animation that you want to use and hook onto that.
         /// </para>
         /// </summary>
-        public event Action<string> OnAnimationFrame;
+        public event Action<string> OnAnimationFrame = delegate { };
 
         /// <summary>
         /// When the animation reaches the end.
@@ -70,7 +70,7 @@ namespace Mechanical
         /// The first string is the animation name. You can use this method, or have a reference to the animation that you want to use and hook onto that.
         /// </para>
         /// </summary>
-        public event Action<string> OnAnimationReachedEnd;
+        public event Action<string> OnAnimationReachedEnd = delegate { };
 
         public SpriteAnimatorComponent(Entity entity, SpriteAnimation animation, string name) : base(entity)
         {
