@@ -252,6 +252,15 @@ namespace Mechanical
         #endregion
 
         #region Circle vs Polygon
+        //https://github.com/twobitcoder101/FlatPhysics this function here. Licensed under the MIT license.
+        /// <summary>
+        /// Checks if a <see cref="Circle"/> and a <see cref="Polygon"/> are colliding.
+        /// </summary>
+        /// <param name="circle">The circle to check.</param>
+        /// <param name="polygon">The polygon to check.</param>
+        /// <returns><see cref="PolygonCollisionResponse.NoCollision"/> if there is no collision
+        /// and a <see cref="PolygonCollisionResponse"/> when there is a collision.</returns>
+        public static PolygonCollisionResponse IsColliding(Polygon polygon, Circle circle) => IsColliding(circle, polygon);
 
         //https://github.com/twobitcoder101/FlatPhysics this function here. Licensed under the MIT license.
         /// <summary>
@@ -389,6 +398,7 @@ namespace Mechanical
             }
         }
 
+
         #endregion
 
         #region Rectangle vs Circle
@@ -402,6 +412,15 @@ namespace Mechanical
         /// and a <see cref="PolygonCollisionResponse"/> when there is a collision.</returns>
         public static PolygonCollisionResponse IsColliding(Circle circle, Rectangle rectangle) =>
             IsColliding(circle, rectangle.ToPolygon());
+
+        /// <summary>
+        /// Checks if a <see cref="Rectangle"/> and a <see cref="Circle"/> are colliding.
+        /// </summary>
+        /// <param name="circle">The circle to check.</param>
+        /// <param name="rectangle">The rectangle to check.</param>
+        /// <returns><see cref="PolygonCollisionResponse.NoCollision"/> if there is no collision 
+        /// and a <see cref="PolygonCollisionResponse"/> when there is a collision.</returns>
+        public static PolygonCollisionResponse IsColliding(Rectangle rectangle, Circle circle) => IsColliding(circle, rectangle);
 
         #endregion
 
