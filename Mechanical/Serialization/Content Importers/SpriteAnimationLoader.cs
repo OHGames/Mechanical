@@ -244,7 +244,9 @@ namespace Mechanical
             {
                 FrameSpeed = speed,
                 Loops = loops,
-                Paused = false
+                Paused = false,
+                FrameWidth = rects[0].Width,
+                FrameHeight = rects[0].Height
             };
 
         }
