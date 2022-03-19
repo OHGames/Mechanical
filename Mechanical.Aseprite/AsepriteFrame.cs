@@ -18,7 +18,7 @@ namespace Mehcanical.Aseprite
     /// <summary>
     /// The Aseprite Frame struct represents a frame from an <see cref="AsepriteFile"/>.
     /// </summary>
-    public struct AspriteFrame
+    public struct AsepriteFrame
     {
 
         /// <summary>
