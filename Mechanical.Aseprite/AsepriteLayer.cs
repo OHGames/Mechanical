@@ -8,6 +8,7 @@
  * Note: some files contain code from other sources so see https://github.com/OHGames/Mechanical/blob/main/USED_CODE_LICENSES.txt for more info.
  */
 
+using Mechanical;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,11 @@ namespace Mehcanical.Aseprite
         /// The opacity of the layer.
         /// </summary>
         public int Opacity { get; set; }
+
+        /// <summary>
+        /// The normalized opacity is the opacity between 0 and 1.
+        /// </summary>
+        public float NormalizedOpacity => Opacity.Normalize(0, 255);
 
         /// <summary>
         /// The blend mode of the layer.

@@ -19,7 +19,7 @@ namespace Mechanical
     /// <summary>
     /// Extensions for <see cref="Color"/>
     /// </summary>
-    public static class ColorExtensions
+    public static class ColorHelper
     {
         /// <summary>
         /// A list of colors and their names.
@@ -198,6 +198,44 @@ namespace Mechanical
         {
             // we use Colors.Count because max is exclusive.
             return Colors.GetKey(new Random().Next(0, Colors.Count));
+        }
+
+        /// <summary>
+        /// Turns a hex code into a color.
+        /// </summary>
+        /// <param name="hex">The hex color in RGBA format.</param>
+        /// <returns>A new <see cref="Color"/> from the hex.</returns>
+        public static Color FromHexRGBA(string hex)
+        {
+            // flip the last 2 digits to make it RGBA -> ARGB.
+            // remove #
+            hex = hex.Remove(0);
+            // convert alpha chars to strings.
+            string alpha = $"{hex[hex.Length - 2]}{hex[hex.Length - 1]}";
+            // remove last 2 alpha digits
+            // do same thing twice because when it removes the last one, the length changes so we remove the last one again.
+            hex = hex.Remove(hex.Length - 1);
+            hex = hex.Remove(hex.Length - 1);
+            // put alpha onto begining.
+            hex = alpha + hex;
+            // convert to system color
+            // https://stackoverflow.com/a/2109938
+            System.Drawing.Color c = System.Drawing.Color.FromArgb(Convert.ToInt32(hex));
+            // return color.
+            return new Color(c.R, c.G, c.B, c.A);
+        }
+
+        /// <summary>
+        /// Turns a hex code into a color.
+        /// </summary>
+        /// <param name="hex">The hex color in ARGB format.</param>
+        /// <returns>A new <see cref="Color"/> from the hex.</returns>
+        public static Color FromHex(string hex)
+        {
+            // convert to system color
+            System.Drawing.Color c = System.Drawing.Color.FromArgb(Convert.ToInt32(hex));
+            // return color.
+            return new Color(c.R, c.G, c.B, c.A);
         }
 
     }

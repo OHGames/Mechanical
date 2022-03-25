@@ -100,8 +100,8 @@ namespace Mechanical
         /// Normalize a number from zero to one.
         /// </summary>
         /// <param name="num">The number to normalize.</param>
-        /// <param name="min">The max number.</param>
-        /// <param name="max">The min number.</param>
+        /// <param name="min">The min number.</param>
+        /// <param name="max">The max number.</param>
         /// <returns>A number between zero and one.</returns>
         //https://www.statology.org/normalize-data-between-0-and-1/
         public static float Normalize(this float num, float min, float max)
@@ -113,8 +113,8 @@ namespace Mechanical
         /// Normalize a number from zero to one.
         /// </summary>
         /// <param name="num">The number to normalize.</param>
-        /// <param name="min">The max number.</param>
-        /// <param name="max">The min number.</param>
+        /// <param name="min">The min number.</param>
+        /// <param name="max">The max number.</param>
         /// <returns>A number between zero and one.</returns>
         //https://www.statology.org/normalize-data-between-0-and-1/
         public static int Normalize(this int num, int min, int max)
