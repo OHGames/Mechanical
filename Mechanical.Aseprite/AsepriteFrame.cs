@@ -8,35 +8,38 @@
  * Note: some files contain code from other sources so see https://github.com/OHGames/Mechanical/blob/main/Use%20Code%20Licenses.md for more info.
  */
 
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mechanical
+namespace Mehcanical.Aseprite
 {
     /// <summary>
-    /// An enum of different type of message that can be printed to the console.
+    /// The Aseprite Frame struct represents a frame from an <see cref="AsepriteFile"/>.
     /// </summary>
-    public enum ConsoleMessageType
+    public struct AsepriteFrame
     {
-        /// <summary>
-        /// A message that will be put out to the console. The color of the text will be white.
-        /// </summary>
-        Message = 1,
 
         /// <summary>
-        /// Anytime there is output to the console from a command, use this type. The color will be blue.
+        /// The rectangle that represents this frame on the image.
         /// </summary>
-        Output = 2,
+        public Rectangle FrameRect { get; set; }
 
         /// <summary>
-        /// The warning is when there is a warning, something kinda went wrong or almost did. Color of text is yellow.
+        /// The sprite source size. (initial image size)
         /// </summary>
-        Warning = 3,
+        public Rectangle SpriteSourceSize { get; set; }
 
         /// <summary>
-        /// The error type if for errors. Color is red.
+        /// The frame duration in miliseconds.
         /// </summary>
-        Error = 4
+        public int FrameDuration { get; set; }
+
+        /// <summary>
+        /// The frame duration in seconds.
+        /// </summary>
+        public float FrameDurationInSeconds => FrameDuration / 1000;
+
     }
 }

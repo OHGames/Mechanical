@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mechanical", "Mechanical\Mechanical.csproj", "{905879B5-6B38-4115-AE1C-8A522D584BA3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mehcanical.Aseprite", "Mechanical.Aseprite\Mehcanical.Aseprite.csproj", "{8014339D-A277-47E7-A6EC-196F6F08569B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{905879B5-6B38-4115-AE1C-8A522D584BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{905879B5-6B38-4115-AE1C-8A522D584BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{905879B5-6B38-4115-AE1C-8A522D584BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8014339D-A277-47E7-A6EC-196F6F08569B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8014339D-A277-47E7-A6EC-196F6F08569B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8014339D-A277-47E7-A6EC-196F6F08569B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8014339D-A277-47E7-A6EC-196F6F08569B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
