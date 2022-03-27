@@ -34,6 +34,11 @@ namespace Mehcanical.Aseprite
         /// </summary>
         public int End { get; set; }
 
+        /// <summary>
+        /// The name of the tag.
+        /// </summary>
+        public string Name { get; set; }
+
     }
 
     /// <summary>

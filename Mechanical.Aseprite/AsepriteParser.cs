@@ -49,6 +49,8 @@ namespace Mehcanical.Aseprite
             // get slices
             file.Slices = LoadSlices(meta);
 
+            file.Image = (string)mainObject["frames"][0]["filename"];
+
             // return
             return file;
         }
@@ -120,6 +122,7 @@ namespace Mehcanical.Aseprite
                     Direction = (AsepriteFrameTagDirection)Enum.Parse(typeof(AsepriteFrameTagDirection), (string)obj["direction"], true),
                     Start = (int)obj["from"],
                     End = (int)obj["to"],
+                    Name = (string)obj["name"]
                 };
 
                 tags.Add(tag);
@@ -153,10 +156,13 @@ namespace Mehcanical.Aseprite
                 };
 
                 // get color.
-                string color = (string)CheckIfValueExists("color", layer);
-                aLayer.Color = ColorHelper.FromHexRGBA(color);
+                string color = (string)layer["color"];
+                if (color != null)
+                {
+                    aLayer.Color = ColorHelper.FromHexRGBA(color);
+                }
 
-                aLayer.UserData = (string)CheckIfValueExists("data", layer);
+                aLayer.UserData = (string)layer["data"] ?? "";
 
                 list.Add(aLayer);
             }
@@ -185,7 +191,7 @@ namespace Mehcanical.Aseprite
                 {
                     Color = ColorHelper.FromHexRGBA((string)slice["color"]),
                     Name = (string)slice["name"],
-                    UserData = (string)CheckIfValueExists((string)slice["data"], slice)
+                    UserData = (string)slice["data"] ?? ""
                 };
 
                 aSlice.Keys = LoadSliceKeys(slice);
@@ -223,13 +229,13 @@ namespace Mehcanical.Aseprite
                     )
                 };
 
-                JObject pivot = (JObject)CheckIfValueExists("pivot", key);
+                JObject pivot = (JObject)key["pivot"];
                 if (pivot != null)
                 {
                     aKey.Pivot = new Vector2((float)pivot["x"], (float)pivot["y"]);
                 }
 
-                JObject nineSlice = (JObject)CheckIfValueExists("center", key);
+                JObject nineSlice = (JObject)key["center"];
                 if (nineSlice != null)
                 {
                     aKey.NineSlice = new Rectangle(
@@ -247,24 +253,5 @@ namespace Mehcanical.Aseprite
             return list;
 
         }
-
-        /// <summary>
-        /// Check if the value exists.
-        /// </summary>
-        /// <param name="name">The name of the variable.</param>
-        /// <param name="obj">The object to get from.</param>
-        /// <returns></returns>
-        private static object CheckIfValueExists(string name, JObject obj)
-        {
-            try
-            {
-                return obj[name];
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
     }
 }

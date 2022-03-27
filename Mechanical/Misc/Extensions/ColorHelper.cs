@@ -209,18 +209,18 @@ namespace Mechanical
         {
             // flip the last 2 digits to make it RGBA -> ARGB.
             // remove #
-            hex = hex.Remove(0);
+            hex = hex.Remove(0, 1);
             // convert alpha chars to strings.
             string alpha = $"{hex[hex.Length - 2]}{hex[hex.Length - 1]}";
             // remove last 2 alpha digits
             // do same thing twice because when it removes the last one, the length changes so we remove the last one again.
-            hex = hex.Remove(hex.Length - 1);
-            hex = hex.Remove(hex.Length - 1);
+            hex = hex.Remove(hex.Length - 1, 1);
+            hex = hex.Remove(hex.Length - 1, 1);
             // put alpha onto begining.
             hex = alpha + hex;
             // convert to system color
             // https://stackoverflow.com/a/2109938
-            System.Drawing.Color c = System.Drawing.Color.FromArgb(Convert.ToInt32(hex));
+            System.Drawing.Color c = System.Drawing.Color.FromArgb(Convert.ToInt32(hex, 16));
             // return color.
             return new Color(c.R, c.G, c.B, c.A);
         }

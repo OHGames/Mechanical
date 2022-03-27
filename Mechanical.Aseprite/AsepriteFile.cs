@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Mehcanical.Aseprite
@@ -82,7 +83,102 @@ namespace Mehcanical.Aseprite
             // get the content.
             string fileContent = File.ReadAllText(path);
 
-            return AsepriteParser.Parse(fileContent);
+            AsepriteFile file = AsepriteParser.Parse(fileContent);
+
+            file.FileDirectory = path;
+            file.FileName = Path.GetFileNameWithoutExtension(path);
+
+            return file;
+        }
+
+        /// <summary>
+        /// Get the layers of the file.
+        /// </summary>
+        /// <returns>The layers.</returns>
+        public IEnumerable<AsepriteLayer> GetLayers() => new List<AsepriteLayer>(Layers);
+
+        /// <summary>
+        /// Get the frames of the file.
+        /// </summary>
+        /// <returns>The frames.</returns>
+        public IEnumerable<AsepriteFrame> GetFrames() => new List<AsepriteFrame>(Frames);
+
+        /// <summary>
+        /// Get the frame tags of the file.
+        /// </summary>
+        /// <returns>The frame tags.</returns>
+        public IEnumerable<AsepriteFrameTag> GetFrameTags() => new List<AsepriteFrameTag>(FrameTags);
+
+        /// <summary>
+        /// Get the slices.
+        /// </summary>
+        /// <returns>The slices.</returns>
+        public IEnumerable<AsepriteSlice> GetSlices() => new List<AsepriteSlice>(Slices);
+
+        /// <summary>
+        /// Gets a frame tag based on its name.
+        /// </summary>
+        /// <param name="name">The name of the tag.</param>
+        /// <returns>An <see cref="AsepriteFrameTag"/>.</returns>
+        /// <exception cref="ArgumentException">When the frame <paramref name="name"/> is not in the file.</exception>
+        public AsepriteFrameTag GetFrameTag(string name)
+        {
+            // there should only be one of the name so get the first.
+            AsepriteFrameTag tag = FrameTags.Where(t => t.Name.ToLower() == name.ToLower()).FirstOrDefault();
+            
+            // if the tag was not found.
+            if (tag.Name == null)
+            {
+                throw new ArgumentException($"The frame tag name, {name}, is not valid.");
+            }
+            else
+            {
+                return tag;
+            }
+        }
+
+        /// <summary>
+        /// Gets a slice based on its name.
+        /// </summary>
+        /// <param name="name">The name of the slice.</param>
+        /// <returns>An <see cref="AsepriteSlice"/></returns>
+        /// <exception cref="ArgumentException">When the slice <paramref name="name"/> is not in the file.</exception>
+        public AsepriteSlice GetSlice(string name)
+        {
+            // there should only be one so get the first.
+            AsepriteSlice slice = Slices.Where(s => s.Name.ToLower() == name.ToLower()).FirstOrDefault();
+
+            // if the slice was not found.
+            if (slice.Name == null)
+            {
+                throw new ArgumentException($"The slice name, {name}, is not valid.");
+            }
+            else
+            {
+                return slice;
+            }
+        }
+
+        /// <summary>
+        /// Gets a layer based on its name.
+        /// </summary>
+        /// <param name="name">The name of the layer.</param>
+        /// <returns>An <see cref="AsepriteLayer"/></returns>
+        /// <exception cref="ArgumentException">When the layer <paramref name="name"/> is not in the file.</exception>
+        public AsepriteLayer GetLayer(string name)
+        {
+            // there should only be one so get the first.
+            AsepriteLayer layer = Layers.Where(l => l.Name.ToLower() == name.ToLower()).FirstOrDefault();
+
+            // if the layer was not found.
+            if (layer.Name == null)
+            {
+                throw new ArgumentException($"The layer name, {name}, is not valid.");
+            }
+            else
+            {
+                return layer;
+            }
         }
 
     }
