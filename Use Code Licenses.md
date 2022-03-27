@@ -3,6 +3,10 @@
 Thank you to everyone out there who contributes and creates open source software for people like me to use! This engine would not be here if it weren't for people like you.
 
 ###  Monocle Engine
+<details>
+ 
+ <summary>License and info</summary>
+
 [Monocle Repository](https://github.com/JamesMcMahon/monocle-engine)
 **Some code in engine is referenced and tweaked from this repo^^^**
 ```
@@ -29,10 +33,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+ 
 ```
----
+ </details>
+
 
 ### Yetibyte.Himalaya
+<details>
+ <summary>License and info</summary>
+ 
 [Yetibyte.Himalaya Repository](https://github.com/Yeti47/Yetibyte.Himalaya/blob/master/LICENSE)
 **Some code in engine is referenced and tweaked from this repo^^^**
 ```
@@ -58,11 +67,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
----
+
+ </details>
 
 ### How To Draw Lines, Circles and Polygons Using Spritebatch In XNA
+<details>
+ 
+ <summary>License and info</summary>
+
 [Article Link](https://bayinx.wordpress.com/2011/11/07/how-to-draw-lines-circles-and-polygons-using-spritebatch-in-xna/)
-**Some code in this engine was tweaked from this article ^^^**
+
+ **Some code in this engine was tweaked from this article ^^^**
 ```
 Microsoft Public License (MS-PL)
 
@@ -96,9 +111,14 @@ A "contributor" is any person that distributes its contribution under this licen
 
 (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
 ```
----
+
+ </details>
 
 ### Data Contract Serializer Class Stackoverflow question
+
+<details>
+ <summary>License and info</summary>
+ 
 [Answer Link](https://stackoverflow.com/a/5010491)
 **The code in some of this engine is adapted from this answer on stack overflow.**
 ```
@@ -164,9 +184,13 @@ Except for the limited purpose of indicating to the public that the Work is lice
 Creative Commons may be contacted at https://creativecommons.org/.
 ```
 
----
+</details>
 
 ### Easing
+
+<details>
+ <summary>License and info</summary>
+ 
 This code was copied and pasted from [this repo](https://github.com/acron0/Easings)
 **Minor changes made**
 ```
@@ -178,10 +202,13 @@ and/or modify it under the terms of the Do What The Fuck You Want
 To Public License, Version 2, as published by Sam Hocevar. See
 http://sam.zoy.org/wtfpl/COPYING for more details.
 ```
-
----
+ 
+</details>
 
 ### Render Target Scaling
+<details>
+ <summary>License and info</summary>
+ 
 [Code Repository](https://github.com/twobitcoder101/Flat)
 license:
 ```
@@ -208,9 +235,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
----
+</details>
 
 ### Particle System Reference
+<details>
+ <summary>License and info</summary>
+ 
 [Link To Article](https://nintervik.github.io/2D-Particle-System/)
 **Some code in engine is referenced and tweaked from this article^^^**
 ```
@@ -225,9 +255,12 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
----
+</details>
 
 ### Particle System Reference
+<details>
+ <summary>License and info</summary>
+ 
 [Link To Article](http://buildnewgames.com/particle-systems/)
 **Some concepts and math and code were referenced and tweaked from this article ^^^**
 
@@ -436,9 +469,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    limitations under the License.
 ```
 
----
+</details>
 
 ### AABB vs AABB Collision
+<details>
+ <summary>License and info</summary>
+ 
 Pretty much all of the AABB vs AABB code is from [this repo](https://github.com/noonat/intersect)
 
 **Changes made: made it C# compatable, changed the way the collision check is returned, changed name, made it MonoGame compatable, and ommited some code.**
@@ -464,9 +500,12 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 ```
 
----
+</details>
 
 ### Circle vs Circle, SAT (Polygon vs Polygon), and Circle vs Polygon collision detection
+<details>
+ <summary>License and info</summary>
+ 
 **The implementation and math and code come from this guy^^^** 
 [repo here](https://github.com/twobitcoder101/FlatPhysics)
 ```
@@ -493,9 +532,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
----
+</details>
 
 ### Wrap Index of Array (in  EnumerableExtensions.WrapIndex\<T>(...) )
+<details>
+ <summary>License and info</summary>
+ 
 **The cool remainder operator math (i % list.Length) comes from this guy^^^ Also used code in other places** 
 [repo here](https://github.com/twobitcoder101/FlatPhysics)
 ```
@@ -521,3 +563,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+ 
+ </details>
