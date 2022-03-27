@@ -5,7 +5,7 @@
  * 
  * By O. H. Games
  * 
- * Note: some files contain code from other sources so see https://github.com/OHGames/Mechanical/blob/main/USED_CODE_LICENSES.txt for more info.
+ * Note: some files contain code from other sources so see https://github.com/OHGames/Mechanical/blob/main/Use%20Code%20Licenses.md for more info.
  */
 
 using Mechanical;
