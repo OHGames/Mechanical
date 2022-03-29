@@ -22,6 +22,7 @@ This is a custom game engine that will be used in my games! It is under the MIT 
 - Serialization wrapper
 - Tilemap and tileset
 - 2D sprite animation
+- Mechanical.Aseprite project to parse and load Aseprite Sprite Sheets
 - And more!!!!
 
 ### Terms of use:
