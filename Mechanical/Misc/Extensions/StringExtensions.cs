@@ -27,7 +27,7 @@ namespace Mechanical
         /// <returns>A string split by arguments. This will remove the quotes.</returns>
         public static string[] SplitArgs(this string arg)
         {
-            // https://stackoverflow.com/a/29899 help
+            // https://stackoverflow.com/a/59638742 help
             List<string> args = new List<string>();
 
             bool inQuotes = false;

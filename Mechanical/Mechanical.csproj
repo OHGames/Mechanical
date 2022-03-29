@@ -9,11 +9,14 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/OHGames/Mechanical</RepositoryUrl>
     <PackageTags>monogame;xna;game engine;mechanical;ohgames</PackageTags>
-    <PackageReleaseNotes>Version 1.0.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed license not showing up.</PackageReleaseNotes>
     <AssemblyVersion>1.0.0</AssemblyVersion>
     <FileVersion>1.0.0</FileVersion>
     <PackageId>$(AssemblyName)</PackageId>
     <PackageIcon>Mechanical Transparent.png</PackageIcon>
+    <Version>1.0.2</Version>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;1591;0661;0660</NoWarn>
@@ -44,11 +47,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-	  <None Include="..\LICENSE.txt">
-		  <Pack>True</Pack>
-	  </None>
+	<None Include="..\LICENSE.txt">
+		<Pack>True</Pack>
+		<PackagePath>\</PackagePath>
+	</None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641">
