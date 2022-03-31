@@ -373,6 +373,8 @@ namespace Mechanical
             }
             SpriteBatch.End();
 
+            BeforePresent();
+
             base.EndDraw();
         }
 
@@ -382,6 +384,11 @@ namespace Mechanical
         protected virtual void StartRenderTargetDraw()
         {
             SpriteBatch.Begin();
+        }
+
+        public virtual void BeforePresent()
+        {
+
         }
 
 #endregion

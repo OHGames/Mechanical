@@ -473,7 +473,7 @@ namespace Mechanical
             // get game types.
             Type[] gameTypes = gameAssembly.GetTypes();
             // get engine types.
-            Type[] engineTypes = Assembly.GetExecutingAssembly().GetTypes();
+            Type[] engineTypes = Assembly.GetAssembly(typeof(Entity)).GetTypes();
 
             // combine types.
             Type[] types = new Type[gameTypes.Length + engineTypes.Length];
