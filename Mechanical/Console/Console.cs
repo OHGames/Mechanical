@@ -501,9 +501,9 @@ namespace Mechanical
                         ConsoleCommandAttribute a = attrs[k];
                         if (a != null)
                         {
-                            Commands.Add(a.Name, functions[j]);
-                            CommandNames.Add(a.Name);
-                            CommandHelps.Add(a.Name, a.Usage);
+                            Commands.Add(a.Name.ToLower(), functions[j]);
+                            CommandNames.Add(a.Name.ToLower());
+                            CommandHelps.Add(a.Name.ToLower(), a.Usage);
                         }
                     }
                 }
@@ -597,7 +597,7 @@ namespace Mechanical
         /// <returns>The method info of the command.</returns>
         public static MethodInfo GetCommand(string name)
         {
-            if (!CommandNames.Contains(name))
+            if (!CommandNames.Contains(name.ToLower()))
             {
                 Log($"The commnand, {name}, does not exist!", ConsoleMessageType.Error);
                 return null;
@@ -615,7 +615,7 @@ namespace Mechanical
         public static void RunCommand(string command)
         {
             string[] commandInfo = command.SplitArgs();
-            string name = commandInfo[0];
+            string name = commandInfo[0].ToLower();
 
             // make new array with one less count.
             string[] args = new string[commandInfo.Length - 1];

@@ -125,6 +125,11 @@ namespace Mechanical
 
             isSafe = false;
 
+            if (toAdd == null) toAdd = new Queue<GUICanvas>();
+            if (toRemove == null) toRemove = new Queue<GUICanvas>();
+
+            if (Canvases == null) Canvases = new List<GUICanvas>();
+
             for (int i = 0; i < toAdd.Count; i++)
             {
                 Canvases.Add(toAdd.Dequeue());
