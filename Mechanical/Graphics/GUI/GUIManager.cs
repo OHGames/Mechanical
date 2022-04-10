@@ -28,11 +28,13 @@ namespace Mechanical
         /// </summary>
         public RenderTarget2D RenderTarget { get; set; }
 
+        [DataMember]
         /// <summary>
         /// The width of the gui.
         /// </summary>
         public int TargetWitdh { get; set; } = Engine.Instance.GraphicsDeviceManager.PreferredBackBufferWidth;
 
+        [DataMember]
         /// <summary>
         /// The height of the gui.
         /// </summary>
@@ -84,6 +86,16 @@ namespace Mechanical
 
         public void Initialize()
         {
+            if (TargetWitdh <= 0)
+            {
+                TargetWitdh = Engine.Instance.GraphicsDeviceManager.PreferredBackBufferWidth;
+            }
+
+            if (TargetHeight <= 0)
+            {
+                TargetHeight = Engine.Instance.GraphicsDeviceManager.PreferredBackBufferHeight;
+            }
+
             RenderTarget = new RenderTarget2D(Engine.Instance.GraphicsDevice, TargetWitdh, TargetHeight);
 
             for (int i = 0; i < Canvases.Count; i++)

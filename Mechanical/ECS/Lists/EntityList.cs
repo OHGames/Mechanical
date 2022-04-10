@@ -51,7 +51,7 @@ namespace Mechanical
         private IDrawable[] fg;
 
         /// <summary>
-        /// If the list is dirty and we need to resort.
+        /// If the list is dirty and we need to re-sort.
         /// </summary>
         private bool isDirty = true;
 
@@ -249,6 +249,7 @@ namespace Mechanical
         /// </summary>
         public override void Initialize()
         {
+            isDirty = true;
             for (int i = 0; i < items.Count; i++)
             {
                 items[i].Initialize();
