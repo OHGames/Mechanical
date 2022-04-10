@@ -194,6 +194,10 @@ namespace Mechanical
         /// </summary>
         public override void Draw()
         {
+            if (bg == null) bg = new IDrawable[] { };
+            if (mg == null) mg = new IDrawable[] { };
+            if (fg == null) fg = new IDrawable[] { };
+
             if (drawable.Count > 0)
             {
 
@@ -265,6 +269,9 @@ namespace Mechanical
         /// </summary>
         public override void DebugDraw(bool editorRender)
         {
+            if (bg == null) bg = new IDrawable[] { };
+            if (mg == null) mg = new IDrawable[] { };
+            if (fg == null) fg = new IDrawable[] { };
             if (drawable.Count > 0)
             {
                 if (isDirty)

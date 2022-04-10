@@ -386,6 +386,12 @@ namespace Mechanical
             SpriteBatch.Begin();
         }
 
+        /// <summary>
+        /// The BeforePresent function will be called right before the backbuffer and all game rendering is presented onto the window.
+        /// </summary>
+        /// <remarks>
+        /// All content places in here will be above all other content.
+        /// </remarks>
         public virtual void BeforePresent()
         {
 

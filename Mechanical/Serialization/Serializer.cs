@@ -57,6 +57,7 @@ namespace Mechanical
             else
             {
                 settings.KnownTypes = settings.KnownTypes.Concat(KnownTypes);
+                settings.PreserveObjectReferences = true;
                 DataContractSerializer = new DataContractSerializer(t, settings);
             }
 

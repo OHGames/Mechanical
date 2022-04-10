@@ -73,7 +73,7 @@ namespace Mechanical
         /// <summary>
         /// A reference to the engine. 
         /// </summary>
-        protected Engine engine = Engine.Instance;
+        protected Engine Engine => Engine.Instance;
 
         /// <summary>
         /// The width of the game window.
@@ -94,13 +94,16 @@ namespace Mechanical
         public Scene(string name)
         {
             Name = name;
-            TargetWitdh = Engine.Instance.GameWidth;
-            TargetHeight = Engine.Instance.GameHeight;
+            //TargetWitdh = Engine.Instance.GameWidth;
+            //TargetHeight = Engine.Instance.GameHeight;
         }
 
         public virtual void Initialize()
         {
-            RenderTarget = new RenderTarget2D(engine.GraphicsDevice, TargetWitdh, TargetHeight);
+            TargetWitdh = Engine.Instance.GameWidth;
+            TargetHeight = Engine.Instance.GameHeight;
+
+            RenderTarget = new RenderTarget2D(Engine.GraphicsDevice, TargetWitdh, TargetHeight);
             Entities.Initialize();
             GUI.Initialize();
         }
@@ -186,13 +189,13 @@ namespace Mechanical
 
         public virtual void OnGraphicsDeviceCreated(object sender, System.EventArgs e)
         {
-            RenderTarget = new RenderTarget2D(engine.GraphicsDevice, TargetWitdh, TargetHeight);
+            RenderTarget = new RenderTarget2D(Engine.GraphicsDevice, TargetWitdh, TargetHeight);
             GUI.OnGraphicsDeviceCreated(sender, e);
         }
 
         public virtual void OnGraphicsDeviceReset(object sender, System.EventArgs e)
         {
-            RenderTarget = new RenderTarget2D(engine.GraphicsDevice, TargetWitdh, TargetHeight);
+            RenderTarget = new RenderTarget2D(Engine.GraphicsDevice, TargetWitdh, TargetHeight);
             GUI.OnGraphicsDeviceReset(sender, e);
         }
 
