@@ -231,7 +231,7 @@ namespace Mechanical
         /// </summary>
         /// <typeparam name="T">The component's type.</typeparam>
         /// <returns>The first component that matches the type.</returns>
-        public T GetComponent<T>() => Components.OfType<T>().First();
+        public T GetComponent<T>() => Components.OfType<T>().FirstOrDefault();
 
         /// <summary>
         /// Gets all components of the specified type.

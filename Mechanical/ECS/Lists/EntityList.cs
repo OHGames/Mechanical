@@ -134,7 +134,11 @@ namespace Mechanical
         {
             if (Contains(entity))
             {
-                if (safeToChange) items.Remove(entity);
+                if (safeToChange)
+                {
+                    items.Remove(entity);
+                    if (entity is IDrawable d) drawable.Remove(d);
+                }
                 else toRemove.Enqueue(entity);
             }
             else
@@ -172,6 +176,9 @@ namespace Mechanical
                 // remove items.
                 Entity e = toRemove.Dequeue();
                 items.Remove(e);
+
+                if (e is IDrawable d) drawable.Remove(d);
+
                 e.OnRemoved();
             }
 
