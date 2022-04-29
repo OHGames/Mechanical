@@ -53,7 +53,7 @@ namespace Mechanical
         /// <summary>
         /// If the list is dirty and we need to re-sort.
         /// </summary>
-        private bool isDirty = true;
+        public bool isDirty = true;
 
         #region Indexors
         /// <summary>

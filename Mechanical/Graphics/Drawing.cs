@@ -106,6 +106,12 @@ namespace Mechanical
                 currentEffect = effect;
                 SpriteBatch.End();
                 Begin();
+
+                if (effect != null)
+                {
+                    effect.CurrentTechnique.Passes[0].Apply();
+                }
+
                 // set effect back again
                 currentEffect = GlobalEffect;
             }

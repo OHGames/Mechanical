@@ -32,7 +32,7 @@ namespace Mechanical
         /// <summary>
         /// The minimum zoom.
         /// </summary>
-        public const float MIN_ZOOM = 100;
+        public const float MIN_ZOOM = 50;
 
         /// <summary>
         /// The max zoom
@@ -205,7 +205,12 @@ namespace Mechanical
         /// </summary>
         public Rectangle CameraRect
         {
-            get => new Rectangle((int)X - Width / 2, (int)Y - Height / 2, Width, Height);
+            get
+            {
+                float width = Width / ActualZoom;
+                float height = Height / ActualZoom;
+                return new Rectangle((int)(X - width / 2f), (int)(Y - height / 2f), (int)width, (int)height);
+            }
         }
 
         /// <summary>
@@ -260,7 +265,7 @@ namespace Mechanical
         /// </summary>
         public void CenterOrigin()
         {
-            Origin = new Vector2(Width / 2, Height / 2);
+            Origin = new Vector2(Width / 2f, Height / 2f);
         }
 
 
